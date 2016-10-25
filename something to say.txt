@@ -5,8 +5,3 @@ eg:   1234~table_name_1
 
 int createUserTable(String a)            -------->0 success   1fail     a:user_id~table_name~column_number~name~length¡­¡­name~length  
 eg: 999~table_name_1~3~name1~5~name2~6~name3~8
-
-
-More to say:
-
-There are bugs in create_table_details.jsp and I don't know where are they. --statham
