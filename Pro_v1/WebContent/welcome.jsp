@@ -39,5 +39,6 @@ border: 1px solid grey;
 </form>
 </div>
 
+<a href="create_new_table.jsp">Create new table</a>
 </body>
 </html>
