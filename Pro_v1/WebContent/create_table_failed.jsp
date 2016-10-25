@@ -7,6 +7,6 @@
 <title>Create table failed</title>
 </head>
 <body>
-create table failed
+Create table failed
 </body>
 </html>

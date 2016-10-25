@@ -10,31 +10,34 @@
 Input column details:
 	<%
 	String column_number_string=request.getAttribute("column_number").toString();
+	String user_id_string=request.getAttribute("user_id").toString();
+	String table_name_string=request.getAttribute("table_name").toString();
 	out.print(column_number_string);
 	for( int i=1;i<=Integer.parseInt(column_number_string);i++)
 	{
 		out.print(" <p>Column name:<input type=\"text\" id=\"column_name"+ i+ "\" " +"name=\""+" column_name"+i+"\"required=\"required\" /></input> </p>");
 		out.print(" <p>Column length:<input type=\"text\" id=\"column_length"+i+ "\" "+"name=\""+"column_length"+i+"\" required=\"required\" /></input> </p>");
 	}
-	out.print("	<p id=\"int_column_number\" value=$column_number_string></p>");// 
+	out.print("	<input type=\"text\" id=\"int_column_number\"  value=\""+column_number_string+"\"></input>");// 
+	out.print("	<input type=\"text\" id=\"table_name\"  value=\""+table_name_string+"\"></input>");// 
+	out.print("	<input type=\"text\" id=\"user_id\"  value=\""+user_id_string+"\"></input>");// 
 	%>
-	
 	<script>
 	function show_table()
-	{	
-		document.print("-------------<br>");
-		for(var i=1;i<document.getElementById("int_column_name");i++)
-		{
-			document.print("+++++++++++++++<br>");
-			document.print(document.getElementById("column_name1").innerHTML);	
+	{		
+		var big_string="";
+		big_string=document.getElementById("user_id").value;
+		big_string=big_string+"~"+document.getElementById("table_name").value;
+		big_string=big_string+"~"+document.getElementById("int_column_number").value;
+		for(var i=1;i<=document.getElementById("int_column_number").value;i=i+1)
+		{		
+			big_string=big_string+"~"+document.getElementById("column_name"+i).value;
+			big_string=big_string+"~"+document.getElementById("column_length"+i).value;
 		}
+		document.write("<a href=\"create_table?new_table_information="+big_string+"\"> Submit (you will not see this next version)<br><br></a>");
 	};
 	</script>
 	
 	<button onclick="show_table()"> click_here </button>	
-
-	<br><br>
-	<a href="create_table?new_table_information=asdf"> Submit<br><br></a>
-
 </body>
 </html>
