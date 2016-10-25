@@ -21,5 +21,16 @@
 <result>index.jsp</result>
 </action>
 
+
+<action name="check_table_name"    class="table_create.table_name_check_java"   method="execute">
+		<result name="SUCCESS">/create_table_details.jsp</result>
+		<result name="FAILED">/check_failed.jsp</result>		
+</action> 
+
+<action name="create_table"    class="table_create.table_create_java"   method="execute">
+		<result name="SUCCESS">/create_table_done.jsp</result>
+		<result name="FAILED">/create_table_failed.jsp</result>	
+</action> 
+
 </package>
 </struts>
