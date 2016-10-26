@@ -59,7 +59,7 @@ public class Response extends ActionSupport{
 		}
 	}
 	
-	public String newtable()
+	/*public String newtable()
 	{
 		Table newre = new Table() ;
 		newre.cname="spending";
@@ -67,11 +67,10 @@ public class Response extends ActionSupport{
 		request.add(newre);
 		
 		Database db1 = new Database();
-		db1.newtable(ID,table_name, request);
 		
 		Prompt = "You have a new table "+ table_name +" now!";
 		return SUCCESS;
-	}
+	}*/
 
 	
 	
