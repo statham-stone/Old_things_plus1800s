@@ -17,9 +17,14 @@ public class table_name_check_java
 		ServletRequest request=ServletActionContext.getRequest();
 		HttpServletRequest req =(HttpServletRequest) request;
 		HttpSession sesssion=req.getSession();
+		
+		user_id=1926;//only for debugging
+		
 		sesssion.setAttribute("table_name",table_name);
 		sesssion.setAttribute("user_id",user_id);
 		sesssion.setAttribute("column_number",column_number);	
+		String test=user_id+"~"+table_name+"~"+column_number;
+		System.out.println(test);
 		return "SUCCESS";
 	}
 	public String getTable_name() {

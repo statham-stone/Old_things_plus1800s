@@ -7,6 +7,6 @@
 <title>Create table done</title>
 </head>
 <body>
-create table done
+Create table done
 </body>
 </html>

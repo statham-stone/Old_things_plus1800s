@@ -4,7 +4,7 @@
 <script>
       function replyOne () 
       {
-          document.getElementById("input1").value = 
+          document.getElementById("input"+1).value = 
             document.getElementById("username").innerHTML;
       }
     </script>
