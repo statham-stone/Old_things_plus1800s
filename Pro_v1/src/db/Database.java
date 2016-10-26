@@ -111,7 +111,7 @@ public class Database {
 		catch (SQLException e){e.printStackTrace();}
 	}
 	
-	public void newtable(int UID, String uname, ArrayList<Table> request)    //UID为用户ID，uname为用户自己备注表明，request为新建要求
+	/*public void newtable(int UID, String uname, ArrayList<Table> request)    //UID为用户ID，uname为用户自己备注表明，request为新建要求
 	{
 		int cnt = count("usertable") + 1;                             //计算新建表在usertable里的ID
 		String temp_create = "create table t" + cnt + "(";            //创建新表的语句，新表名为tID,如usertable中的10号表，命名为t10
@@ -122,7 +122,7 @@ public class Database {
 			co_count ++;
 			temp_create = temp_create + a.cname + "  " + a.ctype + ", ";
 		}
-		temp_create = temp_create + "EID int, foreign key(EID) references event" + UID + "(EID) ) ";  //添加外键关联该用户个人event表
+		temp_create = temp_create + "TID int primary key, EID int, foreign key(EID) references event" + UID + "(EID) ) ";  //添加外键关联该用户个人event表
 
 		String temp_insert = "insert usertable values(" + cnt + "," + UID + ",'t" + cnt + "','" + uname + "'," + co_count + ")" ; //在usertable中增加本表记录
 		try{
@@ -130,5 +130,58 @@ public class Database {
 			stmt.execute(temp_create);   //创建新表
 		}
 		catch (SQLException e){e.printStackTrace();}
+	}*/
+	
+	public int checkTableName(String a)
+	{
+		String[] mes = a.split("~");
+		String uid = mes[0];
+		String tname = mes[1];
+		
+		ResultSet cnt = null;
+		int n = 0;
+		String temp = "select count(*) from usertable where UID = " + uid + " and uname='" + tname + "'" ;
+    	try
+        {
+            cnt = stmt.executeQuery(temp);
+            while(cnt.next())
+            {
+            	n = cnt.getInt(1);
+            }
+        } 
+    	catch (SQLException e){e.printStackTrace();}
+		
+		
+		
+		return n;     //n为0代表成功
+	}
+	
+	public int createUserTable(String a)
+	{
+		String[] mes = a.split("~");
+		
+		String uid = mes[0];
+		String uname = mes[1];
+		int column_num = Integer.parseInt(mes[2]) + 2;
+		
+		//添加至usertable表
+		int cnt = count("usertable") + 1; 
+		String temp_insert = "insert usertable values(" + cnt + "," + uid + ",'t" + cnt + "','" + uname + "'," + (column_num+2) + ")" ;
+		
+		
+		String temp_create = "create table t" + cnt + "(";            //创建新表的语句，新表名为tID,如usertable中的10号表，命名为t10
+		 
+		for(int i=0;i<column_num;i++)                                 //根据要求完成create语句
+		{
+			temp_create = temp_create + mes[3+2*i] + "varchar(" + mes[4+2*i] + "',";
+		}
+		temp_create = temp_create + "TID int primary key, EID int, foreign key(EID) references event" + uid + "(EID) ) ";  //添加外键关联该用户个人event表
+		
+		try{
+			stmt.execute(temp_insert);   //新增新表记录至usertable
+			stmt.execute(temp_create);   //创建新表
+			return 0;
+		}
+		catch (SQLException e){e.printStackTrace();return 1;}
 	}
 }
