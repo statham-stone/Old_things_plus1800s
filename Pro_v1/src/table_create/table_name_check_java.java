@@ -6,6 +6,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
+import db.Database;
+
 public class table_name_check_java 
 {
 	public String table_name;
@@ -24,8 +26,23 @@ public class table_name_check_java
 		sesssion.setAttribute("user_id",user_id);
 		sesssion.setAttribute("column_number",column_number);	
 		String test=user_id+"~"+table_name+"~"+column_number;
+		
+		int check_status=-1;
+		Database check_db=new Database();
+	//	check_db.connect();
+		check_status=check_db.checkTableName(test);
+		
 		System.out.println(test);
-		return "SUCCESS";
+		
+		if(check_status==0)
+		{
+			return "SUCCESS";			
+		}
+		else
+		{
+			return "FAILED";
+		}
+
 	}
 	public String getTable_name() {
 		return table_name;

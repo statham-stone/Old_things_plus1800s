@@ -35,8 +35,13 @@ Input column details:
 			big_string=big_string+"~"+document.getElementById("column_length"+i).value;
 		}
 		document.write("<a href=\"create_table?new_table_information="+big_string+"\"> Submit (you will not see this next version)<br><br></a>");
+		
 	};
 	</script>
+	
+	
+	
+	
 	
 	<button onclick="show_table()"> click_here </button>	
 </body>

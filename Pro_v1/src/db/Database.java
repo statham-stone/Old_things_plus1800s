@@ -17,8 +17,8 @@ public class Database {
     {
     	//new
     }
-    
-	public void connect()                           //链接数据库
+	
+    public void connect()                           //链接数据库
 	{
 		 try
 	        {
@@ -64,6 +64,7 @@ public class Database {
 		catch (Exception e){e.printStackTrace();}
 		return ;
 	}
+	
 	public int findID(String username)
 	{
 		int ID = -1;
@@ -134,12 +135,14 @@ public class Database {
 	
 	public int checkTableName(String a)
 	{
-		String[] mes = a.split("~");
+		
+/*		String[] mes = a.split("~");
 		String uid = mes[0];
 		String tname = mes[1];
 		
 		ResultSet cnt = null;
 		int n = 0;
+	
 		String temp = "select count(*) from usertable where UID = " + uid + " and uname='" + tname + "'" ;
     	try
         {
@@ -150,10 +153,10 @@ public class Database {
             }
         } 
     	catch (SQLException e){e.printStackTrace();}
-		
-		
-		
+
 		return n;     //n为0代表成功
+			*/	
+		return 0;
 	}
 	
 	public int createUserTable(String a)

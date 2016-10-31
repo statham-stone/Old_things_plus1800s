@@ -40,5 +40,9 @@ border: 1px solid grey;
 </div>
 
 <a href="create_new_table.jsp">Create new table</a>
+
+<a href="table_create/choose_table_java?user_id=33442256772435">Create little things</a>
+
+
 </body>
 </html>
