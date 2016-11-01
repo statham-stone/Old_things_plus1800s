@@ -5,7 +5,7 @@ public class create_little_thing_java {
 	
 	public String execute()
 	{
-		//insert by the information
+		//create by the information
 		System.out.print("little thing information details:"+information);
 	    
 		int done_success=0;

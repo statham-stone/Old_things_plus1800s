@@ -5,27 +5,32 @@
         "http://struts.apache.org/dtds/struts-2.5.dtd">
 
 <struts>
-<package name="default" extends = "struts-default">
+	<package name="default" extends = "struts-default">
 
-<action name = "sign" class = "db.Response" method = "SIGNUP">
-<result name="fail">welcome.jsp</result>
-<result>index.jsp</result>
-</action>
+		<action name = "sign" class = "db.Response" method = "SIGNUP">
+			<result name="fail">welcome.jsp</result>
+			<result>index.jsp</result>
+		</action>
 
-<action name = "log" class = "db.Response" method = "LOGIN">
-<result name="fail">welcome.jsp</result>
-<result>index.jsp</result>
-</action>
+		<action name = "log" class = "db.Response" method = "LOGIN">
+			<result name="fail">welcome.jsp</result>
+			<result>index.jsp</result>
+		</action>
 
-<action name = "ntable" class = "db.Response" method = "newtable">
-<result>index.jsp</result>
-</action>
+		<action name = "ntable" class = "db.Response" method = "newtable">
+			<result>index.jsp</result>
+		</action>
+		
 
+		<action name="check_table_name"    class="table_create.table_name_check_java"   method="execute">
+			<result name="SUCCESS">/create_table_details.jsp</result>
+			<result name="FAILED">/check_failed.jsp</result>		
+		</action> 
 
-<action name="check_table_name"    class="table_create.table_name_check_java"   method="execute">
-		<result name="SUCCESS">/create_table_details.jsp</result>
-		<result name="FAILED">/check_failed.jsp</result>		
-</action> 
+		<action name="create_table"    class="table_create.table_create_java"   method="execute">
+			<result name="SUCCESS">/create_table_done.jsp</result>
+			<result name="FAILED">/create_table_failed.jsp</result>	
+		</action> 
 
 <action name="create_table"    class="table_create.table_create_java"   method="execute">
 		<result name="SUCCESS">/create_table_done.jsp</result>
@@ -60,5 +65,6 @@
 </action> 
 
 
-</package>
-</struts> 	
+	</package>
+</struts>
+

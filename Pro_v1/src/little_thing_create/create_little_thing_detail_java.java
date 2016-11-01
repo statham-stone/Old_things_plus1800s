@@ -16,7 +16,8 @@ public class create_little_thing_detail_java {
 	{
 		//调用函数完成create thing
 		
-		column_names="coln1~column2~column3";
+		
+		column_names="col~um~n1~column2~column3";
 		ServletRequest request=ServletActionContext.getRequest();
 		HttpServletRequest req =(HttpServletRequest) request;
 		HttpSession sesssion=req.getSession();
