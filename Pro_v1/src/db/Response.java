@@ -22,7 +22,7 @@ public class Response extends ActionSupport{
 		db1.connect();
 		
 		temp = "user where name='" + Username + "'";
-		int exist = db1.count(temp);
+		int exist = db1.count(temp);	//XXX: why there is a warning here?
 		if(exist==1)
 		{
 			Prompt = "Already exists a username:" + Username ;
