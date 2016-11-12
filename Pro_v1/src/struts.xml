@@ -8,8 +8,22 @@
 
 	<constant name="struts.devMode" value="true" />
 
-	<package name="default" extends = "struts-default">
 
+	<package name="default" extends = "json-default">
+	
+	<!-- ##############BELOW ARE ONLY USED DURING DEVELOPMENT -->
+     	 <action name="jsonAjax" class="test.ajaxhello">
+        	<result type="json"></result>
+     	 </action>
+		<action name="ajaxtest">
+			<result>/pt_ajaxtest.jsp</result>
+		</action>
+		<action name="admintest">
+			<result>index.html</result>
+		</action>
+	<!-- ##############ABOVE ARE ONLY USED DURING DEVELOPMENT -->
+	
+	
 		<action name = "sign" class = "db.Response" method = "SIGNUP">
 			<result name="fail">welcome.jsp</result>
 			<result>index.jsp</result>

@@ -23,7 +23,7 @@
 
     <!-- Welcome file lists -->
     <welcome-file-list>
-        <welcome-file>welcome.jsp</welcome-file>
+        <welcome-file>login.html</welcome-file>
     </welcome-file-list>
 
    

@@ -4,6 +4,11 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 @SuppressWarnings({ "unused", "serial" })
 public class Response extends ActionSupport{
+	/**
+	 * disable this to recover database facility.
+	 */
+	private static final boolean ignoreDatabase = false;
+	
 	private String Prompt;
 	
 	private String Username;
@@ -18,6 +23,8 @@ public class Response extends ActionSupport{
 
 	public String SIGNUP()
 	{
+		if (ignoreDatabase) return SUCCESS;
+		
 		Database db1 = new Database();
 		db1.connect();
 		
@@ -41,6 +48,8 @@ public class Response extends ActionSupport{
 	
 	public String LOGIN()
 	{
+		if (ignoreDatabase) return SUCCESS;
+		
 		Database db1 = new Database();
 		db1.connect();
 		temp= "user where name='" + Username + "' and password='" + Password + "'";

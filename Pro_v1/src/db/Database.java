@@ -10,6 +10,10 @@ import java.sql.SQLException;
 @SuppressWarnings("unused")
 
 public class Database {
+	/**
+	 * disable this to recover database facility.
+	 */
+	private static final boolean ignoreDatabase = true;
 	
 	private static String DRIVER_MYSQL = "com.mysql.jdbc.Driver";    //MySQL JDBCÇý¶¯×Ö·û´®
     private static String URL = "jdbc:mysql://localhost:3306/USER";
