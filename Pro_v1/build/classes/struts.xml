@@ -5,6 +5,9 @@
         "http://struts.apache.org/dtds/struts-2.5.dtd">
 
 <struts>
+
+	<constant name="struts.devMode" value="true" />
+
 	<package name="default" extends = "struts-default">
 
 		<action name = "sign" class = "db.Response" method = "SIGNUP">
@@ -31,38 +34,38 @@
 			<result name="SUCCESS">/create_table_done.jsp</result>
 			<result name="FAILED">/create_table_failed.jsp</result>	
 		</action> 
+	
+		<action name="create_table"    class="table_create.table_create_java"   method="execute">
+			<result name="SUCCESS">/create_table_done.jsp</result>
+			<result name="FAILED">/create_table_failed.jsp</result>	
+		</action> 
+		
 
-<action name="create_table"    class="table_create.table_create_java"   method="execute">
-		<result name="SUCCESS">/create_table_done.jsp</result>
-		<result name="FAILED">/create_table_failed.jsp</result>	
-</action> 
+		
+		<action name="choose_table_java"    
+			class="little_thing_create.choose_table_java"   
+			method="execute">
+				<result name="SUCCESS">/create_little_thing_choose_table.jsp</result>
+				<result name="FAILED">/create_little_thing_failed.jsp</result>
+		</action> 
+		
+		
+		<action name="create_little_thing_detail_java"    
+			class="little_thing_create.create_little_thing_detail_java"   
+			method="execute">
+				<result name="SUCCESS">/create_little_thing_details.jsp</result>
+				<result name="FAILED">/create_little_thing_failed.jsp</result>
+		</action> 
+		
 
 
-
-<action name="choose_table_java"    
-	class="little_thing_create.choose_table_java"   
-	method="execute">
-		<result name="SUCCESS">/create_little_thing_choose_table.jsp</result>
-		<result name="FAILED">/create_little_thing_failed.jsp</result>
-</action> 
-
-
-<action name="create_little_thing_detail_java"    
-	class="little_thing_create.create_little_thing_detail_java"   
-	method="execute">
-		<result name="SUCCESS">/create_little_thing_details.jsp</result>
-		<result name="FAILED">/create_little_thing_failed.jsp</result>
-</action> 
-
-
-
-
-<action name="create_little_thing_java"    
-	class="little_thing_create.create_little_thing_java"   
-	method="execute">
-		<result name="SUCCESS">/create_table_done.jsp</result>
-		<result name="FAILED">/create_little_thing_failed.jsp</result>
-</action> 
+		
+		<action name="create_little_thing_java"    
+			class="little_thing_create.create_little_thing_java"   
+			method="execute">
+				<result name="SUCCESS">/create_table_done.jsp</result>
+				<result name="FAILED">/create_little_thing_failed.jsp</result>
+		</action> 
 
 
 	</package>
