@@ -62,7 +62,7 @@
 				<!--redirect was tested-->
 				uid=getCookie('uid')
 				if (uid!=null && uid!="") <!-- should redirect-->
-				{window.location="/index.jsp"	}
+				{window.location.href="./index.jsp"	}
 			}
 			
 			$(function() {
@@ -86,7 +86,7 @@
 				    		} else {
 				    			alert("login successful");
 				    			setCookies('uid',state_value,4);
-				    			window.location="/index.jsp";
+				    			window.location.href="./index.jsp";
 				    		};
 				    	},
 				    	error: function(json){
@@ -119,7 +119,7 @@
 				    		} else {
 				    			alert("register successful");
 				    			setCookies('uid',state_value,4);
-				    			window.location="/index.jsp";
+				    			window.location.href="./index.jsp";
 				    		};
 				    	},
 				    	error: function(json){
