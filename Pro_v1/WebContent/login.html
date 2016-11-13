@@ -16,8 +16,27 @@
         <link href="css/style.css" rel="stylesheet">
         <link href="css/animate.css" rel="stylesheet">
         <link href="css/generics.css" rel="stylesheet"> 
+        
+        <!-- Check Cookies for user information -->
+        <script>
+			function setCookies(c_name,value,expiredays)
+			{
+				var exdate = new Date()
+				exdate.setDate(exdate.getDate()+expiredays)
+				document.cookie=c_name+ "=" +escape(value)+
+					((expiredays==null) ? "" : "; expires="+exdate.toGMTString())
+			}
+			function checkCookies()
+			{
+				//redirect was tested
+				uid=getCookie('uid')
+				if (uid!=null && uid!="") <!-- should redirect-->
+				{window.location="/index.jsp"	}
+			}
+        
+        </script>
     </head>
-    <body id="skin-blur-violate">
+    <body id="skin-blur-violate" onLoad="checkCookies()">
         <section id="login">
             <header>
                 <h1>Timepluser</h1>

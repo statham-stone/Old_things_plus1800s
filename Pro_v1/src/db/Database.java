@@ -9,25 +9,40 @@ import java.sql.SQLException;
 
 @SuppressWarnings("unused")
 
+/**
+ * manages database connection.
+ * @author leafyWang
+ *
+ */
 public class Database {
 	/**
 	 * disable this to recover database facility.
 	 */
 	private static final boolean ignoreDatabase = true;
 	
-	private static String DRIVER_MYSQL = "com.mysql.jdbc.Driver";    //MySQL JDBC驱动字符串
+	/**
+	 * mysql driver information
+	 */
+	private static String DRIVER_MYSQL = "com.mysql.jdbc.Driver";   
     private static String URL = "jdbc:mysql://localhost:3306/USER";
+    
+    /**
+     * a static statement belongs to a database instance
+     */
     private static Statement stmt;
+    /**
+     * a Connection instance belongs to a database instance
+     */
     private Connection connection = null;
     
-    /* 
-     * 连接数据库，每次使用各种函数之前，都需要调用本函数
+    /** 
+     * connect database, should run this function every time need to access database
      */
 	public String connect()                         
 	{
 		 try{
 	            Class.forName(DRIVER_MYSQL);     //加载JDBC驱动
-	            connection = DriverManager.getConnection(URL,"root","1234");   //创建数据库连接对象
+	            connection = DriverManager.getConnection(URL,"root","530743812");   //创建数据库连接对象
 	            stmt = connection.createStatement();       //创建Statement对象
 	            return "connect!";
 	     }
@@ -37,8 +52,8 @@ public class Database {
 		 return "Success";
 	}
 	
-	/*
-	 * 断开数据库连接 同样需要自行调用
+	/**
+	 * close database connection manually
 	 */
 	public String close()
 	{
@@ -52,10 +67,10 @@ public class Database {
 	}
 	
 	
-	/*
-	 * 登陆 传入用户名和密码
-	 * 若成功则返回用户ID
-	 * 失败则返回-1
+	/**
+	 * Try to match login information
+	 * return userid if both username and password matches
+	 * return -1 otherwise
 	 */
 	public int checkUser(String username,String password)
 	{
@@ -65,8 +80,11 @@ public class Database {
 		return ID;
 	}
 	
-	/*
-	 * 尝试注册 如果注册失败则返回-1，否则返回新用户的ID
+	/**
+	 * Try to register a user.
+	 * 
+	 * return new user ID if success
+	 * return -1 otherwise
 	 */
 	public int signUp(String username,String password)
 	{
