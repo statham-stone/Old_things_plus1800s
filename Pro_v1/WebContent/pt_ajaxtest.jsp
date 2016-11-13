@@ -25,11 +25,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     data: params,
     dataType:"text", //ajax返回值设置为text（json格式也可用它返回，可打印出结果，也可设置成json）
     success: function(json){  
+    	console.log(json);
     var obj = $.parseJSON(json);  //使用这个方法解析json
                 var state_value = obj.result;  //result是和action中定义的result变量的get方法对应的
     alert(state_value);
     },
     error: function(json){
+    	console.log(json);
      alert("json=" + json);
      return false;
     }
