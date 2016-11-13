@@ -22,9 +22,65 @@
     <link href="css/style.css" rel="stylesheet">
     <link href="css/icons.css" rel="stylesheet">
     <link href="css/generics.css" rel="stylesheet">
+    <script type="text/javascript">
+	
+	function setCookies(c_name,value,expiredays)
+	{
+		var exdate = new Date()
+		exdate.setDate(exdate.getDate()+expiredays)
+		document.cookie=c_name+ "=" +escape(value)+
+			((expiredays==null) ? "" : "; expires="+exdate.toGMTString())
+	}
+	
+	function getCookie(c_name)
+	{
+	if (document.cookie.length>0)
+	  {
+	  c_start=document.cookie.indexOf(c_name + "=")
+	  if (c_start!=-1)
+	    { 
+	    c_start=c_start + c_name.length+1 
+	    c_end=document.cookie.indexOf(";",c_start)
+	    if (c_end==-1) c_end=document.cookie.length
+	    return unescape(document.cookie.substring(c_start,c_end))
+	    } 
+	  }
+	return ""
+	}
+    
+	function checkCookies()
+	{
+		uid=getCookie('uid')
+		if (uid==null || uid=="") 
+		{
+			alert("You are not logged in! please log in first.")
+			window.location.href="./login.html"	
+		} else {
+			document.getElementById("usernametag").innerHTML="uid:"+uid;
+		}
+	}
+	
+    function signOut()
+    {
+    	setCookies("uid","",10);			//erase login information
+    	window.location.href="./login.html"	//return to login page
+    }
+    
+    function searchKeyDown()
+    {
+    	if (event.keyCode==13)
+    	{
+    		//alert("entered:"+$("#searchbox").val());
+    		window.location.href="./searchresult?key="+$("#searchbox").val();
+    	}
+    }
+    
+    </script>
+    
 </head>
 
-<body id="skin-blur-violate">
+<body id="skin-blur-violate" onload="checkCookies()">
+
 
     <header id="header" class="media">
         <a href="" id="menu-toggle"></a>
@@ -39,7 +95,7 @@
                 </div>
 
                 <div class="media-body">
-                    <input type="text" class="main-search" id="searchbox">
+                    <input type="text" class="main-search" id="searchbox" onkeydown="searchKeyDown()">
                 </div>
             </div>
         </div>
@@ -58,7 +114,7 @@
                 <div class="text-center s-widget m-b-25 dropdown" id="profile-menu">
                     <br/>
                     <h4 class="m-0" id="usernametag"></h4>
-                    <a href="" id="signoutlink">Sign Out</a>
+                    <a href="#" id="signoutlink" onclick="signOut()">Sign Out</a>
                 </div>
 
                 <!-- Calendar -->
