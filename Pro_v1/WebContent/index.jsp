@@ -28,7 +28,7 @@
 
     <header id="header" class="media">
         <a href="" id="menu-toggle"></a>
-        <a class="logo pull-left" href="index.html">TIME PLUSER 1.0</a>
+        <a class="logo pull-left" href="index.jsp">TIME PLUSER 1.0</a>
 
         <div class="media-body">
             <div class="media" id="top-menu">
@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="media-body">
-                    <input type="text" class="main-search">
+                    <input type="text" class="main-search" id="searchbox">
                 </div>
             </div>
         </div>
@@ -57,8 +57,8 @@
                 <!-- Profile Menu -->
                 <div class="text-center s-widget m-b-25 dropdown" id="profile-menu">
                     <br/>
-                    <h4 class="m-0">Malinda Hollaway</h4>
-                    <a href="">Sign Out</a>
+                    <h4 class="m-0" id="usernametag"></h4>
+                    <a href="" id="signoutlink">Sign Out</a>
                 </div>
 
                 <!-- Calendar -->
@@ -84,22 +84,22 @@
             <!-- Side Menu -->
             <ul class="list-unstyled side-menu">
                 <li class="active">
-                    <a class="sa-side-home" href="index.html">
+                    <a class="sa-side-home" href="index.jsp">
                         <span class="menu-item">Dashboard</span>
                     </a>
                 </li>
                 <li>
-                    <a class="sa-side-typography" href="typography.html">
+                    <a class="sa-side-typography" href="new_event.html">
                         <span class="menu-item">Create Event</span>
                     </a>
                 </li>
                 <li>
-                    <a class="sa-side-widget" href="content-widgets.html">
+                    <a class="sa-side-widget" href="new_littlething.html">
                         <span class="menu-item">Create Little Thing</span>
                     </a>
                 </li>
                 <li>
-                    <a class="sa-side-table" href="tables.html">
+                    <a class="sa-side-table" href="new_table.html">
                         <span class="menu-item">Create Table</span>
                     </a>
                 </li>
@@ -119,170 +119,9 @@
         <section id="content" class="container">
 
             <!-- Messages Drawer -->
-            <div id="messages" class="tile drawer animated">
-                <div class="listview narrow">
-                    <div class="media">
-                        <a href="">Send a New Message</a>
-                        <span class="drawer-close">&times;</span>
 
-                    </div>
-                    <div class="overflow" style="height: 254px">
-                        <div class="media">
-                            <div class="pull-left">
-                                <img width="40" src="img/profile-pics/1.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <small class="text-muted">Nadin Jackson - 2 Hours ago</small><br>
-                                <a class="t-overflow" href="">Mauris consectetur urna nec tempor adipiscing. Proin sit amet nisi ligula. Sed eu adipiscing lectus</a>
-                            </div>
-                        </div>
-                        <div class="media">
-                            <div class="pull-left">
-                                <img width="40" src="img/profile-pics/2.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <small class="text-muted">David Villa - 5 Hours ago</small><br>
-                                <a class="t-overflow" href="">Suspendisse in purus ut nibh placerat Cras pulvinar euismod nunc quis gravida. Suspendisse pharetra</a>
-                            </div>
-                        </div>
-                        <div class="media">
-                            <div class="pull-left">
-                                <img width="40" src="img/profile-pics/3.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <small class="text-muted">Harris worgon - On 15/12/2013</small><br>
-                                <a class="t-overflow" href="">Maecenas venenatis enim condimentum ultrices fringilla. Nulla eget libero rhoncus, bibendum diam eleifend, vulputate mi. Fusce non nibh pulvinar, ornare turpis id</a>
-                            </div>
-                        </div>
-                        <div class="media">
-                            <div class="pull-left">
-                                <img width="40" src="img/profile-pics/4.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <small class="text-muted">Mitch Bradberry - On 14/12/2013</small><br>
-                                <a class="t-overflow" href="">Phasellus interdum felis enim, eu bibendum ipsum tristique vitae. Phasellus feugiat massa orci, sed viverra felis aliquet quis. Curabitur vel blandit odio. Vestibulum sagittis quis sem sit amet tristique.</a>
-                            </div>
-                        </div>
-                        <div class="media">
-                            <div class="pull-left">
-                                <img width="40" src="img/profile-pics/1.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <small class="text-muted">Nadin Jackson - On 15/12/2013</small><br>
-                                <a class="t-overflow" href="">Ipsum wintoo consectetur urna nec tempor adipiscing. Proin sit amet nisi ligula. Sed eu adipiscing lectus</a>
-                            </div>
-                        </div>
-                        <div class="media">
-                            <div class="pull-left">
-                                <img width="40" src="img/profile-pics/2.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <small class="text-muted">David Villa - On 16/12/2013</small><br>
-                                <a class="t-overflow" href="">Suspendisse in purus ut nibh placerat Cras pulvinar euismod nunc quis gravida. Suspendisse pharetra</a>
-                            </div>
-                        </div>
-                        <div class="media">
-                            <div class="pull-left">
-                                <img width="40" src="img/profile-pics/3.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <small class="text-muted">Harris worgon - On 17/12/2013</small><br>
-                                <a class="t-overflow" href="">Maecenas venenatis enim condimentum ultrices fringilla. Nulla eget libero rhoncus, bibendum diam eleifend, vulputate mi. Fusce non nibh pulvinar, ornare turpis id</a>
-                            </div>
-                        </div>
-                        <div class="media">
-                            <div class="pull-left">
-                                <img width="40" src="img/profile-pics/4.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <small class="text-muted">Mitch Bradberry - On 18/12/2013</small><br>
-                                <a class="t-overflow" href="">Phasellus interdum felis enim, eu bibendum ipsum tristique vitae. Phasellus feugiat massa orci, sed viverra felis aliquet quis. Curabitur vel blandit odio. Vestibulum sagittis quis sem sit amet tristique.</a>
-                            </div>
-                        </div>
-                        <div class="media">
-                            <div class="pull-left">
-                                <img width="40" src="img/profile-pics/5.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <small class="text-muted">Wendy Mitchell - On 19/12/2013</small><br>
-                                <a class="t-overflow" href="">Integer a eros dapibus, vehicula quam accumsan, tincidunt purus</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="media text-center whiter l-100">
-                        <a href=""><small>VIEW ALL</small></a>
-                    </div>
-                </div>
-            </div>
 
             <!-- Notification Drawer -->
-            <div id="notifications" class="tile drawer animated">
-                <div class="listview narrow">
-                    <div class="media">
-                        <a href="">Notification Settings</a>
-                        <span class="drawer-close">&times;</span>
-                    </div>
-                    <div class="overflow" style="height: 254px">
-                        <div class="media">
-                            <div class="pull-left">
-                                <img width="40" src="img/profile-pics/1.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <small class="text-muted">Nadin Jackson - 2 Hours ago</small><br>
-                                <a class="t-overflow" href="">Mauris consectetur urna nec tempor adipiscing. Proin sit amet nisi ligula. Sed eu adipiscing lectus</a>
-                            </div>
-                        </div>
-                        <div class="media">
-                            <div class="pull-left">
-                                <img width="40" src="img/profile-pics/2.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <small class="text-muted">David Villa - 5 Hours ago</small><br>
-                                <a class="t-overflow" href="">Suspendisse in purus ut nibh placerat Cras pulvinar euismod nunc quis gravida. Suspendisse pharetra</a>
-                            </div>
-                        </div>
-                        <div class="media">
-                            <div class="pull-left">
-                                <img width="40" src="img/profile-pics/3.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <small class="text-muted">Harris worgon - On 15/12/2013</small><br>
-                                <a class="t-overflow" href="">Maecenas venenatis enim condimentum ultrices fringilla. Nulla eget libero rhoncus, bibendum diam eleifend, vulputate mi. Fusce non nibh pulvinar, ornare turpis id</a>
-                            </div>
-                        </div>
-                        <div class="media">
-                            <div class="pull-left">
-                                <img width="40" src="img/profile-pics/4.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <small class="text-muted">Mitch Bradberry - On 14/12/2013</small><br>
-                                <a class="t-overflow" href="">Phasellus interdum felis enim, eu bibendum ipsum tristique vitae. Phasellus feugiat massa orci, sed viverra felis aliquet quis. Curabitur vel blandit odio. Vestibulum sagittis quis sem sit amet tristique.</a>
-                            </div>
-                        </div>
-                        <div class="media">
-                            <div class="pull-left">
-                                <img width="40" src="img/profile-pics/1.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <small class="text-muted">Nadin Jackson - On 15/12/2013</small><br>
-                                <a class="t-overflow" href="">Ipsum wintoo consectetur urna nec tempor adipiscing. Proin sit amet nisi ligula. Sed eu adipiscing lectus</a>
-                            </div>
-                        </div>
-                        <div class="media">
-                            <div class="pull-left">
-                                <img width="40" src="img/profile-pics/2.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <small class="text-muted">David Villa - On 16/12/2013</small><br>
-                                <a class="t-overflow" href="">Suspendisse in purus ut nibh placerat Cras pulvinar euismod nunc quis gravida. Suspendisse pharetra</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="media text-center whiter l-100">
-                        <a href=""><small>VIEW ALL</small></a>
-                    </div>
-                </div>
-            </div>
 
             <!-- Breadcrumb -->
 
