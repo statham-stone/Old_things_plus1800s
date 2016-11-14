@@ -11,7 +11,7 @@
     <meta name="description" content="Violate Responsive Admin Template">
     <meta name="keywords" content="Super Admin, Admin, Template, Bootstrap">
 
-    <title>233333333333</title>
+    <title>Choose table</title>
 
     <!-- CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -150,7 +150,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="sa-side-widget" href="table_create/choose_table_java?user_id=33442256772435">
+                    <a class="sa-side-widget" href="choose_table_java?user_id=33442256772435">
                         <span class="menu-item">Create Little Thing</span>
                     </a>
                 </li>
@@ -201,22 +201,19 @@
                             <div class="table-responsive overflow">
                                 <table class="table table-bordered table-hover tile">
 
-                                 
-
-
-
-
-    <%
+    
+        <%
     String cg=request.getAttribute("table_list").toString();
     String big_string=request.getAttribute("table_list").toString();
     String string_arr[]=big_string.split("~");
     int table_numbers=string_arr.length-1;
     if(table_numbers!=0)
     {
+    	out.print("Table numbers:");
         out.print(string_arr[0]+"<br>");
-        out.print(" <table border=\"1\"  class=\"table table-bordered table-hover tile\"   > <tr> <th>Table name</th> <th>Link</th> </tr>");
+        out.print(" <table border=\"1\"  class=\"table table-bordered table-hover tile\"   > <tr> <th>Table name</th> <th>Create little thing</th> </tr>");
         
-        for(int i=0;i<table_numbers+1;i=i+1)
+        for(int i=1;i<table_numbers+1;i=i+1)
         {
             out.print("<tr><td>");  
             out.print(string_arr[i]);       
@@ -230,9 +227,12 @@
     }
     else
     {
-        out.print("None");  
+        out.print("No table");  
     }
     %>
+    
+    
+    
     
     
 
@@ -256,10 +256,6 @@
                         <!-- Dynamic Chart -->
 
                         <!-- Activity -->
-                        <div class="tile">
-                            <h2 class="tile-title">Big Events</h2>
-                           
-                        </div>
                     </div>
                     <div class="clearfix"></div>
                 </div>

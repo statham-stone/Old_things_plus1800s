@@ -150,7 +150,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="sa-side-widget" href="table_create/choose_table_java?user_id=33442256772435">
+                    <a class="sa-side-widget" href="choose_table_java?user_id=33442256772435">
                         <span class="menu-item">Create Little Thing</span>
                     </a>
                 </li>

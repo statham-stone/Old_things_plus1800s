@@ -150,7 +150,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="sa-side-widget" href="table_create/choose_table_java?user_id=33442256772435">
+                    <a class="sa-side-widget" href="choose_table_java?user_id=33442256772435">
                         <span class="menu-item">Create Little Thing</span>
                     </a>
                 </li>
@@ -231,7 +231,7 @@
 		big_string=big_string.substring(1, big_string.length);//delete the first"~"
 
 //		document.write("<a href=\"create_little_thing_action?information="+big_string+"\"> Submit (you will not see this next version)<br><br></a>");
-		window.location("create_little_thing_action?information="+big_string);
+		window.location("create_little_thing_action?information="+big_string+"\"");
 	};
 	</script>
 	
@@ -239,7 +239,7 @@
 	
 	
 	
-	<button class="btn m-r-5"   class=\"btn btn-alt m-r-5\" onclick="show_details()"> click_here </button>	
+	<button class="btn m-r-5"  onclick="show_details()"> click_here </button>	
                                  
                                 </table>
                             </div>
@@ -259,10 +259,6 @@
                         <!-- Dynamic Chart -->
 
                         <!-- Activity -->
-                        <div class="tile">
-                            <h2 class="tile-title">Big Events</h2>
-                           
-                        </div>
                     </div>
                     <div class="clearfix"></div>
                 </div>

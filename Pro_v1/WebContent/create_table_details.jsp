@@ -11,7 +11,7 @@
     <meta name="description" content="Violate Responsive Admin Template">
     <meta name="keywords" content="Super Admin, Admin, Template, Bootstrap">
 
-    <title>233333333333</title>
+    <title>Table details</title>
 
     <!-- CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -150,7 +150,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="sa-side-widget" href="table_create/choose_table_java?user_id=33442256772435">
+                    <a class="sa-side-widget" href="choose_table_java?user_id=33442256772435">
                         <span class="menu-item">Create Little Thing</span>
                     </a>
                 </li>
@@ -208,7 +208,12 @@
 	String user_id_string=request.getAttribute("user_id").toString();
 	String table_name_string=request.getAttribute("table_name").toString();
 	out.print(column_number_string);
-	for( int i=1;i<=Integer.parseInt(column_number_string);i++)
+	
+	out.print(" <p>Column name:<input readonly=\"readonly\" class=\"input-sm validate[required] form-control\" type=\"text\" id=\"column_name"+ 1+ "\" " +"name=\""+" column_name"+1+"\"required=\"required\" value=\"name\" /></input> </p>");
+	out.print(" <p>Column length:<input readonly=\"readonly\" class=\"input-sm validate[required] form-control\"   type=\"text\" id=\"column_length"+1+ "\" "+"name=\""+"column_length"+1+"\" required=\"required\" value=\"50\"  /></input> </p>");
+	
+	
+	for( int i=2;i<=Integer.parseInt(column_number_string);i++)
 	{
 		out.print(" <p>Column name:<input class=\"input-sm validate[required] form-control\" type=\"text\" id=\"column_name"+ i+ "\" " +"name=\""+" column_name"+i+"\"required=\"required\" /></input> </p>");
 		out.print(" <p>Column length:<input  class=\"input-sm validate[required] form-control\"   type=\"text\" id=\"column_length"+i+ "\" "+"name=\""+"column_length"+i+"\" required=\"required\" /></input> </p>");
@@ -230,7 +235,7 @@
 			big_string=big_string+"~"+document.getElementById("column_length"+i).value;
 		}
 	//	document.write("<a  href=\"create_table?new_table_information="+big_string+"\"> Submit (you will not see this next version)<br><br></a>");
-		window.location("create_table?new_table_information="+big_string+"\"");
+		window.location("create_table?new_table_information="+big_string);
 	};
 	</script>
 	<button class="btn m-r-5" onclick="show_table()"> Submit </button>	
