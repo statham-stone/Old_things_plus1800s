@@ -229,8 +229,8 @@
 			big_string=big_string+"~"+document.getElementById("column_name"+i).value;
 			big_string=big_string+"~"+document.getElementById("column_length"+i).value;
 		}
-		document.write("<a  href=\"create_table?new_table_information="+big_string+"\"> Submit (you will not see this next version)<br><br></a>");
-		
+	//	document.write("<a  href=\"create_table?new_table_information="+big_string+"\"> Submit (you will not see this next version)<br><br></a>");
+		window.location("create_table?new_table_information="+big_string+"\"");
 	};
 	</script>
 	<button class="btn m-r-5" onclick="show_table()"> Submit </button>	
