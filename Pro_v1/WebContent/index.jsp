@@ -150,12 +150,12 @@
                     </a>
                 </li>
                 <li>
-                    <a class="sa-side-widget" href="new_littlething.html">
+                    <a class="sa-side-widget" href="table_create/choose_table_java?user_id=33442256772435">
                         <span class="menu-item">Create Little Thing</span>
                     </a>
                 </li>
                 <li>
-                    <a class="sa-side-table" href="new_table.html">
+                    <a class="sa-side-table" href="create_new_table.jsp">
                         <span class="menu-item">Create Table</span>
                     </a>
                 </li>
