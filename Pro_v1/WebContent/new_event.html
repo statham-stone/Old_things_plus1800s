@@ -73,11 +73,91 @@
     	}
     }
     
+    function loadTableBrief()
+    {
+		var params = {
+		    	uid : getCookie("uid")
+			};
+			$.ajax({
+		    	type: "POST",
+		    	url: "loadTableBrief.action",
+		    	data: params,
+		    	dataType:"text", //ajax返回值设置为text（json格式也可用它返回，可打印出结果，也可设置成json）
+		    	success: function(json){  
+		    		var obj = $.parseJSON(json);  //使用这个方法解析json
+		            var state_value = obj.result;  //result是和action中定义的result变量的get方法对应的
+		            console.log(json);
+		    		//state_value is the returned value
+		    		//alert(state_value);
+		    		var tableSet = state_value.split("~");
+		    		txt="";
+		    		for (var i=0;i<tableSet.length;i++)
+		    		{
+		    			txt=txt+"<option>"+tableSet[i]+"</option>"	
+		    		}
+		    		
+		    		document.getElementById("tableselect").innerHTML=txt;
+		    	},
+		    	error: function(json){
+		    		console.log(json);
+		     		return false;
+		    	}
+		    });
+			loadTableContent(document.getElementById("tableselect"));
+    }
+    
+    function loadTableContent(osel)
+    {
+    	//alert(osel.options[osel.selectedIndex].text);
+		var params = {
+		    	uid : getCookie("uid"),
+		    	tablename:osel.options[osel.selectedIndex].text
+			};
+		$.ajax({
+	    	type: "POST",
+	    	url: "loadTableContent.action",
+	    	data: params,
+	    	dataType:"text", //ajax返回值设置为text（json格式也可用它返回，可打印出结果，也可设置成json）
+	    	success: function(json){  
+	    		var obj = $.parseJSON(json);  //使用这个方法解析json
+	            var state_value = obj.result;  //result是和action中定义的result变量的get方法对应的
+	            console.log(json);
+	    		//state_value is the returned value
+	    		//alert(state_value);
+	    		var thingSet = state_value.split("^");
+	    		txt="";
+	    		for (var i=0;i<thingSet.length;i++)
+	    		{
+	    			txt=txt+"<li "+"onclick=\"addThing(this)\""+" class=\"list-group-item\">"+thingSet[i]+"</li>";
+	    		}
+	    		
+	    		document.getElementById("tableview").innerHTML=txt;
+	    	},
+	    	error: function(json){
+	    		console.log(json);
+	     		return false;
+	    	}
+	    });		
+    }
+    
+    function addThing(thing)
+    {
+    	alert(thing.innerHTML);
+    }
+    
+    function searchAjaxReq()
+    {
+    	if (event.keyCode==13)
+    	{
+    		alert("entered:"+$("#searchrequest").val());
+    	}    	
+    }
+    
     </script>
     
 </head>
 <!-- onload="checkCookies()" -->
-<body id="skin-blur-violate" >
+<body id="skin-blur-violate"onload="checkCookies(); loadTableBrief()" >
 
 
     <header id="header" class="media">
@@ -177,20 +257,35 @@
                     <div class="col-md-8">
                         
                         <!-- TABLE CHECK -->
-                        <select class="form-control input-lg m-b-10" id="tableselect">
+                        <select class="form-control input-lg m-b-10" id="tableselect" onchange="loadTableContent(this)">
                             <option>Option 1</option>
                             <option>Option 2</option>
                             <option>Option 3</option>
                         </select>
                         <!-- TABEL VIEW -->
                         <ul class="list-group block" id="tableview">
-                            <li class="list-group-item">Cras justo odio</li>
-                            <li class="list-group-item">Dapibus ac facilisis in</li>
-                            <li class="list-group-item">Morbi leo risus</li>
-                            <li class="list-group-item">Porta ac consectetur ac</li>
-                            <li class="list-group-item">Vestibulum at eros</li>
+                        	<!-- INSERT LOADED TABLE HERE -->
+                        </ul>
+                        <!-- SEARCHB BOX -->
+                        <input type="text" class="main-search" id="searchrequest" onkeydown="searchAjaxReq()">
+                        <!-- SEARCH RESULT -->
+                        <p>Search Result</p>
+                        <ul class="list-group block" id="searchresult">
+                            <li class="list-group-item">Cras justo odio<span class="badge">14</span></li>
+                            <li class="list-group-item">Dapibus ac facilisis in<span class="badge">23</span></li>
+                            <li class="list-group-item">Morbi leo risus<span class="badge">9</span></li>
+                            <li class="list-group-item">Porta ac consectetur ac<span class="badge">10</span></li>
+                            <li class="list-group-item">Vestibulum at eros<span class="badge">2</span></li>
                         </ul>
 
+
+
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="col-md-4">
+
+                        
                         <!-- SELECTED ITEMS -->
                          <div class="block-area" id="responsiveTable">
                             <h3 class="block-title">SELECTED THINGS</h3>
@@ -235,30 +330,14 @@
                                 </table>
                             </div>
                         </div>
-
-
-                        <div class="clearfix"></div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <!-- SEARCHB BOX -->
-                        <input type="text" class="main-search" id="searchrequest" onkeydown="searchAjaxReq()">
-                        <!-- SEARCH RESULT -->
-                        <p>Search Result</p>
-                        <ul class="list-group block" id="searchresult">
-                            <li class="list-group-item">Cras justo odio<span class="badge">14</span></li>
-                            <li class="list-group-item">Dapibus ac facilisis in<span class="badge">23</span></li>
-                            <li class="list-group-item">Morbi leo risus<span class="badge">9</span></li>
-                            <li class="list-group-item">Porta ac consectetur ac<span class="badge">10</span></li>
-                            <li class="list-group-item">Vestibulum at eros<span class="badge">2</span></li>
-                        </ul>
+                        
                         <!-- COMMENT AREA -->
-                        <div class="col-md-12" id="commenttext">
-                            <textarea class="form-control m-b-10" placeholder="Comments"></textarea>
+                        <div class="col-md-12" >
+                            <textarea id="commenttext" class="form-control m-b-10" placeholder="Comments"></textarea>
                         </div>
                         <!-- SUBMIT BUTTON -->
-                        <div class="col-md-10" id="submitevent">
-                            <button type="submit" class="btn btn-sm">Save Event</button>
+                        <div class="col-md-10" >
+                            <button id="submitevent" type="submit" class="btn btn-sm">Save Event</button>
                         </div>
                     </div>
                     <div class="clearfix"></div>

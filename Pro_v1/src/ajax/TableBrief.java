@@ -5,7 +5,7 @@ import com.opensymphony.xwork2.ActionSupport;
  * load the Brief information of all tables of a user
  * PARAMETERS: 	uid
  * RESULTS:		a list containing the user's all tables
- * 
+ * USED BY: index.jsp,  new_event.html
  * @author Ralph
  *
  */

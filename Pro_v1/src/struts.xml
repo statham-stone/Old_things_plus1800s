@@ -24,8 +24,10 @@
 		<action name="loadTableBrief" class="ajax.TableBrief"> 
 			<result type="json"></result>
 		</action>
-		
 		<action name="loadEventBrief" class="ajax.EventBrief">
+			<result type="json"></result>
+		</action>
+		<action name="loadTableContent" class="ajax.TableContent">
 			<result type="json"></result>
 		</action>
 	
