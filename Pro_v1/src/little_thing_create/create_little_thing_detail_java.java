@@ -10,6 +10,9 @@ public class create_little_thing_detail_java {
 	private String user_id;
 	private String table_name;
 	private String column_names;
+	private String bigInformation;
+	private String smallInformation;	
+	
 	
 	
 	public String execute()
@@ -17,7 +20,7 @@ public class create_little_thing_detail_java {
 		//调用函数完成create thing
 		
 		
-		column_names="col~um~n1~column2~column3";
+		column_names="column1~column2~column3";
 		ServletRequest request=ServletActionContext.getRequest();
 		HttpServletRequest req =(HttpServletRequest) request;
 		HttpSession sesssion=req.getSession();
@@ -26,6 +29,10 @@ public class create_little_thing_detail_java {
 		int done_success=0;
 		if(done_success==0)
 		{
+			bigInformation="Sucess !yeah";
+			smallInformation="congratulations";
+			sesssion.setAttribute("",bigInformation);
+			sesssion.setAttribute("",smallInformation);
 			return "SUCCESS";
 		}
 		else 

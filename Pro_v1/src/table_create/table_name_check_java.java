@@ -27,10 +27,10 @@ public class table_name_check_java
 		sesssion.setAttribute("column_number",column_number);	
 		String test=user_id+"~"+table_name+"~"+column_number;
 		
-		int check_status=-1;
-		Database check_db=new Database();
+		int check_status=0;
+	//	Database check_db=new Database();
 	//	check_db.connect();
-		check_status=check_db.checkTableName(test);
+	//	check_status=check_db.checkTableName(test);
 		
 		System.out.println(test);
 		
