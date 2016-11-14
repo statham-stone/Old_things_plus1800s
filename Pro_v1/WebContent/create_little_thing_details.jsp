@@ -239,7 +239,7 @@
 	
 	
 	
-	<button class="btn m-r-5"   class=\"btn btn-alt m-r-5\" onclick="show_details()"> click_here </button>	
+	<button class="btn m-r-5"  onclick="show_details()"> click_here </button>	
                                  
                                 </table>
                             </div>

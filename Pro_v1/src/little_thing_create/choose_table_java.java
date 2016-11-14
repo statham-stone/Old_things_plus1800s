@@ -12,7 +12,7 @@ public class choose_table_java {
 		public String execute()
 		{	
 			
-			this.table_list="table_success_1~table2~table3";
+			this.table_list="3~table_success_1~table2~table3";
 			//table_listString=findTable(user_id)
 	
 			int wtf=0;
