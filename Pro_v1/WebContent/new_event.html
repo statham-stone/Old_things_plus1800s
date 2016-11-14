@@ -1,5 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <!--[if IE 9 ]><html class="ie9"><![endif]-->
 
@@ -11,7 +9,7 @@
     <meta name="description" content="Violate Responsive Admin Template">
     <meta name="keywords" content="Super Admin, Admin, Template, Bootstrap">
 
-    <title>Main page</title>
+    <title>Time Pluser 1.0</title>
 
     <!-- CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -50,7 +48,7 @@
     
 	function checkCookies()
 	{
-		var uid=getCookie('uid')
+		uid=getCookie('uid')
 		if (uid==null || uid=="") 
 		{
 			alert("You are not logged in! please log in first.")
@@ -75,77 +73,11 @@
     	}
     }
     
-    function loadTableBrief()
-    {
-		var params = {
-		    	uid : getCookie("uid")
-			};
-			$.ajax({
-		    	type: "POST",
-		    	url: "loadTableBrief.action",
-		    	data: params,
-		    	dataType:"text", //ajax返回值设置为text（json格式也可用它返回，可打印出结果，也可设置成json）
-		    	success: function(json){  
-		    		var obj = $.parseJSON(json);  //使用这个方法解析json
-		            var state_value = obj.result;  //result是和action中定义的result变量的get方法对应的
-		            console.log(json);
-		    		//state_value is the returned value
-		    		//alert(state_value);
-		    		var tableSet = state_value.split("~");
-		    		var txt="<thead><tr><th>Table Name</th></tr></thead><tbody>";
-		    		for (var i=0;i<tableSet.length;i++)
-		    		{
-		    			txt = txt+"<tr><td>"+tableSet[i]+"</tr></td>";
-		    		}
-		    		txt=txt+"</tbody>"
-		    		document.getElementById("tablebrief").innerHTML=txt;
-		    	},
-		    	error: function(json){
-		    		console.log(json);
-		     		return false;
-		    	}
-		    });
-    }
-
-    function loadEventBrief()
-    {
-		var params = {
-		    	uid : getCookie("uid")
-			};
-			$.ajax({
-		    	type: "POST",
-		    	url: "loadEventBrief.action",
-		    	data: params,
-		    	dataType:"text", //ajax返回值设置为text（json格式也可用它返回，可打印出结果，也可设置成json）
-		    	success: function(json){  
-		    		var obj = $.parseJSON(json);  //使用这个方法解析json
-		            var state_value = obj.result;  //result是和action中定义的result变量的get方法对应的
-		            console.log(json);
-		    		//state_value is the returned value
-		    		//alert(state_value);
-		    		var txt=""
-		    		eventSet=state_value.split("^");
-		    		for (var i=0;i<eventSet.length;i++)
-		    		{
-		    			thisEvent=eventSet[i].split("~");
-		    			txt=txt+"<li class=\"list-group-item\">"+thisEvent[0];
-		    			txt=txt+"<span class=\"badge\">"+thisEvent[1];
-		    			txt=txt+"</span></li>";
-		    		}
-		    		document.getElementById("eventbrief").innerHTML=txt;
-		    	},
-		    	error: function(json){
-		    		console.log(json);
-		     		return false;
-		    	}
-		    });
-    }
-
     </script>
     
 </head>
-
-<body id="skin-blur-violate" onload="checkCookies();loadTableBrief();loadEventBrief()">
+<!-- onload="checkCookies()" -->
+<body id="skin-blur-violate" >
 
 
     <header id="header" class="media">
@@ -205,25 +137,23 @@
 
             <!-- Side Menu -->
             <ul class="list-unstyled side-menu">
-                <li class="active">
+                <li >
                     <a class="sa-side-home" href="index.jsp">
                         <span class="menu-item">Dashboard</span>
                     </a>
                 </li>
-                <li>
+                <li class="active">
                     <a class="sa-side-typography" href="new_event.html">
                         <span class="menu-item">Create Event</span>
                     </a>
                 </li>
                 <li>
-                     <a class="sa-side-widget" href="choose_table_java?user_id=33442256772435">
-   <!--                     <a class="sa-side-widget" href="create_little_thing_choose_table.jsp">
-          -->             
+                    <a class="sa-side-widget" href="new_littlething.html">
                         <span class="menu-item">Create Little Thing</span>
                     </a>
                 </li>
                 <li>
-                    <a class="sa-side-table" href="create_new_table.jsp">
+                    <a class="sa-side-table" href="new_table.html">
                         <span class="menu-item">Create Table</span>
                     </a>
                 </li>
@@ -241,65 +171,99 @@
 
         <!-- Content -->
         <section id="content" class="container">
-
-            <!-- Messages Drawer -->
-
-
-            <!-- Notification Drawer -->
-
-            <!-- Breadcrumb -->
-
-
-            <h4 class="page-title">DASHBOARD</h4>
-
-            <!-- Shortcuts -->
-
-
-            <!-- Quick Stats -->
-
-
-            <!-- Main Widgets -->
-
+            <h4 class="page-title">CREATE EVENT</h4>
             <div class="block-area">
                 <div class="row">
                     <div class="col-md-8">
-                        <!-- Main Chart -->
-                        <div class="block-area" id="tableHover">
-                            <h3 class="block-title">TABLES</h3>
+                        
+                        <!-- TABLE CHECK -->
+                        <select class="form-control input-lg m-b-10" id="tableselect">
+                            <option>Option 1</option>
+                            <option>Option 2</option>
+                            <option>Option 3</option>
+                        </select>
+                        <!-- TABEL VIEW -->
+                        <ul class="list-group block" id="tableview">
+                            <li class="list-group-item">Cras justo odio</li>
+                            <li class="list-group-item">Dapibus ac facilisis in</li>
+                            <li class="list-group-item">Morbi leo risus</li>
+                            <li class="list-group-item">Porta ac consectetur ac</li>
+                            <li class="list-group-item">Vestibulum at eros</li>
+                        </ul>
+
+                        <!-- SELECTED ITEMS -->
+                         <div class="block-area" id="responsiveTable">
+                            <h3 class="block-title">SELECTED THINGS</h3>
                             <div class="table-responsive overflow">
-                                <table class="table table-bordered table-hover tile" id="tablebrief" >
-									<!-- Loaded brief will be inserted here -->
+                                <table class="table tile" id="tableselected">
+                                    <thead>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Username</th>
+                                            <th>Password</th>
+                                            <th>Email</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Jhon </td>
+                                            <td>Makinton </td>
+                                            <td>@makinton</td>
+                                            <td>123@makinton</td>
+                                            <td>mak@live.com</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Malinda</td>
+                                            <td>Hollaway</td>
+                                            <td>@hollway</td>
+                                            <td>hollaway@mal</td>
+                                            <td>holla@asianet.ch</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Wayn</td>
+                                            <td>Parnel</td>
+                                            <td>@wayne123</td>
+                                            <td>wayn@3rt</td>
+                                            <td>wayne-parn@gmail.com</td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
 
-                        <!-- Pies -->
-
-
-                        <!--  Recent Postings -->
 
                         <div class="clearfix"></div>
                     </div>
 
                     <div class="col-md-4">
-                        <!-- USA Map -->
-
-                        <!-- Dynamic Chart -->
-
-                        <!-- Activity -->
-                        <h3 class="block-title">Events Brief</h3>
-                        <div class="tile">
-                        <ul class="list-group block" id="eventbrief" >
-                        	<!-- Loaded brief will be inserted here -->
+                        <!-- SEARCHB BOX -->
+                        <input type="text" class="main-search" id="searchrequest" onkeydown="searchAjaxReq()">
+                        <!-- SEARCH RESULT -->
+                        <p>Search Result</p>
+                        <ul class="list-group block" id="searchresult">
+                            <li class="list-group-item">Cras justo odio<span class="badge">14</span></li>
+                            <li class="list-group-item">Dapibus ac facilisis in<span class="badge">23</span></li>
+                            <li class="list-group-item">Morbi leo risus<span class="badge">9</span></li>
+                            <li class="list-group-item">Porta ac consectetur ac<span class="badge">10</span></li>
+                            <li class="list-group-item">Vestibulum at eros<span class="badge">2</span></li>
                         </ul>
+                        <!-- COMMENT AREA -->
+                        <div class="col-md-12" id="commenttext">
+                            <textarea class="form-control m-b-10" placeholder="Comments"></textarea>
+                        </div>
+                        <!-- SUBMIT BUTTON -->
+                        <div class="col-md-10" id="submitevent">
+                            <button type="submit" class="btn btn-sm">Save Event</button>
                         </div>
                     </div>
                     <div class="clearfix"></div>
                 </div>
             </div>
-
-            <!-- Chat -->
-
         </section>
 
 
