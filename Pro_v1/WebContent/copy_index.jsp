@@ -11,7 +11,7 @@
     <meta name="description" content="Violate Responsive Admin Template">
     <meta name="keywords" content="Super Admin, Admin, Template, Bootstrap">
 
-    <title>233333333333</title>
+    <title>Super Admin Responsive Template</title>
 
     <!-- CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -23,56 +23,56 @@
     <link href="css/icons.css" rel="stylesheet">
     <link href="css/generics.css" rel="stylesheet">
     <script type="text/javascript">
+	
+	function setCookies(c_name,value,expiredays)
+	{
+		var exdate = new Date()
+		exdate.setDate(exdate.getDate()+expiredays)
+		document.cookie=c_name+ "=" +escape(value)+
+			((expiredays==null) ? "" : "; expires="+exdate.toGMTString())
+	}
+	
+	function getCookie(c_name)
+	{
+	if (document.cookie.length>0)
+	  {
+	  c_start=document.cookie.indexOf(c_name + "=")
+	  if (c_start!=-1)
+	    { 
+	    c_start=c_start + c_name.length+1 
+	    c_end=document.cookie.indexOf(";",c_start)
+	    if (c_end==-1) c_end=document.cookie.length
+	    return unescape(document.cookie.substring(c_start,c_end))
+	    } 
+	  }
+	return ""
+	}
     
-    function setCookies(c_name,value,expiredays)
-    {
-        var exdate = new Date()
-        exdate.setDate(exdate.getDate()+expiredays)
-        document.cookie=c_name+ "=" +escape(value)+
-            ((expiredays==null) ? "" : "; expires="+exdate.toGMTString())
-    }
-    
-    function getCookie(c_name)
-    {
-    if (document.cookie.length>0)
-      {
-      c_start=document.cookie.indexOf(c_name + "=")
-      if (c_start!=-1)
-        { 
-        c_start=c_start + c_name.length+1 
-        c_end=document.cookie.indexOf(";",c_start)
-        if (c_end==-1) c_end=document.cookie.length
-        return unescape(document.cookie.substring(c_start,c_end))
-        } 
-      }
-    return ""
-    }
-    
-    function checkCookies()
-    {
-        uid=getCookie('uid')
-        if (uid==null || uid=="") 
-        {
-            alert("You are not logged in! please log in first.")
-            window.location.href="./login.html" 
-        } else {
-            document.getElementById("usernametag").innerHTML="uid:"+uid;
-        }
-    }
-    
+	function checkCookies()
+	{
+		uid=getCookie('uid')
+		if (uid==null || uid=="") 
+		{
+			alert("You are not logged in! please log in first.")
+			window.location.href="./login.html"	
+		} else {
+			document.getElementById("usernametag").innerHTML="uid:"+uid;
+		}
+	}
+	
     function signOut()
     {
-        setCookies("uid","",10);            //erase login information
-        window.location.href="./login.html" //return to login page
+    	setCookies("uid","",10);			//erase login information
+    	window.location.href="./login.html"	//return to login page
     }
     
     function searchKeyDown()
     {
-        if (event.keyCode==13)
-        {
-            //alert("entered:"+$("#searchbox").val());
-            window.location.href="./searchresult?key="+$("#searchbox").val();
-        }
+    	if (event.keyCode==13)
+    	{
+    		//alert("entered:"+$("#searchbox").val());
+    		window.location.href="./searchresult?key="+$("#searchbox").val();
+    	}
     }
     
     </script>
@@ -198,13 +198,37 @@
                         <!-- Main Chart -->
                         <div class="block-area" id="tableHover">
                             <h3 class="block-title">TABLES</h3>
-
-	<form action="check_table_name">
-    	<p>Table name: <input class="input-sm validate[required] form-control"   type="text" name="table_name"/></p>
-    	<p>Column number: <input  class="input-sm validate[required] form-control"    type="text" name="column_number"/></p>
-		<button class="btn m-r-5"  value="submit">Check</button>
-	</form>
-
+                            <div class="table-responsive overflow">
+                                <table class="table table-bordered table-hover tile">
+                                    <thead>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Username</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Jhon </td>
+                                            <td>Makinton </td>
+                                            <td>@makinton</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Malinda</td>
+                                            <td>Hollaway</td>
+                                            <td>@hollway</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Wayn</td>
+                                            <td>Parnel</td>
+                                            <td>@wayne123</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
@@ -222,6 +246,63 @@
                         <!-- Dynamic Chart -->
 
                         <!-- Activity -->
+                        <div class="tile">
+                            <h2 class="tile-title">Big Events</h2>
+                            <div class="tile-config dropdown">
+                                <a data-toggle="dropdown" href="" class="tile-menu"></a>
+                                <ul class="dropdown-menu pull-right text-right">
+                                    <li><a href="">Refresh</a></li>
+                                    <li><a href="">Settings</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="listview narrow">
+
+                                <div class="media">
+                                    <div class="pull-right">
+                                        <div class="counts">367892</div>
+                                    </div>
+                                    <div class="media-body">
+                                        <h6>FACEBOOK LIKES</h6>
+                                    </div>
+                                </div>
+
+                                <div class="media">
+                                    <div class="pull-right">
+                                        <div class="counts">2012</div>
+                                    </div>
+                                    <div class="media-body">
+                                        <h6>GOOGLE +1s</h6>
+                                    </div>
+                                </div>
+
+                                <div class="media">
+                                    <div class="pull-right">
+                                        <div class="counts">56312</div>
+                                    </div>
+                                    <div class="media-body">
+                                        <h6>YOUTUBE VIEWS</h6>
+                                    </div>
+                                </div>
+
+                                <div class="media">
+                                    <div class="pull-right">
+                                        <div class="counts">785879</div>
+                                    </div>
+                                    <div class="media-body">
+                                        <h6>TWITTER FOLLOWERS</h6>
+                                    </div>
+                                </div>
+                                <div class="media">
+                                    <div class="pull-right">
+                                        <div class="counts">68</div>
+                                    </div>
+                                    <div class="media-body">
+                                        <h6>WEBSITE COMMENTS</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="clearfix"></div>
                 </div>

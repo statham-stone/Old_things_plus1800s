@@ -11,7 +11,7 @@
     <meta name="description" content="Violate Responsive Admin Template">
     <meta name="keywords" content="Super Admin, Admin, Template, Bootstrap">
 
-    <title>Super Admin Responsive Template</title>
+    <title>Main page</title>
 
     <!-- CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -150,7 +150,9 @@
                     </a>
                 </li>
                 <li>
-                    <a class="sa-side-widget" href="table_create/choose_table_java?user_id=33442256772435">
+                     <a class="sa-side-widget" href="choose_table_java?user_id=33442256772435">
+   <!--                     <a class="sa-side-widget" href="create_little_thing_choose_table.jsp">
+          -->             
                         <span class="menu-item">Create Little Thing</span>
                     </a>
                 </li>

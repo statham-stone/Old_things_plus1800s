@@ -17,7 +17,7 @@
     </head>
     <body id="skin-blur-violate">
         <section id="error-page" class="tile">
-            <h1 class="m-b-10">Create table done</h1>
+            <h1 class="m-b-10">Create little thing done</h1>
             <a class="underline" href="index.jsp">Go to Home page</a> 
         </section>
         
