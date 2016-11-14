@@ -9,40 +9,23 @@ import java.sql.SQLException;
 
 @SuppressWarnings("unused")
 
-/**
- * manages database connection.
- * @author leafyWang
- *
- */
 public class Database {
-	/**
-	 * disable this to recover database facility.
-	 */
-	private static final boolean ignoreDatabase = true;
 	
-	/**
-	 * mysql driver information
-	 */
-	private static String DRIVER_MYSQL = "com.mysql.jdbc.Driver";   
+	private static String DRIVER_MYSQL = "com.mysql.jdbc.Driver";    //MySQL JDBC驱动字符串
     private static String URL = "jdbc:mysql://localhost:3306/USER";
-    
-    /**
-     * a static statement belongs to a database instance
-     */
     private static Statement stmt;
-    /**
-     * a Connection instance belongs to a database instance
-     */
     private Connection connection = null;
     
-    /** 
-     * connect database, should run this function every time need to access database
+    private int co_count = 0;
+    
+    /* 
+     * 连接数据库，每次使用各种函数之前，都需要调用本函数
      */
 	public String connect()                         
 	{
 		 try{
 	            Class.forName(DRIVER_MYSQL);     //加载JDBC驱动
-	            connection = DriverManager.getConnection(URL,"root","530743812");   //创建数据库连接对象
+	            connection = DriverManager.getConnection(URL,"root","1234");   //创建数据库连接对象
 	            stmt = connection.createStatement();       //创建Statement对象
 	            return "connect!";
 	     }
@@ -52,8 +35,8 @@ public class Database {
 		 return "Success";
 	}
 	
-	/**
-	 * close database connection manually
+	/*
+	 * 断开数据库连接 同样需要自行调用
 	 */
 	public String close()
 	{
@@ -67,10 +50,10 @@ public class Database {
 	}
 	
 	
-	/**
-	 * Try to match login information
-	 * return userid if both username and password matches
-	 * return -1 otherwise
+	/*
+	 * 登陆 传入用户名和密码
+	 * 若成功则返回用户ID
+	 * 失败则返回-1
 	 */
 	public int checkUser(String username,String password)
 	{
@@ -80,11 +63,8 @@ public class Database {
 		return ID;
 	}
 	
-	/**
-	 * Try to register a user.
-	 * 
-	 * return new user ID if success
-	 * return -1 otherwise
+	/*
+	 * 尝试注册 如果注册失败则返回-1，否则返回新用户的ID
 	 */
 	public int signUp(String username,String password)
 	{
@@ -96,15 +76,17 @@ public class Database {
 		int uid = count("user") + 1;    //查询现有的user的总个数，计算得到新用户的ID
 		String insert_user = "insert user values(" + uid + ",'" + username + "','" + password + "')";   //插入新用户
 		
-		int tid = count("usertable") + 1 ; //计算新的大事件表的ID
-		String insert_table = "insert usertable values(" + tid + "," + uid + ",'event" + uid + "','MyEvent',3)";
-		
-		String create_table = "create table event" + uid+ "(EID int primary key not null,ETime Date,EName varchar(50))";
+		int tableid = count("usertable") + 1 ; //计算新的大事件表的ID
+		String insert_table1 = "insert usertable values(" + tableid + "," + uid + ",'event" + uid + "','MyEvent',3)";
+		String insert_table2 = "insert usertable values(" + (tableid+1) + "," + uid + ",'assoc" + uid + "','MyAssoc',3)"; 
+		String create_table1 = "create table event" + uid+ "(EID int primary key not null,ETime Date,EName varchar(50))";
+		String create_table2 = "create table assoc" + uid+ "(EID int not null, TID int not null,tname varchar(10))";
 		
 		try{
 			stmt.execute(insert_user);
-			stmt.execute(insert_table);
-			stmt.execute(create_table);	
+			stmt.execute(insert_table1);
+			stmt.execute(create_table1);
+			stmt.execute(create_table2);
 		}
 		catch (SQLException e){
 			e.printStackTrace();
@@ -162,7 +144,7 @@ public class Database {
 		
 		//添加至usertable表
 		int cnt = count("usertable") + 1; 
-		String temp_insert = "insert usertable values(" + cnt + "," + uid + ",'t" + cnt + "','" + uname + "'," + (column_num+2) + ")" ;
+		String temp_insert = "insert usertable values(" + cnt + "," + uid + ",'t" + cnt + "','" + uname + "'," + (column_num+1) + ")" ;
 		
 		
 		String temp_create = "create table t" + cnt + "(";            //创建新表的语句，新表名为tID,如usertable中的10号表，命名为t10
@@ -171,7 +153,7 @@ public class Database {
 		{
 			temp_create = temp_create + mes[3+2*i] + " varchar(" + mes[4+2*i] + "),";
 		}
-		temp_create = temp_create + "TID int primary key, EID int, foreign key(EID) references event" + uid + "(EID) ) ";  //添加外键关联该用户个人event表
+		temp_create = temp_create + "TID int primary key) ";  //添加外键关联该用户个人event表
 		
 		System.out.println(temp_create);
 		try{
@@ -216,6 +198,7 @@ public class Database {
 	}
 	
 	/* 11/7 测试通过
+	 * 11/14修改待测试
 	 * 输入用户id和表名 返回表的属性
 	 */
 	public String findTableColumn(int uid, String tablename)
@@ -226,24 +209,14 @@ public class Database {
 		 * use ~(temporary) 
 		 */
 		ResultSet res = null;
-		
-		String temp = "select * from usertable where UID = " + uid + " and uname = '"  + tablename + "'";
-		System.out.println(temp);
-		
-		String dbtablename = "";
-		int count = 0;
+	
 		String ret = "";
 		
 		try {
-			res = stmt.executeQuery(temp);
-			while(res.next())
-			{
-				dbtablename = res.getString(3);
-				count = res.getInt(5);
-			}
 			
-			ret = ret + count ;
-			temp = "desc " + dbtablename;
+			String dbtablename = getDBName(uid,tablename);
+			ret = ret + co_count ;
+			String temp = "desc " + dbtablename;
 			
 			res = null;
 			
@@ -262,8 +235,141 @@ public class Database {
 		catch (SQLException e){e.printStackTrace();}
 		return "";
 	}
+	
+	/* 11/14 待测试
+	 * 传入用户ID 表名 插入信息（栏间使用~分割）
+	 * 插入成功返回1 否则返回-1
+	 */
+	public int insertSEvent(int uid,String tablename,String mes)
+	{
+		ResultSet res = null;
 
-	/* private函数 请勿直接使用或修改！！！
+		int eid = 0;
+		try {
+			String dbtablename = getDBName(uid,tablename);//加入新记录的表的实际名字
+
+			String temp = "select max(EID) from " + dbtablename ;
+			res = stmt.executeQuery(temp);
+			while(res.next())
+			{
+				eid = res.getInt(1);
+			}
+			mes = mes.replace("~","','");
+			temp = "insert " + dbtablename + " values('" + mes +"'," + eid + ")" ;
+			stmt.execute(temp);
+			return 1;
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			return -1;
+		}
+	}
+	
+	/* 11/14 待测试
+	 * 获取一个用户ID及一个表名，将返回该表的所有内容
+	 * 返回格式为 项数~第一项第一列~第一项第二列~……~第二项第一列~……
+	 */
+	public String findSEvent(int uid, String tablename)
+	{
+		ResultSet res = null; 
+		String dbtablename = getDBName(uid,tablename);
+		
+		String mes= "";
+		
+		String temp_desc = "desc " + dbtablename;
+		
+		String temp_find = "select * from " + dbtablename ;
+		
+		try
+		{
+			int count = 0;
+			res = stmt.executeQuery(temp_find);
+			while(res.next())
+			{
+				count++;
+				for(int i=1;i<=co_count;i++)
+				{
+					mes= mes + "~" + res.getString(i); 
+				}
+			}
+			mes = count + mes;
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return mes;
+	}
+	
+	/*
+	 * 输入数据为一个用户ID和一个usertablename
+	 * 返回表内最新增加的五条数据
+	 * （即ID值最大的五条数据）
+	 * 由于仍需考虑该表内容不足五条的情况 返回值同函数findSEvent相同
+	 */
+	public String findSEventN5(int uid, String tablename)
+	{
+		ResultSet res = null; 
+		String dbtablename = getDBName(uid,tablename);
+		
+		String mes= "";
+		
+		String temp_desc = "desc " + dbtablename;
+		
+		String temp_find = "select * from " + dbtablename + "order by TID limit 5";
+		
+		try
+		{
+			int count = 0;
+			res = stmt.executeQuery(temp_find);
+			while(res.next())
+			{
+				count++;
+				for(int i=1;i<=co_count;i++)
+				{
+					mes= mes + "~" + res.getString(i); 
+				}
+			}
+			mes = count + mes;
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return mes;
+	}
+	
+	
+	/* private函数 请勿直接使用或修改！
+	 * 下面函数用于转换 属于user的tablename 和 实际存于DB中的tablename
+	 * 同时查询到该表的列数
+	 * private 的 成员变量值 co_count 将被修改
+	 * tablename则作为返回值 
+	 */
+	private String getDBName(int uid, String user_name)
+	{
+		ResultSet res = null;
+		String temp = "select * from usertable where UID = " + uid + " and uname = '"  + user_name + "'";
+		String db_name = "";
+		
+		try {
+			res = stmt.executeQuery(temp);
+			while(res.next())
+			{
+				db_name = res.getString(3);
+				co_count = res.getInt(5);
+			}
+		}
+		catch (SQLException e){e.printStackTrace();}
+		
+		return db_name;
+	}
+
+	/* 11/7 测试通过
+	 * private函数 请勿直接使用或修改！！！
 	 * 下面函数作用是在user表中找到符合条件的用户个数
 	 * 当输入用户名和密码时，输入参数应该被拼接为 username + "' and passeword='" + password 
 	 * 		如验证root，1234是否存在 root' and password = '1234 注意两边各缺少一个引号
