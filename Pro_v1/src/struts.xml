@@ -11,7 +11,7 @@
 
 	<package name="default" extends = "json-default">
 	
-	<!-- ##############BELOW ARE ONLY USED DURING DEVELOPMENT -->
+	<!-- ##############BELOW ARE USED BY AJAX REQUEST RELATED -->
 	
 		<action name="ajaxUserLogin" class="ajax.UserLogin">
 			<result type="json"></result>
@@ -50,6 +50,10 @@
 		</action>
 		<action name="jsonreq" class="test.ajaxjson">
 			<result type="json"></result>
+		</action>
+		
+		<action name="searchresult">
+			<result>/search.jsp</result>
 		</action>
 	<!-- ##############ABOVE ARE ONLY USED DURING DEVELOPMENT -->
 	
