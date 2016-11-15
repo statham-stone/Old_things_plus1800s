@@ -30,7 +30,12 @@
 		<action name="loadTableContent" class="ajax.TableContent">
 			<result type="json"></result>
 		</action>
-	
+		<action name="loadSearchResult" class="ajax.SearchRequest">
+			<result type="json"></result>
+		</action>
+		<action name="submitEvent" class="ajax.EventSubmit">
+			<result type="json"></result>
+		</action>
 
      	 
 		<action name="ajaxtest">
