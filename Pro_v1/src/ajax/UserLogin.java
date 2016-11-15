@@ -21,13 +21,13 @@ public class UserLogin extends ActionSupport {
 	@Override
 	public String execute() throws Exception {
 		if ("ralph".equals(username)) {
-			result = "1";
+			result = "0";
 		}
 		else if ("statham".equals(username)) {
-			result = "01230";
+			result = "1";
 		}
 		else if ("leafywang".equals(username)) {
-			result = "020";
+			result = "02";
 		}
 		else
 			result = "-1";

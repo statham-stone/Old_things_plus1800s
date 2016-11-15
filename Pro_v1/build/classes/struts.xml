@@ -58,6 +58,8 @@
 	<!-- ##############ABOVE ARE ONLY USED DURING DEVELOPMENT -->
 	
 	
+
+	<!-- I am a stupid bastard. by statham 2016.11.16.00:06:46
 		<action name = "sign" class = "db.Response" method = "SIGNUP">
 			<result name="fail">welcome.jsp</result>
 			<result>index.jsp</result>
@@ -71,7 +73,7 @@
 		<action name = "ntable" class = "db.Response" method = "newtable">
 			<result>index.jsp</result>
 		</action>
-		
+		-->
 
 		<action name="check_table_name"    class="table_create.table_name_check_java"   method="execute">
 			<result name="SUCCESS">/create_table_details.jsp</result>

@@ -16,6 +16,12 @@ public class table_name_check_java
 	
 	public String execute()
 	{
+		
+		
+		Database db1 = new Database();
+		String sql_result =db1.connect();
+		
+		
 		ServletRequest request=ServletActionContext.getRequest();
 		HttpServletRequest req =(HttpServletRequest) request;
 		HttpSession sesssion=req.getSession();
@@ -35,9 +41,9 @@ public class table_name_check_java
 		sesssion.setAttribute("table_name",table_name);
 		sesssion.setAttribute("user_id",user_id);
 		sesssion.setAttribute("column_number",column_number);	
-		String test=user_id+"~"+table_name+"~"+column_number;
+		String test=user_id+"~"+table_name;
 		
-		int check_status=0;
+		int check_status=db1.checkTableName(test);
 	//	Database check_db=new Database();
 	//	check_db.connect();
 	//	check_status=check_db.checkTableName(test);

@@ -6,6 +6,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
+import db.Database;
+
 public class create_little_thing_detail_java {
 	private String user_id;
 	private String table_name;
@@ -15,8 +17,12 @@ public class create_little_thing_detail_java {
 	
 	public String execute()
 	{
+		//Done
 		//调用函数完成create thing
 		
+		
+		Database db1 = new Database();
+		String sql_result =db1.connect();
 		
 		
 		System.out.print("\n====================================================\n");
@@ -26,6 +32,8 @@ public class create_little_thing_detail_java {
 		System.out.print("\n====================================================\n");		
 		column_names="name~column23333~column3~column4";
 	//	user_id="007";
+		
+		column_names=db1.findTableColumn(Integer.parseInt(user_id), table_name);
 	//	table_name="tableName1";
 		ServletRequest request=ServletActionContext.getRequest();
 		HttpServletRequest req =(HttpServletRequest) request;

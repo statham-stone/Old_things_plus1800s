@@ -5,14 +5,20 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
+import db.Database;
+
 public class choose_table_java {
 	
 		private String user_id;
 		private String table_list;
 		public String execute()
-		{	
+		{	//Done
+			
+			Database db1 = new Database();
+			String sql_result =db1.connect();
 			
 			this.table_list="3~table_success_1~table2333333~table3";
+			this.table_list=db1.findUserTable(Integer.parseInt(user_id));
 			//table_listString=findTable(user_id)
 	
 			int wtf=0;
