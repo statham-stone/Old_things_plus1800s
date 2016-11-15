@@ -22,7 +22,14 @@ public class UserLogin extends ActionSupport {
 	public String execute() throws Exception {
 		if ("ralph".equals(username)) {
 			result = "1";
-		} else
+		}
+		else if ("statham".equals(username)) {
+			result = "01230";
+		}
+		else if ("leafywang".equals(username)) {
+			result = "020";
+		}
+		else
 			result = "-1";
 		// TODO: set  result value to return to front end
 		

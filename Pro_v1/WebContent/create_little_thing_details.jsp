@@ -207,22 +207,34 @@
     
     <%
 	String column_name_string=request.getAttribute("column_names").toString();
+	String user_id=request.getAttribute("user_id").toString();
+	String table_name=request.getAttribute("table_name").toString();
     String column_name[]=column_name_string.split("~");
 	for(int i=0;i<column_name.length;i++)
 	{
 		out.print(" <p>"+column_name[i]+"<input  class=\"form-control input-lg m-b-10\"  type=\"text\" id=\"column_name"+ i+ "\" " +"name=\""+" column_name"+i+"\"required=\"required\" /></input> </p>");
 	}
 	
-	out.print("	<input hidden type=\"text\" id=\"int_column_number\"  value=\""+column_name.length+"\"></input>");// 
+	out.print("	<input hidden type=\"text\" id=\"int_column_number\"  value=\""+column_name.length+"\"></input>"); 
+	out.print("	<input hidden type=\"text\" id=\"table_name\"  value=\""+table_name+"\"></input>");
+	out.print("	<input hidden type=\"text\" id=\"user_id\"  value=\""+user_id+"\"></input>");
+
+	
 	%>
+
     
 	<script>
 	function show_details()
 	{		
+
 		var big_string="";
+		
 		var number=document.getElementById("int_column_number").value;
-		//big_string=document.getElementById("user_id").value;
-		//big_string=big_string+"~"+document.getElementById("table_name").value;
+		big_string=getCookie('uid');
+		alert(big_string);
+		big_string=big_string+"~"+document.getElementById("table_name").value;
+		
+		//big_string="001~tablename1";
 		//big_string=big_string+"~"+document.getElementById("int_column_number").value;
 		for(var i=0;i<number;i=i+1)
 		{		
@@ -231,7 +243,7 @@
 		big_string=big_string.substring(1, big_string.length);//delete the first"~"
 
 //		document.write("<a href=\"create_little_thing_action?information="+big_string+"\"> Submit (you will not see this next version)<br><br></a>");
-		window.location.assign("create_little_thing_action?information="+big_string+"\"");
+		window.location.assign("create_little_thing_action?information="+big_string);
 	};
 	</script>
 	

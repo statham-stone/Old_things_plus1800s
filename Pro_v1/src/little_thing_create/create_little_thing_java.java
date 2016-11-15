@@ -6,8 +6,12 @@ public class create_little_thing_java {
 	public String execute()
 	{
 		//create by the information
-		System.out.print("little thing information details:"+information);
-	    
+		System.out.print("+++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+		System.out.print(information);
+		System.out.print("+++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+
+
+		
 		int done_success=0;
 		if(done_success==0)
 		{

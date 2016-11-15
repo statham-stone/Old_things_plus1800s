@@ -1,324 +1,189 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <!--[if IE 9 ]><html class="ie9"><![endif]-->
-
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-    <meta name="format-detection" content="telephone=no">
-    <meta charset="UTF-8">
-
-    <meta name="description" content="Violate Responsive Admin Template">
-    <meta name="keywords" content="Super Admin, Admin, Template, Bootstrap">
-
-    <title>Little Thing Details</title>
-
-    <!-- CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/animate.min.css" rel="stylesheet">
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link href="css/form.css" rel="stylesheet">
-    <link href="css/calendar.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/icons.css" rel="stylesheet">
-    <link href="css/generics.css" rel="stylesheet">
-    <script type="text/javascript">
+    <head>
     
-    function setCookies(c_name,value,expiredays)
-    {
-        var exdate = new Date()
-        exdate.setDate(exdate.getDate()+expiredays)
-        document.cookie=c_name+ "=" +escape(value)+
-            ((expiredays==null) ? "" : "; expires="+exdate.toGMTString())
-    }
+    	<!-- Javascript Libraries -->
+        <!-- jQuery -->
+        <script src="js/jquery.min.js"></script> 
+        
+        <!-- Bootstrap -->
+        <script src="js/bootstrap.min.js"></script>
+        
+        <!--  Form Related -->
+        <script src="js/icheck.js"></script> <!-- Custom Checkbox + Radio -->
+        
+        <!-- All JS functions -->
+        <script src="js/functions.js"></script>
     
-    function getCookie(c_name)
-    {
-    if (document.cookie.length>0)
-      {
-      c_start=document.cookie.indexOf(c_name + "=")
-      if (c_start!=-1)
-        { 
-        c_start=c_start + c_name.length+1 
-        c_end=document.cookie.indexOf(";",c_start)
-        if (c_end==-1) c_end=document.cookie.length
-        return unescape(document.cookie.substring(c_start,c_end))
-        } 
-      }
-    return ""
-    }
-    
-    function checkCookies()
-    {
-        uid=getCookie('uid')
-        if (uid==null || uid=="") 
-        {
-            alert("You are not logged in! please log in first.")
-            window.location.href="./login.html" 
-        } else {
-            document.getElementById("usernametag").innerHTML="uid:"+uid;
-        }
-    }
-    
-    function signOut()
-    {
-        setCookies("uid","",10);            //erase login information
-        window.location.href="./login.html" //return to login page
-    }
-    
-    function searchKeyDown()
-    {
-        if (event.keyCode==13)
-        {
-            //alert("entered:"+$("#searchbox").val());
-            window.location.href="./searchresult?key="+$("#searchbox").val();
-        }
-    }
-    
-    </script>
-    
-</head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <meta name="format-detection" content="telephone=no">
+        <meta charset="UTF-8">
 
-<body id="skin-blur-violate" onload="checkCookies()">
+        <meta name="description" content="Violate Responsive Admin Template">
+        <meta name="keywords" content="Super Admin, Admin, Template, Bootstrap">
 
+        <title>Login</title>
+            
+        <!-- CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/form.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+        <link href="css/animate.css" rel="stylesheet">
+        <link href="css/generics.css" rel="stylesheet"> 
+        
+        <!-- Check Cookies for user information -->
+        <script>
+			function setCookies(c_name,value,expiredays)
+			{
+				var exdate = new Date()
+				exdate.setDate(exdate.getDate()+expiredays)
+				document.cookie=c_name+ "=" +escape(value)+
+					((expiredays==null) ? "" : "; expires="+exdate.toGMTString())
+			}
+			
+			function getCookie(c_name)
+			{
+			if (document.cookie.length>0)
+			  {
+			  c_start=document.cookie.indexOf(c_name + "=")
+			  if (c_start!=-1)
+			    { 
+			    c_start=c_start + c_name.length+1 
+			    c_end=document.cookie.indexOf(";",c_start)
+			    if (c_end==-1) c_end=document.cookie.length
+			    return unescape(document.cookie.substring(c_start,c_end))
+			    } 
+			  }
+			return ""
+			}
+			
+			function checkCookies()
+			{
+				<!--redirect was tested-->
+				uid=getCookie('uid')
+				if (uid!=null && uid!="") <!-- should redirect-->
+				{window.location.href="./index.jsp"	}
+			}
+			
+			$(function() {
+				$("#signBtn").click(function() {
+					var params = {
+				    	username : $("#signUsername").val(),
+				    	password : $("#signPassword").val()
+					};
+					$.ajax({
+				    	type: "POST",
+				    	url: "ajaxUserLogin.action",
+				    	data: params,
+				    	dataType:"text", //ajax返回值设置为text（json格式也可用它返回，可打印出结果，也可设置成json）
+				    	success: function(json){  
+				    		var obj = $.parseJSON(json);  //使用这个方法解析json
+				            var state_value = obj.result;  //result是和action中定义的result变量的get方法对应的
+				    		if (state_value=="-1")
+				    		{
+				    			alert("login failed");
+				    			setCookies('uid',"",4)
+				    		} else {
+				    			alert("login successful");
+				    			setCookies('uid',state_value,4);
+				    			window.location.href="./index.jsp";
+				    		};
+				    	},
+				    	error: function(json){
+				    		console.log(json);
+				     		return false;
+				    	}
+				    });
+				});
+			});
 
-    <header id="header" class="media">
-        <a href="" id="menu-toggle"></a>
-        <a class="logo pull-left" href="index.jsp">TIME PLUSER 1.0</a>
-
-        <div class="media-body">
-            <div class="media" id="top-menu">
-                <div id="time" class="pull-right">
-                    <span id="hours"></span> :
-                    <span id="min"></span> :
-                    <span id="sec"></span>
+			
+			$(function() {
+				$("#regBtn").click(function() {
+					var params = {
+				    	username : $("#regUsername").val(),
+				    	password : $("#regPassword").val()
+					};
+					$.ajax({
+				    	type: "POST",
+				    	url: "ajaxUserRegister.action",
+				    	data: params,
+				    	dataType:"text", //ajax返回值设置为text（json格式也可用它返回，可打印出结果，也可设置成json）
+				    	success: function(json){  
+				    		var obj = $.parseJSON(json);  //使用这个方法解析json
+				            var state_value = obj.result;  //result是和action中定义的result变量的get方法对应的
+				    		if (state_value=="-1")
+				    		{
+				    			alert("register failed");
+				    			setCookies('uid',"",4)
+				    		} else {
+				    			alert("register successful");
+				    			setCookies('uid',state_value,4);
+				    			window.location.href="./index.jsp";
+				    		};
+				    	},
+				    	error: function(json){
+				    		console.log(json);
+				     		return false;
+				    	}
+				    });
+				});
+			});
+			
+        
+        </script>
+    </head>
+    <!-- add onload="checkCookies()" to tag below to auto login -->
+    <body id="skin-blur-violate"  onload="checkCookies()">
+        <section id="login">
+            <header>
+                <h1>Timepluser</h1>
+                <p>made by plus 1800s team.</p>
+            </header>
+        
+            <div class="clearfix"></div>
+            
+            <!-- Login -->
+            <form class="box tile animated active" id="box-login" >
+                <h2 class="m-t-0 m-b-15">Login</h2>
+                <input id="signUsername" type="text" class="login-control m-b-10" placeholder="Username or Email Address">
+                <input id="signPassword" type="password" class="login-control" placeholder="Password">
+                <div class="checkbox m-b-20">
+                    <label>
+                        <input type="checkbox">
+                        Remember Me
+                    </label>
                 </div>
+                <input class="btn btn-sm m-r-5"  type="button" value="Sign In" id="signBtn">
+                
+                <small>
+                    <a class="box-switcher" data-switch="box-register" href="">Don't have an Account?</a>
+<!--                     <a class="box-switcher" data-switch="box-reset" href="">Forgot Password?</a> -->
+                </small>
+            </form>
+            
+            <!-- Register -->
+            <form class="box animated tile" id="box-register" >
+                <h2 class="m-t-0 m-b-15">Register</h2>
+                <input id="regUsername" type="text" class="login-control m-b-10" placeholder="Username"> 
+                <input id="regPassword" type="password" class="login-control m-b-10" placeholder="Password">
 
-                <div class="media-body">
-                    <input type="text" class="main-search" id="searchbox" onkeydown="searchKeyDown()">
-                </div>
-            </div>
-        </div>
-    </header>
+				<input class="btn btn-sm m-r-5"  type="button" value="Register" id="regBtn">
+                <small><a class="box-switcher" data-switch="box-login" href="">Already have an Account?</a></small>
+            </form>
+            
+            <!-- Forgot Password -->
+            <form class="box animated tile" id="box-reset">
+                <h2 class="m-t-0 m-b-15">Reset Password</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu risus. Curabitur commodo lorem fringilla enim feugiat commodo sed ac lacus.</p>
+                <input type="email" class="login-control m-b-20" placeholder="Email Address">    
 
-    <div class="clearfix"></div>
+                <button class="btn btn-sm m-r-5">Reset Password</button>
 
-    <section id="main" class="p-relative" role="main">
+                <small><a class="box-switcher" data-switch="box-login" href="">Already have an Account?</a></small>
+            </form>
+        </section>                      
+        
 
-        <!-- Sidebar -->
-        <aside id="sidebar">
-
-            <!-- Sidbar Widgets -->
-            <div class="side-widgets overflow">
-                <!-- Profile Menu -->
-                <div class="text-center s-widget m-b-25 dropdown" id="profile-menu">
-                    <br/>
-                    <h4 class="m-0" id="usernametag"></h4>
-                    <a href="#" id="signoutlink" onclick="signOut()">Sign Out</a>
-                </div>
-
-                <!-- Calendar -->
-                <div class="s-widget m-b-25">
-                    <div id="sidebar-calendar"></div>
-                </div>
-
-                <!-- Feeds -->
-                <div class="s-widget m-b-25">
-                    <h2 class="tile-title">
-                        News Feeds
-                    </h2>
-
-                    <div class="s-widget-body">
-                        <div id="news-feed"></div>
-                    </div>
-                </div>
-
-                <!-- Projects -->
-
-            </div>
-
-            <!-- Side Menu -->
-            <ul class="list-unstyled side-menu">
-                <li class="active">
-                    <a class="sa-side-home" href="index.jsp">
-                        <span class="menu-item">Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="sa-side-typography" href="new_event.html">
-                        <span class="menu-item">Create Event</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="sa-side-widget" href="choose_table_java?user_id=33442256772435">
-                        <span class="menu-item">Create Little Thing</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="sa-side-table" href="create_new_table.jsp">
-                        <span class="menu-item">Create Table</span>
-                    </a>
-                </li>
-
-
-                <li>
-                    <a class="sa-side-chart" href="statistics.jsp">
-                        <span class="menu-item">Statistics</span>
-                    </a>
-                </li>
-
-            </ul>
-
-        </aside>
-
-        <!-- Content -->
-        <section id="content" class="container">
-
-            <!-- Messages Drawer -->
-
-
-            <!-- Notification Drawer -->
-
-            <!-- Breadcrumb -->
-
-
-            <h4 class="page-title">DASHBOARD</h4>
-
-            <!-- Shortcuts -->
-
-
-            <!-- Quick Stats -->
-
-
-            <!-- Main Widgets -->
-
-            <div class="block-area">
-                <div class="row">
-                    <div class="col-md-8">
-                        <!-- Main Chart -->
-                        <div class="block-area" id="tableHover">
-                            <h3 class="block-title">TABLES</h3>
-                            <div class="table-responsive overflow">
-                                <table class="table table-bordered table-hover tile">
-
-                                 
-
-
-    
-    <%
-	String column_name_string="1~1234~234~23444444";
-    String column_name[]=column_name_string.split("~");
-	for(int i=0;i<column_name.length;i++)
-	{
-		out.print(" <p>"+column_name[i]+"<input  class=\"form-control input-lg m-b-10\"  type=\"text\" id=\"column_name"+ i+ "\" " +"name=\""+" column_name"+i+"\"required=\"required\" /></input> </p>");
-	}
-	
-	out.print("	<input hidden type=\"text\" id=\"int_column_number\"  value=\""+column_name.length+"\"></input>");// 
-	%>
-    
-	<script>
-	function show_details()
-	{		
-		var big_string="";
-		var number=document.getElementById("int_column_number").value;
-		//big_string=document.getElementById("user_id").value;
-		//big_string=big_string+"~"+document.getElementById("table_name").value;
-		//big_string=big_string+"~"+document.getElementById("int_column_number").value;
-		for(var i=0;i<number;i=i+1)
-		{		
-			big_string=big_string+"~"+document.getElementById("column_name"+i).value;
-		}
-		big_string=big_string.substring(1, big_string.length);//delete the first"~"
-
-//		document.write("<a href=\"create_little_thing_action?information="+big_string+"\"> Submit (you will not see this next version)<br><br></a>");
-		window.location.assign("create_little_thing_action?information="+big_string+"\"");
-	};
-	</script>
-		
-	<button class="btn m-r-5"  onclick="show_details()"> click_here </button>	
-                                 
-                                </table>
-                            </div>
-                        </div>
-
-                        <!-- Pies -->
-
-
-                        <!--  Recent Postings -->
-
-                        <div class="clearfix"></div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <!-- USA Map -->
-
-                        <!-- Dynamic Chart -->
-
-                        <!-- Activity -->
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-
-            <!-- Chat -->
-
-        </section>
-
-
-    </section>
-
-    <!-- Javascript Libraries -->
-    <!-- jQuery -->
-    <script src="js/jquery.min.js"></script>
-    <!-- jQuery Library -->
-    <script src="js/jquery-ui.min.js"></script>
-    <!-- jQuery UI -->
-    <script src="js/jquery.easing.1.3.js"></script>
-    <!-- jQuery Easing - Requirred for Lightbox + Pie Charts-->
-
-    <!-- Bootstrap -->
-    <script src="js/bootstrap.min.js"></script>
-
-    <!-- Charts -->
-    <script src="js/charts/jquery.flot.js"></script>
-    <!-- Flot Main -->
-    <script src="js/charts/jquery.flot.time.js"></script>
-    <!-- Flot sub -->
-    <script src="js/charts/jquery.flot.animator.min.js"></script>
-    <!-- Flot sub -->
-    <script src="js/charts/jquery.flot.resize.min.js"></script>
-    <!-- Flot sub - for repaint when resizing the screen -->
-
-    <script src="js/sparkline.min.js"></script>
-    <!-- Sparkline - Tiny charts -->
-    <script src="js/easypiechart.js"></script>
-    <!-- EasyPieChart - Animated Pie Charts -->
-    <script src="js/charts.js"></script>
-    <!-- All the above chart related functions -->
-
-    <!-- Map -->
-    <script src="js/maps/jvectormap.min.js"></script>
-    <!-- jVectorMap main library -->
-    <script src="js/maps/usa.js"></script>
-    <!-- USA Map for jVectorMap -->
-
-    <!--  Form Related -->
-    <script src="js/icheck.js"></script>
-    <!-- Custom Checkbox + Radio -->
-
-    <!-- UX -->
-    <script src="js/scroll.min.js"></script>
-    <!-- Custom Scrollbar -->
-
-    <!-- Other -->
-    <script src="js/calendar.min.js"></script>
-    <!-- Calendar -->
-    <script src="js/feeds.min.js"></script>
-    <!-- News Feeds -->
-
-
-    <!-- All JS functions -->
-    <script src="js/functions.js"></script>
-</body>
-
+    </body>
 </html>
