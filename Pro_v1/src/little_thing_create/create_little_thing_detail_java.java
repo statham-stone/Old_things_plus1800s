@@ -18,14 +18,20 @@ public class create_little_thing_detail_java {
 		//调用函数完成create thing
 		
 		
-		column_names="column1~column2~column3~column5";
-		user_id="007";
-		table_name="tableName1";
+		
+		System.out.print("\n====================================================\n");
+		System.out.print("You got the table name and the user_id:\n");
+		System.out.print(table_name);
+		System.out.print("\n"+user_id);
+		System.out.print("\n====================================================\n");		
+		column_names="name~column23333~column3~column4";
+	//	user_id="007";
+	//	table_name="tableName1";
 		ServletRequest request=ServletActionContext.getRequest();
 		HttpServletRequest req =(HttpServletRequest) request;
 		HttpSession sesssion=req.getSession();
 		sesssion.setAttribute(column_names,column_names);
-		sesssion.setAttribute(user_id,user_id);
+	//	sesssion.setAttribute(user_id,user_id);
 		sesssion.setAttribute(table_name,table_name);
 		int done_success=0;
 		if(done_success==0)

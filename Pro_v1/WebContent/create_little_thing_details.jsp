@@ -75,6 +75,12 @@
         }
     }
     
+    function bingo()
+    {
+    	//statham
+    	window.location.assign("choose_table_java?user_id="+getCookie('uid'));
+    }
+    
     </script>
     
 </head>
@@ -150,7 +156,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="sa-side-widget" href="choose_table_java?user_id=33442256772435">
+                    <a class="sa-side-widget" onclick='javascript:bingo()'>
                         <span class="menu-item">Create Little Thing</span>
                     </a>
                 </li>
@@ -207,7 +213,7 @@
     
     <%
 	String column_name_string=request.getAttribute("column_names").toString();
-	String user_id=request.getAttribute("user_id").toString();
+//	String user_id=request.getAttribute("user_id").toString();
 	String table_name=request.getAttribute("table_name").toString();
     String column_name[]=column_name_string.split("~");
 	for(int i=0;i<column_name.length;i++)
@@ -217,9 +223,8 @@
 	
 	out.print("	<input hidden type=\"text\" id=\"int_column_number\"  value=\""+column_name.length+"\"></input>"); 
 	out.print("	<input hidden type=\"text\" id=\"table_name\"  value=\""+table_name+"\"></input>");
-	out.print("	<input hidden type=\"text\" id=\"user_id\"  value=\""+user_id+"\"></input>");
+//	out.print("	<input hidden type=\"text\" id=\"user_id\"  value=\""+user_id+"\"></input>");
 
-	
 	%>
 
     
@@ -231,7 +236,7 @@
 		
 		var number=document.getElementById("int_column_number").value;
 		big_string=getCookie('uid');
-		alert(big_string);
+	//	alert(big_string);
 		big_string=big_string+"~"+document.getElementById("table_name").value;
 		
 		//big_string="001~tablename1";

@@ -74,6 +74,12 @@
             window.location.href="./searchresult?key="+$("#searchbox").val();
         }
     }
+
+    function bingo()
+    {
+    	//statham
+    	window.location.assign("choose_table_java?user_id="+getCookie('uid'));
+    }
     
     </script>
     
@@ -150,7 +156,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="sa-side-widget" href="choose_table_java?user_id=33442256772435">
+                    <a class="sa-side-widget" onclick='javascript:bingo()'>
                         <span class="menu-item">Create Little Thing</span>
                     </a>
                 </li>

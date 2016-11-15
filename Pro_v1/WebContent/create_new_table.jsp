@@ -75,6 +75,18 @@
         }
     }
     
+    function bingo()
+    {
+    	//statham
+    	window.location.assign("choose_table_java?user_id="+getCookie('uid'));
+    }
+    
+    function bingo_2()
+    {
+    	//statham
+    	window.location.assign("check_table_name?user_id="+getCookie('uid')+"&"+"table_name="+document.getElementById("table_name").value+"&column_number="+document.getElementById("column_number").value);
+    }
+    
     </script>
     
 </head>
@@ -150,7 +162,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="sa-side-widget" href="choose_table_java?user_id=33442256772435">
+                    <a class="sa-side-widget" onclick='javascript:bingo()'>
                         <span class="menu-item">Create Little Thing</span>
                     </a>
                 </li>
@@ -199,11 +211,11 @@
                         <div class="block-area" id="tableHover">
                             <h3 class="block-title">TABLES</h3>
 
-	<form action="check_table_name">
-    	<p>Table name: <input class="input-sm validate[required] form-control"   type="text" name="table_name"/></p>
-    	<p>Column number: <input  class="input-sm validate[required] form-control"    type="text" name="column_number"/></p>
-		<button class="btn m-r-5"  value="submit">Check</button>
-	</form>
+<!-- 	<form action="check_table_name"> -->
+    	<p>Table name: <input class="input-sm validate[required] form-control" id="table_name"  type="text" name="table_name"/></p>
+    	<p>Column number: <input  class="input-sm validate[required] form-control" id="column_number"    type="text" name="column_number"/></p>
+		<button class="btn m-r-5" onclick='javascript:bingo_2()'  value="submit">Check</button>
+<!-- 	</form> -->
 
                             </div>
                         </div>

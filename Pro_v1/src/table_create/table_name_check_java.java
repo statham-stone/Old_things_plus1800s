@@ -20,7 +20,17 @@ public class table_name_check_java
 		HttpServletRequest req =(HttpServletRequest) request;
 		HttpSession sesssion=req.getSession();
 		
-		user_id=1926;//only for debugging
+//		user_id=1926;//only for debugging
+		
+		
+		System.out.print("\n====================================================\n");
+		System.out.print("You got the table name and the user_id and column number:\n");
+		System.out.print(table_name);
+		System.out.print("\n"+user_id);
+		System.out.print("\n"+column_number);		
+		System.out.print("\n====================================================\n");	
+		
+		
 		
 		sesssion.setAttribute("table_name",table_name);
 		sesssion.setAttribute("user_id",user_id);
@@ -32,8 +42,9 @@ public class table_name_check_java
 	//	check_db.connect();
 	//	check_status=check_db.checkTableName(test);
 		
+		System.out.print("==========================================\n");
 		System.out.println(test);
-		
+		System.out.print("==========================================\n");		
 		if(check_status==0)
 		{
 			return "SUCCESS";			

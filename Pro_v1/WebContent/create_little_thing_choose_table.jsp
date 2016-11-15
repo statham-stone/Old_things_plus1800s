@@ -75,6 +75,12 @@
         }
     }
     
+    function bingo()
+    {
+    	//statham
+    	window.location.assign("choose_table_java?user_id="+getCookie('uid'));
+    }
+    
     </script>
     
 </head>
@@ -150,7 +156,7 @@
                     </a>
                 </li>
                 <li class="active">
-                    <a class="sa-side-widget" href="choose_table_java?user_id=33442256772435">
+                    <a class="sa-side-widget" onclick='javascript:bingo()'>
                         <span class="menu-item">Create Little Thing</span>
                     </a>
                 </li>
@@ -218,7 +224,7 @@
             out.print("<tr><td>");  
             out.print(string_arr[i]);       
             out.print("</td><td>");
-            out.print("<a href=\"create_little_thing_detail_java?table_name="+(string_arr[i])+"\">");
+            out.print("<a href=\"create_little_thing_detail_java?table_name="+(string_arr[i])+"&"+"user_id="+request.getAttribute("user_id").toString()+"\">");
             out.print(string_arr[i]); 
             out.print("</a>");
             out.print("</td></tr>");

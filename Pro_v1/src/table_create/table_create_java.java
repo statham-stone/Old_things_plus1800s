@@ -6,8 +6,9 @@ public class table_create_java
 	public String execute()
 	{	
 		System.out.println("此处调用相关数据库函数");
+		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");		
 		System.out.println(new_table_information);
-		System.out.println("-------------------------------------------\n");		
+		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");		
 		int create_status=1;
 		if(create_status==1)
 		{

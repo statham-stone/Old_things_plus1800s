@@ -7,6 +7,7 @@ public class create_little_thing_java {
 	{
 		//create by the information
 		System.out.print("+++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+		System.out.print("Last create information");
 		System.out.print(information);
 		System.out.print("+++++++++++++++++++++++++++++++++++++++++++++++++++\n");
 

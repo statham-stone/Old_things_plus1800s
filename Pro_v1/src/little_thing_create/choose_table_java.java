@@ -12,14 +12,14 @@ public class choose_table_java {
 		public String execute()
 		{	
 			
-			this.table_list="3~table_success_1~table2~table3";
+			this.table_list="3~table_success_1~table2333333~table3";
 			//table_listString=findTable(user_id)
 	
 			int wtf=0;
 			
-			System.out.print("--------------666666666666666----------------\n");
+			System.out.print("\n------------------------------\n");
 			System.out.print(table_list);
-			System.out.print("--------------666666666666666----------------\n");			
+			System.out.print("\n------------------------------\n");			
 			System.out.print(user_id);
 			
 			
