@@ -432,6 +432,17 @@ public class Database {
 		return result ;
 	}
 	
+	/* 涂神需求四
+	 * 11/15待填充
+	 * 输入为用户id和key
+	 * 输出为表名~唯一ID~小事件名字
+	 */
+	public String searchRequest(int uid, String key)
+	{
+		
+		return "";
+	}
+	
 	/* 11/15 涂神需求五
 	 * 未测试
 	 * 输入为用户ID~大事件EName~ETime~小事件全局ID~小事件全局ID
@@ -478,6 +489,10 @@ public class Database {
 		}
 		
 	}
+	
+	/* private函数 请勿直接使用或修改！
+	 * 检查提供的小事件唯一ID是否存在
+	 */
 	private boolean checkTableID(String teid ,int uid)
 	{		
 		ResultSet res = null;
