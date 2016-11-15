@@ -16,6 +16,7 @@ public class Database {
     private static Statement stmt;
     private Connection connection = null;
     
+    private int tableID  = 0;
     private int co_count = 0;
     
     /* 
@@ -80,7 +81,7 @@ public class Database {
 		String insert_table1 = "insert usertable values(" + tableid + "," + uid + ",'event" + uid + "','MyEvent',3)";
 		String insert_table2 = "insert usertable values(" + (tableid+1) + "," + uid + ",'assoc" + uid + "','MyAssoc',3)"; 
 		String create_table1 = "create table event" + uid+ "(EID int primary key not null,ETime Date,EName varchar(50))";
-		String create_table2 = "create table assoc" + uid+ "(EID int not null, TID int not null,tname varchar(10))";
+		String create_table2 = "create table assoc" + uid+ "(EID int not null, TID int not null,tableid int not null)";
 		
 		try{
 			stmt.execute(insert_user);
@@ -342,7 +343,159 @@ public class Database {
 		return mes;
 	}
 	
+	/* 
+	 * 涂神需求1st
+	 * 11/15 待测试
+	 * 输入为用户ID
+	 * 输出为该用户所有表名（大事件表关联表除外）
+	 * 
+	 */
+	public String tableBrief(int uid)
+	{
+		ResultSet res = null;
+		String temp = "select uname,count(*) from usertable join where UID= " + uid;
+		String result = ""; 
+		try{
+			res = stmt.executeQuery(temp);
+			while(res.next())
+			{
+				result = result + "~" + res.getString(1);
+			}
+			result = result.replace("~MyEvent~MyAssoc",""); //去掉事件表和关联表
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return result;
+	}
 	
+	
+	/* 涂神需求第二个
+	 * 11/15 待测试 超复杂DB语句待调
+	 * 输入为用户ID
+	 * 返回为事件名字~关联小事件个数^……
+	 */
+	public String eventBrief(int uid)
+	{
+		ResultSet res = null;
+		String result = "" ;
+
+		String temp = "select EName,count(*) from event" + uid + " e join assoc" + uid +" a where a.EID = e.EID group by EName";
+		
+		try{
+			res = stmt.executeQuery(temp);
+			while(res.next())
+			{
+				result = result + "^" + res.getString(1) + "~" + res.getString(2);
+			}
+			result = result.substring(1); //去掉事件表和关联表
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/* 11/15 涂神需求第三个
+	 * 未测试
+	 * 输入为用户id~表名
+	 * 输出为小事件名~小事件全局ID^……
+	 * 小事件全局ID由本表ID拼接小事件内TID拼成
+	 */
+	public String tableContent(String uidPLUStname)
+	{
+		ResultSet res = null;
+		String result = "";
+		String[] mes = uidPLUStname.split("~");
+		
+		int uid = Integer.parseInt(mes[0]);
+		String uname = mes[1];
+		
+		String dbtablename = getDBName(uid,uname);
+		int tid = tableID;
+		
+		try
+		{
+			while(res.next())
+			{
+				result = result + "^" + res.getString(1) + "~" + tid + "_"  +res.getString("TID");
+			}
+			result = result.substring(1);
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return result ;
+	}
+	
+	/* 11/15 涂神需求五
+	 * 未测试
+	 * 输入为用户ID~大事件EName~ETime~小事件全局ID~小事件全局ID
+	 * 输出为大事件ID
+	 */
+	public int submitEvent(String mes)
+	{
+		String[] mesin = mes.split("~");
+		int uid = Integer.parseInt(mesin[0]);
+		String EName = mesin[1];
+		String ETime = mesin[2];
+		int t_count = mesin.length;
+		
+		for(int i=3;i<t_count;i++)
+		{
+			if (!checkTableID(mesin[i],uid))
+				return -1;
+		}
+		
+		ResultSet res = null;
+		String find_eid = "select max(EID) from event" + uid ;
+		int eid = 0;
+		try{
+			res = stmt.executeQuery(find_eid);
+			while(res.next())
+			{
+				eid = res.getInt(1) + 1;
+			}
+			String insert_e = "insert event" + uid + " values(" + eid + "," + ETime + ",'" + EName + "')";
+			stmt.execute(insert_e);
+			
+			for(int j=3;j<t_count;j++)
+			{
+				String[] mestemp = mesin[j].split("_");
+				String insert = "insert assoc" + uid + " values(" + eid + "," + mestemp[1] + "," + mestemp[0] + ")";
+				stmt.execute(insert);
+			}
+			return eid;
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+			return -1;
+		}
+		
+	}
+	private boolean checkTableID(String teid ,int uid)
+	{		
+		ResultSet res = null;
+		String[] mes = teid.split("_");//tableid _ eventid
+		String table_exist = " usertable where UID=" + uid + " and ID= " + mes[0] ; 
+		
+		int exist = count(table_exist);
+		if(exist==-1)
+		{
+			return false;
+		}
+		exist = count(" t"+mes[0] + " where TID=" + mes[1]) ;
+		if(exist == -1)
+		{
+			return false;
+		}
+		return true;
+	}
 	/* private函数 请勿直接使用或修改！
 	 * 下面函数用于转换 属于user的tablename 和 实际存于DB中的tablename
 	 * 同时查询到该表的列数
@@ -359,7 +512,8 @@ public class Database {
 			res = stmt.executeQuery(temp);
 			while(res.next())
 			{
-				db_name = res.getString(3);
+				tableID  = res.getInt(1);
+				db_name  = res.getString(3);
 				co_count = res.getInt(5);
 			}
 		}
