@@ -221,8 +221,24 @@
     	dateString=dateSet[2]+dateSet[1]+dateSet[0];
     	commentString = $("#commenttext").val()
     	
+    	if ($("#pickdate").val()=="")
+    	{
+    		alert("you didn't pick a date, please retry.");
+    		return;
+    	};
+    	
+    	if ($("#commenttext").val()=="")
+    	{
+    		alert("Comment is required.");
+    		return;
+    	};
     	
     	//process selected array
+    	if (document.getElementById("selecteditems").innerHTML.indexOf("<")<0)
+    	{
+    		alert("you didn't choose any thing!");
+    		return;
+    	};
     	var arrayThing = new Array();
     	$("#selecteditems>li").each(function(){
     		//alert($(this).html());
@@ -251,9 +267,10 @@
 	    		//alert(state_value);
 	    		if (state_value=="success")
 	    		{
-	    			
+	    			alert("Add Event Successful!");
+	    			window.location.href="./index.jsp";
 	    		} else {
-	    			
+	    			alert("Failed:"+state_value);
 	    		}
 	    	},
 	    	error: function(json){

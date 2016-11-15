@@ -5,6 +5,7 @@ import com.opensymphony.xwork2.ActionSupport;
  * fetch information from new_event page and submit the event into database
  * PARAMETERS: 	uid, date, comment, thingsarray
  * RESULTS:		a string including the result of the insertion
+ * 				"success" or other error information
  * USED BY: new_event.html
  * @author Ralph
  *
@@ -28,7 +29,8 @@ public class EventSubmit extends ActionSupport {
 			System.out.println(thingsarray[i]);
 		
 		//result="success inserted:"+uid+date+comment+thingsarray.length;
-		result="success";
+		//result="success";
+		result="fallll!";
 		// TODO: set  result value to return to front end
 		
 		return SUCCESS;
