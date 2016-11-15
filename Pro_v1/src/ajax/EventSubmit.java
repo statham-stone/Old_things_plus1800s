@@ -27,7 +27,8 @@ public class EventSubmit extends ActionSupport {
 		for (int i=0;i<thingsarray.length;i++)
 			System.out.println(thingsarray[i]);
 		
-		result="success inserted:"+uid+date+comment+thingsarray.length;
+		//result="success inserted:"+uid+date+comment+thingsarray.length;
+		result="success";
 		// TODO: set  result value to return to front end
 		
 		return SUCCESS;

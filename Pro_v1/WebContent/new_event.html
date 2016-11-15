@@ -248,7 +248,13 @@
 	            var state_value = obj.result;  //result是和action中定义的result变量的get方法对应的
 	            console.log(json);
 	    		//state_value is the returned value
-	    		alert(state_value);
+	    		//alert(state_value);
+	    		if (state_value=="success")
+	    		{
+	    			
+	    		} else {
+	    			
+	    		}
 	    	},
 	    	error: function(json){
 	    		console.log(json);
@@ -333,12 +339,14 @@
                     </a>
                 </li>
                 <li>
-                    <a class="sa-side-widget" href="new_littlething.html">
+                     <a class="sa-side-widget" href="choose_table_java?user_id=33442256772435">
+   <!--                     <a class="sa-side-widget" href="create_little_thing_choose_table.jsp">
+          -->             
                         <span class="menu-item">Create Little Thing</span>
                     </a>
                 </li>
                 <li>
-                    <a class="sa-side-table" href="new_table.html">
+                    <a class="sa-side-table" href="create_new_table.jsp">
                         <span class="menu-item">Create Table</span>
                     </a>
                 </li>
