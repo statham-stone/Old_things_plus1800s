@@ -67,9 +67,6 @@ public class DatabaseTest {
 		//尝试查看用户所有表
 		result = db1.tableBrief(2);
 		System.out.println("test16 " + result);
-		
-		 */
-		
 		//查看小事件表的内容 包括了小事件唯一id
 		result = db1.tableContent("2~Money");
 		System.out.println("test17 " + result);
@@ -79,6 +76,10 @@ public class DatabaseTest {
 		//尝试查看用户所有大事件
 		result = db1.eventBrief(2);
 		System.out.println("test19 " + result);
+		 */
+		
+		result = db1.searchRequest(2,"dinner");
+		System.out.println("test20 " + result);
 		
 		System.out.println(db1.close());
 		
