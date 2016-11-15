@@ -50,8 +50,9 @@ public class Database {
 		return "Success close";
 	}
 	
+	//++++++++++注册 登陆 部分
 	
-	/*
+	/* 测试通过
 	 * 登陆 传入用户名和密码
 	 * 若成功则返回用户ID
 	 * 失败则返回-1
@@ -64,7 +65,7 @@ public class Database {
 		return ID;
 	}
 	
-	/*
+	/* 测试通过
 	 * 尝试注册 如果注册失败则返回-1，否则返回新用户的ID
 	 */
 	public int signUp(String username,String password)
@@ -86,6 +87,7 @@ public class Database {
 		try{
 			stmt.execute(insert_user);
 			stmt.execute(insert_table1);
+			stmt.execute(insert_table2);
 			stmt.execute(create_table1);
 			stmt.execute(create_table2);
 		}
@@ -95,7 +97,7 @@ public class Database {
 		
 		return uid;
 	}
-	
+	//++++++++++注册 登陆 部分
 	
 	/* 11/7 测试通过
 	 * 检查当前用户试图新建的表的命名是否和数据库中他个人的其他表重名 
@@ -165,6 +167,7 @@ public class Database {
 		catch (SQLException e){e.printStackTrace();return 1;}
 	}
 	
+	
 	/* 11/7 测试通过
 	 * 输入用户ID
 	 * 返回值是该用户的table个数~每个table的名字
@@ -185,11 +188,12 @@ public class Database {
 			res = stmt.executeQuery(temp);
 			while(res.next())
 			{
-				if(count!=0)
+				if(count!=0&& count!=1)//不返回关联表和大事件表
 				{
 					ret = ret + "~" +res.getString(4);
+					count++;
 				}
-				count++;
+				
 			}
 			ret = count + ret ;
 		}
@@ -200,7 +204,7 @@ public class Database {
 	
 	/* 11/7 测试通过
 	 * 11/14修改待测试
-	 * 输入用户id和表名 返回表的属性
+	 * 输入用户id和表名 返回表的属性（包括ID）
 	 */
 	public String findTableColumn(int uid, String tablename)
 	{
@@ -237,7 +241,8 @@ public class Database {
 		return "";
 	}
 	
-	/* 11/14 待测试
+	/* 11/14 测试通过
+	 * 加入一条小事件
 	 * 传入用户ID 表名 插入信息（栏间使用~分割）
 	 * 插入成功返回1 否则返回-1
 	 */
@@ -249,11 +254,11 @@ public class Database {
 		try {
 			String dbtablename = getDBName(uid,tablename);//加入新记录的表的实际名字
 
-			String temp = "select max(EID) from " + dbtablename ;
+			String temp = "select max(TID) from " + dbtablename ;
 			res = stmt.executeQuery(temp);
 			while(res.next())
 			{
-				eid = res.getInt(1);
+				eid = res.getInt(1) + 1;
 			}
 			mes = mes.replace("~","','");
 			temp = "insert " + dbtablename + " values('" + mes +"'," + eid + ")" ;
@@ -267,8 +272,8 @@ public class Database {
 		}
 	}
 	
-	/* 11/14 待测试
-	 * 获取一个用户ID及一个表名，将返回该表的所有内容
+	/* 11/14 测试通过
+	 * 获取一个用户ID及一个表名，将返回该表的所有内容,默认返回ID
 	 * 返回格式为 项数~第一项第一列~第一项第二列~……~第二项第一列~……
 	 */
 	public String findSEvent(int uid, String tablename)
@@ -282,29 +287,34 @@ public class Database {
 		
 		String temp_find = "select * from " + dbtablename ;
 		
+		//System.out.println("co_count = " + co_count);
+		//System.out.println(temp_find);
 		try
 		{
-			int count = 0;
+			int cnt = 0;
 			res = stmt.executeQuery(temp_find);
 			while(res.next())
 			{
-				count++;
+				cnt++;
+				//System.out.println("count = " + cnt);
 				for(int i=1;i<=co_count;i++)
 				{
 					mes= mes + "~" + res.getString(i); 
+					//System.out.println(i+mes);
 				}
 			}
-			mes = count + mes;
+			mes = cnt + mes;
+			//System.out.println(mes);
+			return mes;
 		}
 		catch(SQLException e)
 		{
 			e.printStackTrace();
+			return "";
 		}
-		
-		return mes;
 	}
 	
-	/*
+	/* 11/15测试通过
 	 * 输入数据为一个用户ID和一个usertablename
 	 * 返回表内最新增加的五条数据
 	 * （即ID值最大的五条数据）
@@ -319,7 +329,7 @@ public class Database {
 		
 		String temp_desc = "desc " + dbtablename;
 		
-		String temp_find = "select * from " + dbtablename + "order by TID limit 5";
+		String temp_find = "select * from " + dbtablename + " order by TID desc limit 5";
 		
 		try
 		{
@@ -343,7 +353,7 @@ public class Database {
 		return mes;
 	}
 	
-	/* 
+	/* 测试通过
 	 * 涂神需求1st
 	 * 11/15 待测试
 	 * 输入为用户ID
@@ -353,7 +363,7 @@ public class Database {
 	public String tableBrief(int uid)
 	{
 		ResultSet res = null;
-		String temp = "select uname,count(*) from usertable join where UID= " + uid;
+		String temp = "select uname from usertable where UID= " + uid;
 		String result = ""; 
 		try{
 			res = stmt.executeQuery(temp);
@@ -362,6 +372,10 @@ public class Database {
 				result = result + "~" + res.getString(1);
 			}
 			result = result.replace("~MyEvent~MyAssoc",""); //去掉事件表和关联表
+			if('~'==result.charAt(0))
+			{
+				result =result.substring(1);
+			}
 		}
 		catch(SQLException e)
 		{
@@ -370,9 +384,9 @@ public class Database {
 		return result;
 	}
 	
-	
 	/* 涂神需求第二个
-	 * 11/15 待测试 超复杂DB语句待调
+	 * 11/15 待测试 超复杂DB语句
+	 * 测试结果表明我好像一次就写对了我对此表示怀疑
 	 * 输入为用户ID
 	 * 返回为事件名字~关联小事件个数^……
 	 */
@@ -399,7 +413,7 @@ public class Database {
 	}
 	
 	/* 11/15 涂神需求第三个
-	 * 未测试
+	 * 测试通过
 	 * 输入为用户id~表名
 	 * 输出为小事件名~小事件全局ID^……
 	 * 小事件全局ID由本表ID拼接小事件内TID拼成
@@ -416,8 +430,10 @@ public class Database {
 		String dbtablename = getDBName(uid,uname);
 		int tid = tableID;
 		
+		String temp = "select * from " + dbtablename ;
 		try
 		{
+			res = stmt.executeQuery(temp);
 			while(res.next())
 			{
 				result = result + "^" + res.getString(1) + "~" + tid + "_"  +res.getString("TID");
@@ -428,7 +444,6 @@ public class Database {
 		{
 			e.printStackTrace();
 		}
-		
 		return result ;
 	}
 	
@@ -444,7 +459,7 @@ public class Database {
 	}
 	
 	/* 11/15 涂神需求五
-	 * 未测试
+	 * 测试通过
 	 * 输入为用户ID~大事件EName~ETime~小事件全局ID~小事件全局ID
 	 * 输出为大事件ID
 	 */
