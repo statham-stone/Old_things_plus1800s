@@ -138,7 +138,7 @@
 
             <!-- Side Menu -->
             <ul class="list-unstyled side-menu">
-                <li class="active">
+                <li>
                     <a class="sa-side-home" href="index.jsp">
                         <span class="menu-item">Dashboard</span>
                     </a>
@@ -160,7 +160,7 @@
                 </li>
 
 
-                <li>
+                <li class="active">
                     <a class="sa-side-chart" href="statistics.jsp">
                         <span class="menu-item">Statistics</span>
                     </a>
