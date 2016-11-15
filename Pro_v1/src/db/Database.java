@@ -454,8 +454,35 @@ public class Database {
 	 */
 	public String searchRequest(int uid, String key)
 	{
+		ResultSet res = null;
+		String result = "";
+		String[] tables = tableBrief(uid).split("~");
+		int cnt_tables = tables.length;
 		
-		return "";
+		try
+		{
+			for(int i=0;i<cnt_tables;i++)
+			{
+				String dbtname = getDBName(uid,tables[i]);
+				String temp = "select * from "+ dbtname + " where Name like '%" + key + "%'";
+				System.out.println(temp);
+				res = stmt.executeQuery(temp);
+				while(res.next())
+				{
+					result = result + "^" + tables[i] + "~" + tableID+ "_" + res.getString("TID") + "~" + res.getString(1);
+				}
+			}
+			if('^'==result.charAt(0))
+			{
+				result = result.substring(1);
+			}
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 	
 	/* 11/15 涂神需求五
