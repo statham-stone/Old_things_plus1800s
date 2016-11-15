@@ -139,9 +139,9 @@
 
             <!-- Side Menu -->
             <ul class="list-unstyled side-menu">
-                <li class="active">
+                <li>
                     <a class="sa-side-home" href="index.jsp">
-                        <span class="menu-item">Dashboard</span>
+                        <span class="menu-item">Dash Board</span>
                     </a>
                 </li>
                 <li>
@@ -149,7 +149,7 @@
                         <span class="menu-item">Create Event</span>
                     </a>
                 </li>
-                <li>
+                <li class="active">
                     <a class="sa-side-widget" href="choose_table_java?user_id=33442256772435">
                         <span class="menu-item">Create Little Thing</span>
                     </a>
@@ -162,7 +162,7 @@
 
 
                 <li>
-                    <a class="sa-side-chart" href="charts.html">
+                    <a class="sa-side-chart" href="statistics.jsp">
                         <span class="menu-item">Statistics</span>
                     </a>
                 </li>
@@ -182,7 +182,7 @@
             <!-- Breadcrumb -->
 
 
-            <h4 class="page-title">DASHBOARD</h4>
+            <h4 class="page-title">CREATE LITTLE THING</h4>
 
             <!-- Shortcuts -->
 

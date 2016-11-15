@@ -139,7 +139,7 @@
 
             <!-- Side Menu -->
             <ul class="list-unstyled side-menu">
-                <li class="active">
+                <li>
                     <a class="sa-side-home" href="index.jsp">
                         <span class="menu-item">Dashboard</span>
                     </a>
@@ -154,7 +154,7 @@
                         <span class="menu-item">Create Little Thing</span>
                     </a>
                 </li>
-                <li>
+                <li class="active">
                     <a class="sa-side-table" href="create_new_table.jsp">
                         <span class="menu-item">Create Table</span>
                     </a>
@@ -162,7 +162,7 @@
 
 
                 <li>
-                    <a class="sa-side-chart" href="charts.html">
+                    <a class="sa-side-chart" href="statistics.jsp">
                         <span class="menu-item">Statistics</span>
                     </a>
                 </li>
@@ -182,7 +182,7 @@
             <!-- Breadcrumb -->
 
 
-            <h4 class="page-title">DASHBOARD</h4>
+            <h4 class="page-title">CREATE TABLE</h4>
 
             <!-- Shortcuts -->
 
