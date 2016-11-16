@@ -1,5 +1,6 @@
 package ajax;
 
+import db.Database;
 import com.opensymphony.xwork2.ActionSupport;
 /**
  * Login page's Login button will call this action through ajax
@@ -20,17 +21,27 @@ public class UserLogin extends ActionSupport {
 
 	@Override
 	public String execute() throws Exception {
-		if ("ralph".equals(username)) {
-			result = "0";
-		}
-		else if ("statham".equals(username)) {
-			result = "1";
-		}
-		else if ("leafywang".equals(username)) {
-			result = "02";
-		}
-		else
-			result = "-1";
+
+
+		Database db1 = new Database();
+		String sql_result =db1.connect();
+		
+		
+		int qresult=db1.checkUser(username, password);
+		result=Integer.toString(qresult);
+		System.out.print(result);
+		System.out.print("+++++++++++++++++++++==");
+//		if ("ralph".equals(username)) {
+//			result = "0";
+//		}
+//		else if ("statham".equals(username)) {
+//			result = "1";
+//		}
+//		else if ("leafywang".equals(username)) {
+//			result = "02";
+//		}
+//		else
+//			result = "-1";
 		// TODO: set  result value to return to front end
 		
 		return SUCCESS;

@@ -209,7 +209,7 @@
     function removeLine(line)
     {
     	line.remove();
-    	alert(document.getElementById("selecteditems").innerHTML);
+    	//alert(document.getElementById("selecteditems").innerHTML);
     }
     
     function submitEvent()
@@ -242,7 +242,7 @@
     	var arrayThing = new Array();
     	$("#selecteditems>li").each(function(){
     		//alert($(this).html());
-    		arrayThing.push(htmlParseThing($(this).html()).split("~")[0]);
+    		arrayThing.push(htmlParseThing($(this).html()).split("~")[1]);
     		});
 
     	//ajaxrequest

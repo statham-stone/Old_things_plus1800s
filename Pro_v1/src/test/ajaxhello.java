@@ -1,5 +1,6 @@
 package test;
 
+import db.Database;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class ajaxhello extends ActionSupport {
@@ -11,6 +12,11 @@ public class ajaxhello extends ActionSupport {
 
 	@Override
 	public String execute() throws Exception {
+
+		Database db1 = new Database();
+		String sql_result =db1.connect();
+
+		
 		// TODO Auto-generated method stub
 		if ("张三".equals(name)) {
 			result = "身份验证通过,身高为" + inch;

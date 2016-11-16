@@ -132,14 +132,21 @@ public class Database {
 	
 	
 	/* 11/7 测试通过
-	 * 不存在同名表时，使用本函数，创建一个表
+	 * 	不存在同名表时，使用本函数，创建一个表
 	 * 传入用户ID，用户给这个表起的名字，列数，每列的名字，长度
 	 * 如1号用户Money表，存储2列，第一列为长度为12的time，第二个为长度为20的product
 	 * 		1~Money~2~time~12~product~20
 	 */
+	
+	//
 	public int createUserTable(String a)
 	{
 		String[] mes = a.split("~");
+		
+		
+		System.out.print("==================wangy=====================\n");
+	    System.out.print(a);
+		System.out.print("==================wangy=====================\n");
 		
 		String uid = mes[0];
 		String uname = mes[1];

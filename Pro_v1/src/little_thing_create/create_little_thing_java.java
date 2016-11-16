@@ -30,7 +30,7 @@ public class create_little_thing_java {
 		int done_success=db1.insertSEvent(Integer.parseInt(user_id), table_name, little_infor);
 		
 	
-		if(done_success==0)
+		if(done_success==1)
 		{
 			return "SUCCESS";
 		}

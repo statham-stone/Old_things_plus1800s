@@ -1,5 +1,6 @@
 package ajax;
 
+import db.Database;
 import com.opensymphony.xwork2.ActionSupport;
 /**
  * return a content of a given table
@@ -19,8 +20,16 @@ public class TableContent extends ActionSupport {
 	
 	@Override
 	public String execute() throws Exception {
+
+		Database db1 = new Database();
+		String sql_result =db1.connect();
+
+		
+		
 		result="uid:"+uid+"~"+tablename+"^id2~name2^id3~name3";
 		// TODO: set  result value to return to front end
+		
+		result=db1.tableContent(uid+"~"+tablename);
 		
 		return SUCCESS;
 	}

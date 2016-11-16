@@ -1,5 +1,5 @@
 package ajax;
-
+import db.Database;
 import com.opensymphony.xwork2.ActionSupport;
 /**
  * Login page's Register button will call this action through ajax
@@ -20,11 +20,17 @@ public class UserRegister extends ActionSupport {
 
 	@Override
 	public String execute() throws Exception {
-		if ("lolol".equals(username)) {
-			result = "1";
-		} else
-			result = "-1";
-		// TODO: set  result value to return to front end
+
+		Database db1 = new Database();
+		String sql_result =db1.connect();
+		
+		
+		result=Integer.toString(db1.signUp(username, password));
+//		if ("lolol".equals(username)) {
+//			result = "1";
+//		} else
+//			result = "-1";
+//		// TODO: set  result value to return to front end
 		
 		return SUCCESS;
 	}

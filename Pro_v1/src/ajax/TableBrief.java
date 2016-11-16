@@ -1,5 +1,6 @@
 package ajax;
 
+import db.Database;
 import com.opensymphony.xwork2.ActionSupport;
 /**
  * load the Brief information of all tables of a user
@@ -17,8 +18,15 @@ public class TableBrief extends ActionSupport {
 	
 	@Override
 	public String execute() throws Exception {
+
+		Database db1 = new Database();
+		String sql_result =db1.connect();
+
+		
 		result="uid:"+uid+"~tablename2~tablename3";
 		// TODO: set  result value to return to front end
+		
+		result=db1.tableBrief(Integer.parseInt(uid));
 		
 		return SUCCESS;
 	}

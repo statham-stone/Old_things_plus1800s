@@ -1,5 +1,6 @@
 package ajax;
 
+import db.Database;
 import com.opensymphony.xwork2.ActionSupport;
 /**
  * return search results of certain keyword and uid
@@ -19,7 +20,13 @@ public class SearchRequest extends ActionSupport {
 	
 	@Override
 	public String execute() throws Exception {
-		result="uid:"+uid+"~"+keyword+"^id2~name2^id3~name3";
+
+
+
+		Database db1 = new Database();
+		String sql_result =db1.connect();
+		
+		result=db1.searchRequest(Integer.parseInt(uid), keyword);
 		// TODO: set  result value to return to front end
 		
 		return SUCCESS;

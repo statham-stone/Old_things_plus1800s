@@ -80,6 +80,12 @@ public class DatabaseTest {
 		
 		result = db1.searchRequest(2,"dinner");
 		System.out.println("test20 " + result);
+	
+		
+		
+		result= db1.findTableColumn(2, "Money");
+		System.out.println("test11" +result);
+		
 		
 		System.out.println(db1.close());
 		

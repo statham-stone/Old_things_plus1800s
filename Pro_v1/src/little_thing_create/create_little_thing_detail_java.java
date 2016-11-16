@@ -30,11 +30,26 @@ public class create_little_thing_detail_java {
 		System.out.print(table_name);
 		System.out.print("\n"+user_id);
 		System.out.print("\n====================================================\n");		
-		column_names="name~column23333~column3~column4";
+
 	//	user_id="007";
 		
 		column_names=db1.findTableColumn(Integer.parseInt(user_id), table_name);
-	//	table_name="tableName1";
+		
+		
+		/*WRONG FUNCTINO, SECOND PROCESS */
+		
+		String[] arrStrings=column_names.split("~");
+		column_names="";
+		column_names=arrStrings[1];
+		for(int i=3;i<arrStrings.length-2;i=i+2)
+		{
+			column_names=column_names+"~"+arrStrings[i];
+		}
+		
+		
+		
+		
+		//	table_name="tableName1";
 		ServletRequest request=ServletActionContext.getRequest();
 		HttpServletRequest req =(HttpServletRequest) request;
 		HttpSession sesssion=req.getSession();

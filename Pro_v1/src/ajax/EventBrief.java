@@ -1,4 +1,5 @@
 package ajax;
+import db.Database;
 
 import com.opensymphony.xwork2.ActionSupport;
 /**
@@ -18,6 +19,13 @@ public class EventBrief extends ActionSupport {
 	
 	@Override
 	public String execute() throws Exception {
+
+
+		Database db1 = new Database();
+		String sql_result =db1.connect();
+
+
+		
 		result="uid:"+uid+"~count1^eventname2~count2^eventname3~count3";
 		// TODO: set  result value to return to front end
 		

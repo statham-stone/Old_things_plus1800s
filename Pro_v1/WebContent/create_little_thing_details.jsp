@@ -245,7 +245,7 @@
 		{		
 			big_string=big_string+"~"+document.getElementById("column_name"+i).value;
 		}
-		big_string=big_string.substring(1, big_string.length);//delete the first"~"
+//		big_string=big_string.substring(1, big_string.length);//delete the first"~"
 
 //		document.write("<a href=\"create_little_thing_action?information="+big_string+"\"> Submit (you will not see this next version)<br><br></a>");
 		window.location.assign("create_little_thing_action?information="+big_string);
