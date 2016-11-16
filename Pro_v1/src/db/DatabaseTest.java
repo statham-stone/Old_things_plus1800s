@@ -78,13 +78,9 @@ public class DatabaseTest {
 		System.out.println("test19 " + result);
 		 */
 		
-		result = db1.searchRequest(2,"dinner");
-		System.out.println("test20 " + result);
-	
-		
-		
-		result= db1.findTableColumn(2, "Money");
-		System.out.println("test11" +result);
+		//新增用户表
+		intr = db1.createUserTable("2~SUCCESS_LAST_ONE~3~name~50~success_column1~100~success_column2~99");
+		System.out.println("addition7" + intr);
 		
 		
 		System.out.println(db1.close());
