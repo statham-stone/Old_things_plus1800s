@@ -26,6 +26,7 @@ public class show_little_things_java {
 		infor2=db1.statham_column(Integer.parseInt(user_id), table_name);
 		
 	//	infor="1~2~3~4~5~6";
+		
 		ServletRequest request=ServletActionContext.getRequest();
 		HttpServletRequest req =(HttpServletRequest) request;
 		HttpSession sesssion=req.getSession();

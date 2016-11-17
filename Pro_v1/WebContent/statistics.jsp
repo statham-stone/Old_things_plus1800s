@@ -202,10 +202,12 @@
                     <div class="col-md-8">
                         <!-- Main Chart -->
                         <div class="block-area" id="tableHover">
-                            <h3 class="block-title">Statistics</h3>
 
 				
 						<!-- the chart sqk -->
+						<h2 class="tile-title">Line Chart</h2>
+						
+						<div class="p-10">
 				        <div id="line-chart" class="main-chart" style="height: 250px; padding: 0px; position: relative;">
 				            <div class="flot-text" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; font-size: smaller; color: rgb(84, 84, 84);">
 				                <div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;">
@@ -250,7 +252,75 @@
 				                </div>
 				            </div>
 				        </div>
-                          
+						</div>
+						
+						
+						<br><br><br><br>
+						
+						
+						<h2 class="tile-title">Bar Chart</h2>
+						<div class="p-10">
+                    
+					  		  <div id="bar-chart" class="main-chart" style="height: 250px; padding: 0px; position: relative;">
+            <div class="flot-text" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; font-size: smaller; color: rgb(84, 84, 84);">
+                <div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;">
+                    <div style="position: absolute; max-width: 96px; top: 236px; font-style: normal; font-variant: normal; font-weight: 400; font-stretch: normal; font-size: 10px; line-height: 13px; font-family: open-sans-light, sans-serif; color: rgba(255, 255, 255, 0.8); left: 34px; text-align: center;">
+                        1
+                    </div>
+                    <div style="position: absolute; max-width: 96px; top: 236px; font-style: normal; font-variant: normal; font-weight: 400; font-stretch: normal; font-size: 10px; line-height: 13px; font-family: open-sans-light, sans-serif; color: rgba(255, 255, 255, 0.8); left: 95px; text-align: center;">
+                        2
+                    </div>
+                    <div style="position: absolute; max-width: 96px; top: 236px; font-style: normal; font-variant: normal; font-weight: 400; font-stretch: normal; font-size: 10px; line-height: 13px; font-family: open-sans-light, sans-serif; color: rgba(255, 255, 255, 0.8); left: 156px; text-align: center;">
+                        3
+                    </div>
+                    <div style="position: absolute; max-width: 96px; top: 236px; font-style: normal; font-variant: normal; font-weight: 400; font-stretch: normal; font-size: 10px; line-height: 13px; font-family: open-sans-light, sans-serif; color: rgba(255, 255, 255, 0.8); left: 217px; text-align: center;">
+                        4
+                    </div>
+                    <div style="position: absolute; max-width: 96px; top: 236px; font-style: normal; font-variant: normal; font-weight: 400; font-stretch: normal; font-size: 10px; line-height: 13px; font-family: open-sans-light, sans-serif; color: rgba(255, 255, 255, 0.8); left: 278px; text-align: center;">
+                        5
+                    </div>
+                    <div style="position: absolute; max-width: 96px; top: 236px; font-style: normal; font-variant: normal; font-weight: 400; font-stretch: normal; font-size: 10px; line-height: 13px; font-family: open-sans-light, sans-serif; color: rgba(255, 255, 255, 0.8); left: 339px; text-align: center;">
+                        6
+                    </div>
+                    <div style="position: absolute; max-width: 96px; top: 236px; font-style: normal; font-variant: normal; font-weight: 400; font-stretch: normal; font-size: 10px; line-height: 13px; font-family: open-sans-light, sans-serif; color: rgba(255, 255, 255, 0.8); left: 400px; text-align: center;">
+                        7
+                    </div>
+                    <div style="position: absolute; max-width: 96px; top: 236px; font-style: normal; font-variant: normal; font-weight: 400; font-stretch: normal; font-size: 10px; line-height: 13px; font-family: open-sans-light, sans-serif; color: rgba(255, 255, 255, 0.8); left: 461px; text-align: center;">
+                        8
+                    </div>
+                    <div style="position: absolute; max-width: 96px; top: 236px; font-style: normal; font-variant: normal; font-weight: 400; font-stretch: normal; font-size: 10px; line-height: 13px; font-family: open-sans-light, sans-serif; color: rgba(255, 255, 255, 0.8); left: 522px; text-align: center;">
+                        9
+                    </div>
+                </div>
+                <div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;">
+                    <div style="position: absolute; top: 2px; font-style: normal; font-variant: normal; font-weight: 400; font-stretch: normal; font-size: 10px; line-height: 13px; font-family: open-sans-light, sans-serif; color: rgba(255, 255, 255, 0.8); left: 1px; text-align: right;">
+                        120
+                    </div>
+                    <div style="position: absolute; top: 225px; font-style: normal; font-variant: normal; font-weight: 400; font-stretch: normal; font-size: 10px; line-height: 13px; font-family: open-sans-light, sans-serif; color: rgba(255, 255, 255, 0.8); left: 15px; text-align: right;">
+                        0
+                    </div>
+                    <div style="position: absolute; top: 187px; font-style: normal; font-variant: normal; font-weight: 400; font-stretch: normal; font-size: 10px; line-height: 13px; font-family: open-sans-light, sans-serif; color: rgba(255, 255, 255, 0.8); left: 8px; text-align: right;">
+                        20
+                    </div>
+                    <div style="position: absolute; top: 150px; font-style: normal; font-variant: normal; font-weight: 400; font-stretch: normal; font-size: 10px; line-height: 13px; font-family: open-sans-light, sans-serif; color: rgba(255, 255, 255, 0.8); left: 8px; text-align: right;">
+                        40
+                    </div>
+                    <div style="position: absolute; top: 113px; font-style: normal; font-variant: normal; font-weight: 400; font-stretch: normal; font-size: 10px; line-height: 13px; font-family: open-sans-light, sans-serif; color: rgba(255, 255, 255, 0.8); left: 8px; text-align: right;">
+                        60
+                    </div>
+                    <div style="position: absolute; top: 76px; font-style: normal; font-variant: normal; font-weight: 400; font-stretch: normal; font-size: 10px; line-height: 13px; font-family: open-sans-light, sans-serif; color: rgba(255, 255, 255, 0.8); left: 8px; text-align: right;">
+                        80
+                    </div>
+                    <div style="position: absolute; top: 39px; font-style: normal; font-variant: normal; font-weight: 400; font-stretch: normal; font-size: 10px; line-height: 13px; font-family: open-sans-light, sans-serif; color: rgba(255, 255, 255, 0.8); left: 1px; text-align: right;">
+                        100
+                    </div>
+                </div>
+            </div>
+        </div>
+                        </div>
+                        
+                        
+                              
                         </div>
 
                         <!-- Pies -->
