@@ -19,6 +19,21 @@ public class Database {
     private int tableID  = 0;
     private int co_count = 0;
     
+    
+    public String statham_column(int uid,String tablename)
+    {//use by statham.
+    	String big=findTableColumn(uid, tablename);
+    	String[] arr=big.split("~");
+    	String littleString="";
+    	littleString=arr[1];
+    	for(int i=3;i<arr.length-2;i=i+2)
+    	{
+    		littleString=littleString+"~"+arr[i];
+    	}
+    	return littleString;
+    }
+    
+    
     /* 
      * 连接数据库，每次使用各种函数之前，都需要调用本函数
      */

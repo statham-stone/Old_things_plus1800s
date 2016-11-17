@@ -11,7 +11,7 @@
     <meta name="description" content="Violate Responsive Admin Template">
     <meta name="keywords" content="Super Admin, Admin, Template, Bootstrap">
 
-    <title>Main page</title>
+    <title>Table view</title>
 
     <!-- CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -23,137 +23,57 @@
     <link href="css/icons.css" rel="stylesheet">
     <link href="css/generics.css" rel="stylesheet">
     <script type="text/javascript">
-	
-	function setCookies(c_name,value,expiredays)
-	{
-		var exdate = new Date()
-		exdate.setDate(exdate.getDate()+expiredays)
-		document.cookie=c_name+ "=" +escape(value)+
-			((expiredays==null) ? "" : "; expires="+exdate.toGMTString())
-	}
-	
-	function getCookie(c_name)
-	{
-	if (document.cookie.length>0)
-	  {
-	  c_start=document.cookie.indexOf(c_name + "=")
-	  if (c_start!=-1)
-	    { 
-	    c_start=c_start + c_name.length+1 
-	    c_end=document.cookie.indexOf(";",c_start)
-	    if (c_end==-1) c_end=document.cookie.length
-	    return unescape(document.cookie.substring(c_start,c_end))
-	    } 
-	  }
-	return ""
-	}
     
-	function checkCookies()
-	{
-		var uid=getCookie('uid')
-		if (uid==null || uid=="") 
-		{
-			alert("You are not logged in! please log in first.")
-			window.location.href="./login.html"	
-		} else {
-			document.getElementById("usernametag").innerHTML="uid:"+uid;
-		}
-	}
-	
+    function setCookies(c_name,value,expiredays)
+    {
+        var exdate = new Date()
+        exdate.setDate(exdate.getDate()+expiredays)
+        document.cookie=c_name+ "=" +escape(value)+
+            ((expiredays==null) ? "" : "; expires="+exdate.toGMTString())
+    }
+    
+    function getCookie(c_name)
+    {
+    if (document.cookie.length>0)
+      {
+      c_start=document.cookie.indexOf(c_name + "=")
+      if (c_start!=-1)
+        { 
+        c_start=c_start + c_name.length+1 
+        c_end=document.cookie.indexOf(";",c_start)
+        if (c_end==-1) c_end=document.cookie.length
+        return unescape(document.cookie.substring(c_start,c_end))
+        } 
+      }
+    return ""
+    }
+    
+    function checkCookies()
+    {
+        uid=getCookie('uid')
+        if (uid==null || uid=="") 
+        {
+            alert("You are not logged in! please log in first.")
+            window.location.href="./login.html" 
+        } else {
+            document.getElementById("usernametag").innerHTML="uid:"+uid;
+        }
+    }
+    
     function signOut()
     {
-    	setCookies("uid","",10);			//erase login information
-    	window.location.href="./login.html"	//return to login page
+        setCookies("uid","",10);            //erase login information
+        window.location.href="./login.html" //return to login page
     }
     
     function searchKeyDown()
     {
-    	if (event.keyCode==13)
-    	{
-    		//alert("entered:"+$("#searchbox").val());
-    		window.location.href="./searchresult?key="+$("#searchbox").val();
-    	}
+        if (event.keyCode==13)
+        {
+            //alert("entered:"+$("#searchbox").val());
+            window.location.href="./searchresult?key="+$("#searchbox").val();
+        }
     }
-    
-    function showTable(a)
-    {
-    	var name=document.getElementById("tableSet["+a+"]");
-    //	window.location.href="./show_table_h?user_id="+getCookie('uid').toString()+"table_name="+name;
-    setCookie("table_name",www,20);
-    window.location.href="./show_table_jsp.jsp";
-    }
-    
-    function loadTableBrief()
-    {
-		var params = {
-		    	uid : getCookie("uid")
-			};
-			$.ajax({
-		    	type: "POST",
-		    	url: "loadTableBrief.action",
-		    	data: params,
-		    	dataType:"text", //ajax返回值设置为text（json格式也可用它返回，可打印出结果，也可设置成json）
-		    	success: function(json){  
-		    		var obj = $.parseJSON(json);  //使用这个方法解析json
-		            var state_value = obj.result;  //result是和action中定义的result变量的get方法对应的
-		            console.log(json);
-		    		//state_value is the returned value
-		    		//alert(state_value);
-		    		var tableSet = state_value.split("~");
-		    		var txt="<thead><tr><th>Table Name</th></tr></thead><tbody>";
-		    		for (var i=0;i<tableSet.length;i++)
-		    		{
-		    			
-
-		    //         txt = txt+"<tr><td>"+tableSet[i]+"</tr></td>";
-		    			
-		    			txt = txt+"<tr><td><a href=\"show_table?user_id="+getCookie('uid')+"&table_name="+tableSet[i]+"     \" >"+tableSet[i]+"</a></tr></td>";
-	//	    			txt = txt+"<tr><td id=\""+tableSet[i]+"\" onclick='javascript:showTable("+i+")'>"+tableSet[i]+"</tr></td>";
- 			    		}
-		    		txt=txt+"</tbody>";
-		    		document.getElementById("tablebrief").innerHTML=txt;
-		    	},
-		    	error: function(json){
-		    		console.log(json);
-		     		return false;
-		    	}
-		    });
-    }
-
-    function loadEventBrief()
-    {
-		var params = {
-		    	uid : getCookie("uid")
-			};
-			$.ajax({
-		    	type: "POST",
-		    	url: "loadEventBrief.action",
-		    	data: params,
-		    	dataType:"text", //ajax返回值设置为text（json格式也可用它返回，可打印出结果，也可设置成json）
-		    	success: function(json){  
-		    		var obj = $.parseJSON(json);  //使用这个方法解析json
-		            var state_value = obj.result;  //result是和action中定义的result变量的get方法对应的
-		            console.log(json);
-		    		//state_value is the returned value
-		    		//alert(state_value);
-		    		var txt=""
-		    		eventSet=state_value.split("^");
-		    		for (var i=0;i<eventSet.length;i++)
-		    		{
-		    			thisEvent=eventSet[i].split("~");
-		    			txt=txt+"<li class=\"list-group-item\">"+thisEvent[0];
-		    			txt=txt+"<span class=\"badge\">"+thisEvent[1];
-		    			txt=txt+"</span></li>";
-		    		}
-		    		document.getElementById("eventbrief").innerHTML=txt;
-		    	},
-		    	error: function(json){
-		    		console.log(json);
-		     		return false;
-		    	}
-		    });
-    }
-
     
     function bingo()
     {
@@ -161,11 +81,17 @@
     	window.location.assign("choose_table_java?user_id="+getCookie('uid'));
     }
     
+    function bingo_2()
+    {
+    	//statham
+    	window.location.assign("check_table_name?user_id="+getCookie('uid')+"&"+"table_name="+document.getElementById("table_name").value+"&column_number="+document.getElementById("column_number").value);
+    }
+    
     </script>
     
 </head>
 
-<body id="skin-blur-violate" onload="checkCookies();loadTableBrief();loadEventBrief()">
+<body id="skin-blur-violate" onload="checkCookies()">
 
 
     <header id="header" class="media">
@@ -225,7 +151,7 @@
 
             <!-- Side Menu -->
             <ul class="list-unstyled side-menu">
-                <li class="active">
+                <li>
                     <a class="sa-side-home" href="index.jsp">
                         <span class="menu-item">Dashboard</span>
                     </a>
@@ -236,13 +162,11 @@
                     </a>
                 </li>
                 <li>
-                     <a class="sa-side-widget" onclick='javascript:bingo()'>
-   <!--                     <a class="sa-side-widget" href="create_little_thing_choose_table.jsp">
-          -->             
+                    <a class="sa-side-widget" onclick='javascript:bingo()'>
                         <span class="menu-item">Create Little Thing</span>
                     </a>
                 </li>
-                <li>
+                <li class="active">
                     <a class="sa-side-table" href="create_new_table.jsp">
                         <span class="menu-item">Create Table</span>
                     </a>
@@ -270,7 +194,7 @@
             <!-- Breadcrumb -->
 
 
-            <h4 class="page-title">DASHBOARD</h4>
+            <h4 class="page-title">CREATE TABLE</h4>
 
             <!-- Shortcuts -->
 
@@ -285,11 +209,67 @@
                     <div class="col-md-8">
                         <!-- Main Chart -->
                         <div class="block-area" id="tableHover">
-                            <h3 class="block-title">TABLES</h3>
-                            <div class="table-responsive overflow">
-                                <table class="table table-bordered table-hover tile" id="tablebrief" >
-									<!-- Loaded brief will be inserted here -->
-                                </table>
+                            <h3 class="block-title">Table view</h3>
+
+<!-- 	<form action="check_table_name"> -->
+
+
+
+ <%
+    String infor=request.getAttribute("infor").toString();
+	String infor2=request.getAttribute("infor2").toString();
+
+ //   out.print(infor);
+	
+	String string_arr[]=infor.split("~");
+    String string_arr2[]=infor2.split("~");
+    int table_numbers=string_arr.length-1;
+    if(table_numbers!=0)
+    {
+    	//out.print("Table numbers:");
+    	
+    	
+    	
+  //      out.print(string_arr[0]+"<br>");
+        out.print("<table class=\"table table-bordered table-hover tile\">");
+        out.print("<thead><tr>");
+        for(int i=0;i<string_arr2.length;i++)
+        {
+        	out.print("<th>"+string_arr2[i]+"</th>");
+        }
+        out.print("</tr></thead>");        
+        
+        out.print("<tbody>");
+        int hhh=1;
+        for(int i=0;i<Integer.parseInt(string_arr[0]);i=i+1)
+        {
+            out.print("<tr>");  
+            for(int ii=0;ii<string_arr2.length;ii++)
+            {
+            	out.print("<td>");
+            	out.print(string_arr[hhh]);
+            	out.print("</td>");
+                hhh++;
+            }
+            hhh++;//hehe,the id
+            out.print("</tr>");
+        }
+        out.print("</tbody>");
+        out.print("</table>");      
+    }
+    else
+    {
+//        out.print(infor);  
+    }
+    %>
+
+
+
+
+
+
+<!-- 	</form> -->
+
                             </div>
                         </div>
 
@@ -307,12 +287,6 @@
                         <!-- Dynamic Chart -->
 
                         <!-- Activity -->
-                        <h3 class="block-title">Events Brief</h3>
-                        <div class="tile">
-                        <ul class="list-group block" id="eventbrief" >
-                        	<!-- Loaded brief will be inserted here -->
-                        </ul>
-                        </div>
                     </div>
                     <div class="clearfix"></div>
                 </div>

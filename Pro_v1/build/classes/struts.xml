@@ -84,7 +84,11 @@
 			<result name="SUCCESS">/create_table_done.jsp</result>
 			<result name="FAILED">/create_table_failed.jsp</result>	
 		</action> 
-	
+
+
+		<action name="show_table"    class="table_create.show_little_things_java"   method="execute">
+			<result name="SUCCESS">/show_table_jsp.jsp</result>
+		</action> 	
 
 		
 		<action name="choose_table_java"    
