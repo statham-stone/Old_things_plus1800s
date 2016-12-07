@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <!--[if IE 9 ]><html class="ie9"><![endif]-->
 
@@ -22,6 +21,9 @@
     <link href="css/style.css" rel="stylesheet">
     <link href="css/icons.css" rel="stylesheet">
     <link href="css/generics.css" rel="stylesheet">
+    
+    <script src="js/jquery.min.js"></script>
+    <script src="js/ajaxFileUpload.js" type="text/javascript"></script>
     <script type="text/javascript">
     
     function setCookies(c_name,value,expiredays)
@@ -86,6 +88,47 @@
     	//statham
     	window.location.assign("check_table_name?user_id="+getCookie('uid')+"&"+"table_name="+document.getElementById("table_name").value+"&column_number="+document.getElementById("column_number").value);
     }
+    
+    function ajaxFileUpload()
+    {
+        
+        $("#loading")
+        .ajaxStart(function(){
+            $(this).show();
+        })
+        
+        .ajaxComplete(function(){
+            $(this).hide();
+        });//文件上传完成将图片隐藏起来
+        $.ajaxFileUpload
+        (
+            {
+                url:"fileUpload.action",//用于文件上传的服务器端请求地址
+                data:{tableName:$("#tableName").val()},
+                secureuri:false,//一般设置为false
+                fileElementId:'file',//文件上传空间的id属性  <input type="file" id="file" name="file" />
+                dataType: 'json',//返回值类型 一般设置为json
+		    	success: function(json){  
+		    		var obj = $.parseJSON(json);  //使用这个方法解析json
+		            var state_value = obj.result;  //result是和action中定义的result变量的get方法对应的
+		            console.log(json);
+		    		alert("SUCCESS");
+		    	},
+		    	error: function(json){
+		    		console.log(json);
+		    		//alert("FAIL");
+		    		window.location.href="./index.jsp" 
+		     		return false;
+		    	}
+            }
+        )
+        
+        return false;
+
+    }    
+    
+    
+    
     
     </script>
     
@@ -216,6 +259,14 @@
     	<p>Column number: <input  class="input-sm validate[required] form-control" id="column_number"    type="text" name="column_number"/></p>
 		<button class="btn m-r-5" onclick='javascript:bingo_2()'  value="submit">Check</button>
 <!-- 	</form> -->
+	<br><br><br>
+	<h3>Or create table with .xls file</h3>
+　　<form action="fileUpload.action" method="post" enctype="multipart/form-data">
+        Table Name: <input class="input-sm validate[required] form-control"type="text" id="tableName"><br>
+        File: <input class="input-sm validate[required] form-control"type="file" id="file" name="file"><br>
+        <input  class="btn m-r-5" type="button" value="submit File" onclick="ajaxFileUpload();">
+        <h4 id="loading" style="visibility:hidden;" >File Uploading...</h4>
+    </form>
 
                             </div>
                         </div>
@@ -248,7 +299,7 @@
 
     <!-- Javascript Libraries -->
     <!-- jQuery -->
-    <script src="js/jquery.min.js"></script>
+
     <!-- jQuery Library -->
     <script src="js/jquery-ui.min.js"></script>
     <!-- jQuery UI -->

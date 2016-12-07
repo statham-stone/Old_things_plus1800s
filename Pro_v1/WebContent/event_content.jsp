@@ -10,7 +10,7 @@
     <meta name="description" content="Violate Responsive Admin Template">
     <meta name="keywords" content="Super Admin, Admin, Template, Bootstrap">
 
-    <title>Choose table</title>
+    <title>Event Content</title>
 
     <!-- CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -22,57 +22,117 @@
     <link href="css/icons.css" rel="stylesheet">
     <link href="css/generics.css" rel="stylesheet">
     <script type="text/javascript">
+	
+	function setCookies(c_name,value,expiredays)
+	{
+		var exdate = new Date()
+		exdate.setDate(exdate.getDate()+expiredays)
+		document.cookie=c_name+ "=" +escape(value)+
+			((expiredays==null) ? "" : "; expires="+exdate.toGMTString())
+	}
+	
+	function getCookie(c_name)
+	{
+	if (document.cookie.length>0)
+	  {
+	  c_start=document.cookie.indexOf(c_name + "=")
+	  if (c_start!=-1)
+	    { 
+	    c_start=c_start + c_name.length+1 
+	    c_end=document.cookie.indexOf(";",c_start)
+	    if (c_end==-1) c_end=document.cookie.length
+	    return unescape(document.cookie.substring(c_start,c_end))
+	    } 
+	  }
+	return "";
+	}
     
-    function setCookies(c_name,value,expiredays)
-    {
-        var exdate = new Date()
-        exdate.setDate(exdate.getDate()+expiredays)
-        document.cookie=c_name+ "=" +escape(value)+
-            ((expiredays==null) ? "" : "; expires="+exdate.toGMTString())
-    }
-    
-    function getCookie(c_name)
-    {
-    if (document.cookie.length>0)
-      {
-      c_start=document.cookie.indexOf(c_name + "=")
-      if (c_start!=-1)
-        { 
-        c_start=c_start + c_name.length+1 
-        c_end=document.cookie.indexOf(";",c_start)
-        if (c_end==-1) c_end=document.cookie.length
-        return unescape(document.cookie.substring(c_start,c_end))
-        } 
-      }
-    return ""
-    }
-    
-    function checkCookies()
-    {
-        uid=getCookie('uid')
-        if (uid==null || uid=="") 
-        {
-            alert("You are not logged in! please log in first.")
-            window.location.href="./login.html" 
-        } else {
-            document.getElementById("usernametag").innerHTML="uid:"+uid;
-        }
-    }
-    
+	function checkCookies()
+	{
+		var uid=getCookie('uid')
+		if (uid==null || uid=="") 
+		{
+			alert("You are not logged in! please log in first.")
+			window.location.href="./login.html"	
+		} else {
+			document.getElementById("usernametag").innerHTML="uid:"+uid;
+		}
+	}
+	
     function signOut()
     {
-        setCookies("uid","",10);            //erase login information
-        window.location.href="./login.html" //return to login page
+    	setCookies("uid","",10);			//erase login information
+    	window.location.href="./login.html"	//return to login page
     }
     
     function searchKeyDown()
     {
-        if (event.keyCode==13)
-        {
-            //alert("entered:"+$("#searchbox").val());
-            window.location.href="./searchresult?key="+$("#searchbox").val();
-        }
+    	if (event.keyCode==13)
+    	{
+    		//alert("entered:"+$("#searchbox").val());
+    		window.location.href="./searchresult?key="+$("#searchbox").val();
+    	}
     }
+    
+    function showTable(a)
+    {
+    	var name=document.getElementById("tableSet["+a+"]");
+    //	window.location.href="./show_table_h?user_id="+getCookie('uid').toString()+"table_name="+name;
+    setCookie("table_name",www,20);
+    window.location.href="./show_table_jsp.jsp";
+    }
+
+    function getQueryString(name) { 
+    	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+    	var r = window.location.search.substr(1).match(reg); 
+    	if (r != null) return unescape(r[2]); return null; 
+    } 
+    
+    function loadEventContent()
+    {
+		var params = {
+		    	uid : getCookie("uid"),
+		    	eid : getQueryString("eid")
+			};
+			$.ajax({
+		    	type: "POST",
+		    	url: "loadEventContent.action",
+		    	data: params,
+		    	dataType:"text", //ajax返回值设置为text（json格式也可用它返回，可打印出结果，也可设置成json）
+		    	success: function(json){  
+		    		var obj = $.parseJSON(json);  //使用这个方法解析json
+		            var state_value = obj.result;  //result是和action中定义的result变量的get方法对应的
+		            console.log(json);
+		    		//state_value is the returned value
+		    		//alert(state_value);
+		    		var txt="";
+		    		
+		    		eventTokens=state_value.split("^");
+		    		metaInfo=eventTokens[0].split("~");
+		    		txt+="<h1>"+metaInfo[0]+"</h1></br>"
+		    		txt+="<h3>Create Date:"+metaInfo[1]+"</h3></br>"
+		    		
+		    		
+		    		
+		    		for (var i=1;i<eventTokens.length;i++)
+		    		{
+		    			thisEvent=eventTokens[i].split("~");
+		    			txt=txt+"<li class=\"list-group-item\">";
+		    			txt+="<a href=\"./edit_action?user_id="+getCookie("uid")+"&table_name="+thisEvent[2]+"&little_id="+thisEvent[1]+"\">"
+		    			txt+=thisEvent[3]
+		    			txt+="</a>"
+		    			txt=txt+"<span class=\"badge\">"+thisEvent[2];
+		    			txt=txt+"</span></li>";
+		    		}
+		    		document.getElementById("eventarea").innerHTML=txt;
+		    	},
+		    	error: function(json){
+		    		console.log(json);
+		     		return false;
+		    	}
+		    });
+    }
+
     
     function bingo()
     {
@@ -84,7 +144,7 @@
     
 </head>
 
-<body id="skin-blur-violate" onload="checkCookies()">
+<body id="skin-blur-violate" onload="checkCookies(); loadEventContent();">
 
 
     <header id="header" class="media">
@@ -144,9 +204,9 @@
 
             <!-- Side Menu -->
             <ul class="list-unstyled side-menu">
-                <li>
+                <li class="active">
                     <a class="sa-side-home" href="index.jsp">
-                        <span class="menu-item">Dash Board</span>
+                        <span class="menu-item">Dashboard</span>
                     </a>
                 </li>
                 <li>
@@ -154,8 +214,10 @@
                         <span class="menu-item">Create Event</span>
                     </a>
                 </li>
-                <li class="active">
-                    <a class="sa-side-widget" onclick='javascript:bingo()'>
+                <li>
+                     <a class="sa-side-widget" onclick='javascript:bingo()'>
+   <!--                     <a class="sa-side-widget" href="create_little_thing_choose_table.jsp">
+          -->             
                         <span class="menu-item">Create Little Thing</span>
                     </a>
                 </li>
@@ -187,7 +249,7 @@
             <!-- Breadcrumb -->
 
 
-            <h4 class="page-title">CREATE LITTLE THING</h4>
+            <h4 class="page-title">EVENT CONTENT</h4>
 
             <!-- Shortcuts -->
 
@@ -201,50 +263,10 @@
                 <div class="row">
                     <div class="col-md-8">
                         <!-- Main Chart -->
-                        <div class="block-area" id="tableHover">
-                            <h3 class="block-title">TABLES</h3>
-                            <div class="table-responsive overflow">
-                                <table class="table table-bordered table-hover tile">
-
-    
-        <%
-    String cg=request.getAttribute("table_list").toString();
-    String big_string=request.getAttribute("table_list").toString();
-    String string_arr[]=big_string.split("~");
-    int table_numbers=string_arr.length-1;
-    if(table_numbers!=0)
-    {
-    	out.print("Table numbers:");
-        out.print(string_arr[0]+"<br>");
-        out.print(" <table border=\"1\"  class=\"table table-bordered table-hover tile\"   > <tr> <th>Table name</th> <th>Create little thing</th> </tr>");
-        
-        for(int i=1;i<table_numbers+1;i=i+1)
-        {
-            out.print("<tr><td>");  
-            out.print(string_arr[i]);       
-            out.print("</td><td>");
-            out.print("<a href=\"create_little_thing_detail_java?table_name="+(string_arr[i])+"&"+"user_id="+request.getAttribute("user_id").toString()+"\">");
-            out.print(string_arr[i]); 
-            out.print("</a>");
-            out.print("</td></tr>");
-        }
-        out.print("</table>");      
-    }
-    else
-    {
-        out.print("No table");  
-    }
-    %>
-    
-    
-    
-    
-    
-
-
-                                 
-                                </table>
-                            </div>
+<!--AFTER HERE -->
+                        <div id="eventarea">
+                        
+                        
                         </div>
 
                         <!-- Pies -->
@@ -261,6 +283,7 @@
                         <!-- Dynamic Chart -->
 
                         <!-- Activity -->
+
                     </div>
                     <div class="clearfix"></div>
                 </div>

@@ -7,7 +7,8 @@
 <struts>
 
 	<constant name="struts.devMode" value="true" />
-
+	<constant name="struts.locale" value="zh_CN" />
+	<constant name="struts.i18n.encoding" value="UTF-8"/>
 
 	<package name="default" extends = "json-default">
 	
@@ -27,6 +28,12 @@
 		<action name="loadEventBrief" class="ajax.EventBrief">
 			<result type="json"></result>
 		</action>
+		<action name="loadEventList" class="ajax.EventList">
+			<result type="json"></result>
+		</action>
+		<action name="loadEventContent" class="ajax.EventContent">
+			<result type="json"></result>
+		</action>
 		<action name="loadTableContent" class="ajax.TableContent">
 			<result type="json"></result>
 		</action>
@@ -36,7 +43,17 @@
 		<action name="submitEvent" class="ajax.EventSubmit">
 			<result type="json"></result>
 		</action>
-
+		
+        <action name="fileUpload" class="ajax.FileUpload">
+            <result type="json" name="success"></result>
+        </action>			
+		
+		<action name="searchresult">
+			<result>/search.jsp</result>
+		</action>
+		<action name="eventcontent">
+			<result>/event_content.jsp</result>
+		</action>
      	 
 		<action name="ajaxtest">
 			<result>/pt_ajaxtest.jsp</result>
@@ -52,9 +69,7 @@
 			<result type="json"></result>
 		</action>
 		
-		<action name="searchresult">
-			<result>/search.jsp</result>
-		</action>
+
 	<!-- ##############ABOVE ARE ONLY USED DURING DEVELOPMENT -->
 	
 	
