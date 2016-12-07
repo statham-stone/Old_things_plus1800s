@@ -85,7 +85,6 @@
 			<result name="FAILED">/create_table_failed.jsp</result>	
 		</action> 
 
-
 		<action name="show_table"    class="table_create.show_little_things_java"   method="execute">
 			<result name="SUCCESS">/show_table_jsp.jsp</result>
 		</action> 	
@@ -116,7 +115,18 @@
 				<result name="SUCCESS">/create_little_thing_done.jsp</result>
 				<result name="FAILED">/create_little_thing_failed.jsp</result>
 		</action> 
+		
+		<action name="edit_action"
+			class="little_thing_create.edit_java_show"
+			method="execute">
+				<result name="SUCCESS">/edit_little_thing_details.jsp</result>
+		</action>
 
+		<action name="edit_details_action"
+			class="little_thing_create.edit_java_show"
+			method="insert">
+				<result name="SUCCESS">/index.jsp</result><!-- no use here -->
+		</action>
 
 	</package>
 </struts>

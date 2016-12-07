@@ -11,7 +11,7 @@
     <meta name="description" content="Violate Responsive Admin Template">
     <meta name="keywords" content="Super Admin, Admin, Template, Bootstrap">
 
-    <title>Table view</title>
+    <title>Little Thing Details</title>
 
     <!-- CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -81,12 +81,6 @@
     	window.location.assign("choose_table_java?user_id="+getCookie('uid'));
     }
     
-    function bingo_2()
-    {
-    	//statham
-    	window.location.assign("check_table_name?user_id="+getCookie('uid')+"&"+"table_name="+document.getElementById("table_name").value+"&column_number="+document.getElementById("column_number").value);
-    }
-    
     </script>
     
 </head>
@@ -151,7 +145,7 @@
 
             <!-- Side Menu -->
             <ul class="list-unstyled side-menu">
-                <li>
+                <li class="active">
                     <a class="sa-side-home" href="index.jsp">
                         <span class="menu-item">Dashboard</span>
                     </a>
@@ -166,7 +160,7 @@
                         <span class="menu-item">Create Little Thing</span>
                     </a>
                 </li>
-                <li class="active">
+                <li>
                     <a class="sa-side-table" href="create_new_table.jsp">
                         <span class="menu-item">Create Table</span>
                     </a>
@@ -194,7 +188,7 @@
             <!-- Breadcrumb -->
 
 
-            <h4 class="page-title">CREATE TABLE</h4>
+            <h4 class="page-title">DASHBOARD</h4>
 
             <!-- Shortcuts -->
 
@@ -209,76 +203,67 @@
                     <div class="col-md-8">
                         <!-- Main Chart -->
                         <div class="block-area" id="tableHover">
-                            <h3 class="block-title">Table view</h3>
+                            <h3 class="block-title">Little Thing Edit</h3>
+                            <div class="table-responsive overflow">
+                                <table class="table table-bordered table-hover tile">
 
-<!-- 	<form action="check_table_name"> -->
+                                 
 
 
-
- <%
-    String infor=request.getAttribute("infor").toString();
-	String infor2=request.getAttribute("infor2").toString();
-
- //   out.print(infor);
+    
+    <%
+	String column_name_string=request.getAttribute("column_names").toString();
+//	String user_id=request.getAttribute("user_id").toString();
+	String table_name=request.getAttribute("table_name").toString();
+	String old_infor=request.getAttribute("old_infor").toString();
+	String old_infor_arrString[]=old_infor.split("~");
+    String column_name[]=column_name_string.split("~");
+	for(int i=0;i<column_name.length;i++)
+	{
+		out.print(" <p>"+column_name[i]+"<input  class=\"form-control input-lg m-b-10\""+"value="+old_infor_arrString[i]+" type=\"text\" id=\"column_name"+ i+ "\" " +"name=\""+" column_name"+i+"\"required=\"required\" /></input> </p>");
+	}
 	
-	String string_arr[]=infor.split("~");
-    String string_arr2[]=infor2.split("~");
-    int table_numbers=string_arr.length-1;
-    if(table_numbers!=0)
-    {
-    	//out.print("Table numbers:");
-    	
-    	
-    	
-  //      out.print(string_arr[0]+"<br>");
-        out.print("<table class=\"table table-bordered table-hover tile\">");
-        out.print("<thead><tr>");
-        for(int i=0;i<string_arr2.length;i++)
-        {
-        	out.print("<th>"+string_arr2[i]+"</th>");
-        }
-        out.print("</tr></thead>");        
-        
-        out.print("<tbody>");
-        int hhh=1;
-        for(int i=0;i<Integer.parseInt(string_arr[0]);i=i+1)
-        {
-            out.print("<tr>");  
-            for(int ii=0;ii<string_arr2.length;ii++)
-            {
-            	out.print("<td>");
-            	
-            	out.print("<a ");
-            	
+	out.print("	<input hidden type=\"text\" id=\"int_column_number\"  value=\""+column_name.length+"\"></input>"); 
+	out.print("	<input hidden type=\"text\" id=\"table_name\"  value=\""+table_name+"\"></input>");
+//	out.print("	<input hidden type=\"text\" id=\"user_id\"  value=\""+user_id+"\"></input>");
 
-            	
-            	out.print("href=\"edit_action?user_id=1&table_name=asdf&little_id=001\"");//注意！！要改！！
-            	out.print(">");
-            	out.print(string_arr[hhh]);
-            	out.print("</a>");
-            	
-            	out.print("</td>");
-                hhh++;
-            }
-            hhh++;//hehe,the id
-            out.print("</tr>");
-        }
-        out.print("</tbody>");
-        out.print("</table>");      
-    }
-    else
-    {
-//        out.print(infor);  
-    }
-    %>
+	%>
 
+    
+	<script>
+	function show_details()
+	{		
 
+		var big_string="";
+		
+		var number=document.getElementById("int_column_number").value;
+		big_string=getCookie('uid');
+	//	alert(big_string);
+		big_string=big_string+"~"+document.getElementById("table_name").value;
+		
+		//big_string="001~tablename1";
+		//big_string=big_string+"~"+document.getElementById("int_column_number").value;
+		for(var i=0;i<number;i=i+1)
+		{		
+			big_string=big_string+"~"+document.getElementById("column_name"+i).value;
+		}
+//		big_string=big_string.substring(1, big_string.length);//delete the first"~"
 
+//		document.write("<a href=\"create_little_thing_action?information="+big_string+"\"> Submit (you will not see this next version)<br><br></a>");
 
-
-
-<!-- 	</form> -->
-
+		big_string="1~2~3";
+		window.location.assign("edit_details_action?new_infor="+big_string);
+    	window.history.go(-1);
+	};
+	</script>
+	
+	
+	
+	
+	
+	<button class="btn m-r-5"  onclick="show_details()"> Edit </button>	
+                                 
+                                </table>
                             </div>
                         </div>
 

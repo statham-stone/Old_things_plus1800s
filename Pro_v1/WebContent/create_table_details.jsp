@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+   pageEncoding="ISO-8859-1"%>
+
 <!DOCTYPE html>
 <!--[if IE 9 ]><html class="ie9"><![endif]-->
 
@@ -241,7 +242,9 @@
 			big_string=big_string+"~"+document.getElementById("column_length"+i).value;
 		}
 	//	document.write("<a  href=\"create_table?new_table_information="+big_string+"\"> Submit (you will not see this next version)<br><br></a>");
-		window.location.assign("create_table?new_table_information="+big_string);
+		window.location.assign(encodeURI(encodeURI("create_table?new_table_information=" + string)));
+		
+		
 	};
 	</script>
 	<button class="btn m-r-5" onclick="show_table()"> Submit </button>	
