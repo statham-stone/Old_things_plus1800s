@@ -397,7 +397,7 @@ public class Database {
 			{
 				result = result + "~" + res.getString(1);
 			}
-			result = result.replace("~MyEvent~MyAssoc~MyStati",""); //去掉事件表和关联表
+			result = result.replace("~MyEvent~MyAssoc~MyStati",""); //去掉事件表和关联表,统计表
 			if('~'==result.charAt(0))
 			{
 				result =result.substring(1);
@@ -750,37 +750,41 @@ public class Database {
      */
     public String showBEvent(String uid,String EID)
     {
-    	String temp = "";
+    	String result = "";
     	String getmes = "select EName,ETime,count(*) from event" + uid + " e join assoc" + uid +" a where a.EID = e.EID and a.EID = "+ EID;
     	String select = "select TID,tableid,uname from assoc" + uid + " a join usertable u where a.tableid = u.ID and a.EID = " + EID;
-    	ResultSet res = null;
-    	ResultSet rest = null;
-    	ResultSet restt = null;
+
     	try
     	{
-    		res = stmt.executeQuery(getmes);
+    		ResultSet res = stmt.executeQuery(getmes);
     		while(res.next())
     		{
-    			temp = temp + res.getString(1) + "~" + res.getString(2) + "~" + res.getString(3);
-    		}
-    		
-			rest = stmt.executeQuery(select);
-			
-    		while(rest.next())
-    		{
-    			String tid = rest.getString(1);
-    			String tableid = rest.getString(2);
-    			String uname = rest.getString(3);
-    			temp = temp + "^" + tableid + "_" + tid + "~" + tid + "~" + uname + "~";
-    			
-    			
+    			result = res.getString(1) + "~" + res.getString(2) + "~" + res.getString(3);
     		}
     	}
     	catch(SQLException e)
     	{
     		e.printStackTrace();
     	}
-    	return temp;
+    	
+    	try
+    	{
+    		ResultSet res = stmt.executeQuery(select);
+    		while(res.next())
+    		{
+    			String tid = res.getString(1);
+    			String tableid = res.getString(2);
+    			String uname = res.getString(3);
+    			String thingname = getSEName(tableid,tid);
+    			result = result + "^" + tableid + "_" + tid + "~" + tid + "~" + uname + "~" + thingname;
+    		}
+    	}
+    	catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+    	
+    	return result;
     }
     
     /* 12/07 新测试通过
@@ -950,5 +954,26 @@ public class Database {
 	{
 		String date = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
 		return date;
+	}
+	
+	private String getSEName(String tableid,String tid)
+	{
+		String result = "";
+		try {
+			Statement st = connection.createStatement();
+			
+			ResultSet rest = null;
+			String sel = "select * from t" + tableid + " where TID=" + tid;
+			rest = st.executeQuery(sel);
+			while(rest.next())
+			{
+				result = rest.getString(1);
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		return result;
 	}
 }
