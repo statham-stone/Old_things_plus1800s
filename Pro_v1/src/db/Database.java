@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 @SuppressWarnings("unused")
 
+//12/01 整体改动：UID不再是int，改为String
 public class Database {
 	
 	private static String DRIVER_MYSQL = "com.mysql.jdbc.Driver";    //MySQL JDBC驱动字符串
@@ -19,21 +20,6 @@ public class Database {
     private int tableID  = 0;
     private int co_count = 0;
     
-    
-    public String statham_column(int uid,String tablename)
-    {//use by statham.
-    	String big=findTableColumn(uid, tablename);
-    	String[] arr=big.split("~");
-    	String littleString="";
-    	littleString=arr[1];
-    	for(int i=3;i<arr.length-2;i=i+2)
-    	{
-    		littleString=littleString+"~"+arr[i];
-    	}
-    	return littleString;
-    }
-    
-    
     /* 
      * 连接数据库，每次使用各种函数之前，都需要调用本函数
      */
@@ -41,7 +27,7 @@ public class Database {
 	{
 		 try{
 	            Class.forName(DRIVER_MYSQL);     //加载JDBC驱动
-	            connection = DriverManager.getConnection(URL,"root","statham+1s");   //创建数据库连接对象
+	            connection = DriverManager.getConnection(URL,"root","1234");   //创建数据库连接对象
 	            stmt = connection.createStatement();       //创建Statement对象
 	            return "connect!";
 	     }
@@ -67,23 +53,37 @@ public class Database {
 	
 	//++++++++++注册 登陆 部分
 	
-	/* 测试通过
+	/* 12/1 增加新功能 内部完成统计数值的更新
+	 * 要求输入值中添加日期
 	 * 登陆 传入用户名和密码
 	 * 若成功则返回用户ID
 	 * 失败则返回-1
 	 */
-	public int checkUser(String username,String password)
+	public int checkUser(String username,String password, String date)
 	{
 		String temp = username + "' and password = '" + password;
 		System.out.println(temp);
 		int ID = findID(temp);
+		
+		String update_ck = " stati" + ID + " where Time = " + date;
+		try{
+			int exist = count(update_ck);
+			if (exist==0)
+			{
+				String update = "insert stati" + ID + " values(date,0)";
+			}
+			
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
 		return ID;
 	}
-	
-	/* 测试通过
+	/* 12/1 新改动，注册时需要4位日期
+	 * 测试通过
 	 * 尝试注册 如果注册失败则返回-1，否则返回新用户的ID
 	 */
-	public int signUp(String username,String password)
+	public int signUp(String username,String password,String date)
 	{
 		int count = findID(username);
 		if(count != -1)
@@ -96,15 +96,21 @@ public class Database {
 		int tableid = count("usertable") + 1 ; //计算新的大事件表的ID
 		String insert_table1 = "insert usertable values(" + tableid + "," + uid + ",'event" + uid + "','MyEvent',3)";
 		String insert_table2 = "insert usertable values(" + (tableid+1) + "," + uid + ",'assoc" + uid + "','MyAssoc',3)"; 
+		String insert_table3 = "insert usertable values(" + (tableid+2) + "," + uid + ",'stati" + uid + "','MyStati',2)"; 
+		
 		String create_table1 = "create table event" + uid+ "(EID int primary key not null,ETime Date,EName varchar(50))";
 		String create_table2 = "create table assoc" + uid+ "(EID int not null, TID int not null,tableid int not null)";
-		
+		String create_table3 = "create table stati" + uid+ "(Time varchar(6) not null, Count int not null)";
+		String insert_count = "insert stati" + uid + " values(" + date + ",0)";
 		try{
 			stmt.execute(insert_user);
 			stmt.execute(insert_table1);
 			stmt.execute(insert_table2);
+			stmt.execute(insert_table3);
+			
 			stmt.execute(create_table1);
 			stmt.execute(create_table2);
+			stmt.execute(create_table3);
 		}
 		catch (SQLException e){
 			e.printStackTrace();
@@ -147,21 +153,14 @@ public class Database {
 	
 	
 	/* 11/7 测试通过
-	 * 	不存在同名表时，使用本函数，创建一个表
+	 * 不存在同名表时，使用本函数，创建一个表
 	 * 传入用户ID，用户给这个表起的名字，列数，每列的名字，长度
 	 * 如1号用户Money表，存储2列，第一列为长度为12的time，第二个为长度为20的product
 	 * 		1~Money~2~time~12~product~20
 	 */
-	
-	//
 	public int createUserTable(String a)
 	{
 		String[] mes = a.split("~");
-		
-		
-		System.out.print("==================wangy=====================\n");
-	    System.out.print(a);
-		System.out.print("==================wangy=====================\n");
 		
 		String uid = mes[0];
 		String uname = mes[1];
@@ -194,7 +193,7 @@ public class Database {
 	 * 输入用户ID
 	 * 返回值是该用户的table个数~每个table的名字
 	 */
-	public String findUserTable(int uid)
+	public String findUserTable(String uid)
 	{
 		/* sqk's requirement 2016/10/30
 		 * input userid
@@ -210,7 +209,7 @@ public class Database {
 			res = stmt.executeQuery(temp);
 			while(res.next())
 			{
-				if(count!=0&& count!=1)//不返回关联表和大事件表
+				if(count!=0 && count!=1 && count != 2)//不返回关联表和大事件表 ,不返回统计表
 				{
 					ret = ret + "~" +res.getString(4);
 					count++;
@@ -228,7 +227,7 @@ public class Database {
 	 * 11/14修改待测试
 	 * 输入用户id和表名 返回表的属性（包括ID）
 	 */
-	public String findTableColumn(int uid, String tablename)
+	public String findTableColumn(String uid, String tablename)
 	{
 		/* sqk's requirement 2016/10/31
 		 * in userid && tablename(user)
@@ -263,14 +262,15 @@ public class Database {
 		return "";
 	}
 	
-	/* 11/14 测试通过
+	/* 12/1 新修改 要求输入数据增加日期
+	 * 11/14 测试通过
 	 * 加入一条小事件
 	 * 传入用户ID 表名 插入信息（栏间使用~分割）
 	 * 插入成功返回1 否则返回-1
+	 * 
 	 */
-	public int insertSEvent(int uid,String tablename,String mes)
+	public int insertSEvent(String uid,String tablename,String mes,String date)
 	{
-		
 		ResultSet res = null;
 
 		int eid = 0;
@@ -286,6 +286,16 @@ public class Database {
 			mes = mes.replace("~","','");
 			temp = "insert " + dbtablename + " values('" + mes +"'," + eid + ")" ;
 			stmt.execute(temp);
+			
+			String update = "select Count from stati" + uid + " where Time = " +date ;
+			res = stmt.executeQuery(update);
+			int n_cnt = 0;
+			while(res.next())
+			{
+				n_cnt = res.getInt(1);
+			}
+			update = "update Count = " + (n_cnt + 1) + " from " + dbtablename + "where Time = " + date ;
+			stmt.execute(update);
 			return 1;
 		}
 		catch (SQLException e)
@@ -299,7 +309,7 @@ public class Database {
 	 * 获取一个用户ID及一个表名，将返回该表的所有内容,默认返回ID
 	 * 返回格式为 项数~第一项第一列~第一项第二列~……~第二项第一列~……
 	 */
-	public String findSEvent(int uid, String tablename)
+	public String findSEvent(String uid, String tablename)
 	{
 		ResultSet res = null; 
 		String dbtablename = getDBName(uid,tablename);
@@ -343,7 +353,7 @@ public class Database {
 	 * （即ID值最大的五条数据）
 	 * 由于仍需考虑该表内容不足五条的情况 返回值同函数findSEvent相同
 	 */
-	public String findSEventN5(int uid, String tablename)
+	public String findSEventN5(String uid, String tablename)
 	{
 		ResultSet res = null; 
 		String dbtablename = getDBName(uid,tablename);
@@ -383,7 +393,7 @@ public class Database {
 	 * 输出为该用户所有表名（大事件表关联表除外）
 	 * 
 	 */
-	public String tableBrief(int uid)
+	public String tableBrief(String uid)
 	{
 		ResultSet res = null;
 		String temp = "select uname from usertable where UID= " + uid;
@@ -413,7 +423,7 @@ public class Database {
 	 * 输入为用户ID
 	 * 返回为事件名字~关联小事件个数^……
 	 */
-	public String eventBrief(int uid)
+	public String eventBrief(String uid)
 	{
 		ResultSet res = null;
 		String result = "" ;
@@ -447,7 +457,7 @@ public class Database {
 		String result = "";
 		String[] mes = uidPLUStname.split("~");
 		
-		int uid = Integer.parseInt(mes[0]);
+		String uid = mes[0];
 		String uname = mes[1];
 		
 		String dbtablename = getDBName(uid,uname);
@@ -475,7 +485,7 @@ public class Database {
 	 * 输入为用户id和key
 	 * 输出为表名~唯一ID~小事件名字
 	 */
-	public String searchRequest(int uid, String key)
+	public String searchRequest(String uid, String key)
 	{
 		ResultSet res = null;
 		String result = "";
@@ -515,11 +525,11 @@ public class Database {
 	 */
 	public int submitEvent(String mes)
 	{
-		String[] mesin = mes.split("~");
-		int uid = Integer.parseInt(mesin[0]);
-		String EName = mesin[1];
-		String ETime = mesin[2];
-		int t_count = mesin.length;
+		String[] mesin   = mes.split("~");
+		String 	 uid     = mesin[0];
+		String 	 EName   = mesin[1];
+		String 	 ETime   = mesin[2];
+		int 	 t_count = mesin.length;
 		
 		for(int i=3;i<t_count;i++)
 		{
@@ -555,10 +565,72 @@ public class Database {
 		
 	}
 	
+	/* 12/1 待测试
+	 * 获得用户ID，返还柱状图相关讯息，讯息为用户日期~修改条数
+	 * 
+	 */
+	public String Chart(String uid)
+	{
+		String mes = null;
+		String check = "select * from stati" + uid ;
+		try{
+			ResultSet res = stmt.executeQuery(check);
+			while (res.next())
+			{
+				mes = mes + "~" + res.getString(1) + "~" + res.getString(2);
+			}
+			if(mes.length()>1)
+			{
+				mes = mes.substring(1);
+			}
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return mes;
+	}
+	
+	/* 12/1 待测试
+	 * 获得用户ID，返还饼状图相关讯息，讯息为用户表~拥有的信息数，不包括关联表，包括大事件表
+	 * 
+	 */
+	public String Pie(String uid)
+	{
+		String mes = null;
+		String[] tables = findUserTable(uid).split("~");
+		if(tables.length>1)
+		{
+			for(int i = 1; i< tables.length; i++)
+			{
+				String dbtname_i = getDBName(uid,tables[i]);
+				int cn = count(dbtname_i);
+				mes = mes + "~" + tables[i] + "~" + cn ; 
+			}
+			mes = mes.substring(1);
+		}
+		return mes;
+	}
+	
+	
+	//use by statham.
+    public String statham_column(String uid,String tablename)
+    {
+    	String big=findTableColumn(uid, tablename);
+    	String[] arr=big.split("~");
+    	String littleString="";
+    	littleString=arr[1];
+    	for(int i=3;i<arr.length-2;i=i+2)
+    	{
+    		littleString=littleString+"~"+arr[i];
+    	}
+    	return littleString;
+    }
+	
 	/* private函数 请勿直接使用或修改！
 	 * 检查提供的小事件唯一ID是否存在
 	 */
-	private boolean checkTableID(String teid ,int uid)
+	private boolean checkTableID(String teid ,String uid)
 	{		
 		ResultSet res = null;
 		String[] mes = teid.split("_");//tableid _ eventid
@@ -576,13 +648,14 @@ public class Database {
 		}
 		return true;
 	}
+	
 	/* private函数 请勿直接使用或修改！
 	 * 下面函数用于转换 属于user的tablename 和 实际存于DB中的tablename
 	 * 同时查询到该表的列数
 	 * private 的 成员变量值 co_count 将被修改
 	 * tablename则作为返回值 
 	 */
-	private String getDBName(int uid, String user_name)
+	private String getDBName(String uid, String user_name)
 	{
 		ResultSet res = null;
 		String temp = "select * from usertable where UID = " + uid + " and uname = '"  + user_name + "'";
