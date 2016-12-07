@@ -10,16 +10,22 @@
 
   <!-- Filters -->
   <!-- START SNIPPET: filter -->
+
+
+
+
     <filter>
         <filter-name>action2</filter-name>
         <filter-class>org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter</filter-class>
-    </filter>
+    </filter> 
     <!-- END SNIPPET: filter -->
-
     <filter-mapping>
         <filter-name>action2</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+
+
 
     <!-- Welcome file lists -->
     <welcome-file-list>
