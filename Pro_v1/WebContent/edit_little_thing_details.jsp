@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <!--[if IE 9 ]><html class="ie9"><![endif]-->
 
@@ -11,7 +11,7 @@
     <meta name="description" content="Violate Responsive Admin Template">
     <meta name="keywords" content="Super Admin, Admin, Template, Bootstrap">
 
-    <title>Table details</title>
+    <title>Little Thing Details</title>
 
     <!-- CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -74,7 +74,7 @@
             window.location.href="./searchresult?key="+$("#searchbox").val();
         }
     }
-
+    
     function bingo()
     {
     	//statham
@@ -203,53 +203,85 @@
                     <div class="col-md-8">
                         <!-- Main Chart -->
                         <div class="block-area" id="tableHover">
-                            <h3 class="block-title">Details</h3>
-                            
-                            
+                            <h3 class="block-title">Little Thing Edit</h3>
+                            <div class="table-responsive overflow">
+                                <table class="table table-bordered table-hover tile">
+
+                                 
+
 
     
-  Input column details:
-	<%
-	String column_number_string=request.getAttribute("column_number").toString();
-	String user_id_string=request.getAttribute("user_id").toString();
-	String table_name_string=request.getAttribute("table_name").toString();
-	out.print(column_number_string);
-	
-	out.print(" <p>Column name:<input readonly=\"readonly\" class=\"input-sm validate[required] form-control\" type=\"text\" id=\"column_name"+ 1+ "\" " +"name=\""+" column_name"+1+"\"required=\"required\" value=\"name\" /></input> </p>");
-	out.print(" <p>Column length:<input readonly=\"readonly\" class=\"input-sm validate[required] form-control\"   type=\"text\" id=\"column_length"+1+ "\" "+"name=\""+"column_length"+1+"\" required=\"required\" value=\"50\"  /></input> </p>");
-	
-	
-	for( int i=2;i<=Integer.parseInt(column_number_string);i++)
+    <%
+	String column_name_string=request.getAttribute("column_names").toString();
+//	String user_id=request.getAttribute("user_id").toString();
+	String table_name=request.getAttribute("table_name").toString();
+	String old_infor=request.getAttribute("old_infor").toString();
+	String old_infor_arrString[]=old_infor.split("~");
+    String column_name[]=column_name_string.split("~");
+	for(int i=0;i<column_name.length;i++)
 	{
-		out.print(" <p>Column name:<input class=\"input-sm validate[required] form-control\" type=\"text\" id=\"column_name"+ i+ "\" " +"name=\""+" column_name"+i+"\"required=\"required\" /></input> </p>");
-		out.print(" <p>Column length:<input  class=\"input-sm validate[required] form-control\"   type=\"text\" id=\"column_length"+i+ "\" "+"name=\""+"column_length"+i+"\" required=\"required\" /></input> </p>");
+		out.print(" <p>"+column_name[i]+"<input  class=\"form-control input-lg m-b-10\""+"value="+old_infor_arrString[i]+" type=\"text\" id=\"column_name"+ i+ "\" " +"name=\""+" column_name"+i+"\"required=\"required\" /></input> </p>");
 	}
-	out.print("	<input hidden type=\"text\" id=\"int_column_number\"  value=\""+column_number_string+"\"></input>");// 
-	out.print("	<input hidden type=\"text\" id=\"table_name\"  value=\""+table_name_string+"\"></input>");// 
-	out.print("	<input hidden type=\"text\" id=\"user_id\"  value=\""+user_id_string+"\"></input>");// 
+	
+	out.print("	<input hidden type=\"text\" id=\"int_column_number\"  value=\""+column_name.length+"\"></input>"); 
+	out.print("	<input hidden type=\"text\" id=\"table_name\"  value=\""+table_name+"\"></input>");
+//	out.print("	<input hidden type=\"text\" id=\"user_id\"  value=\""+user_id+"\"></input>");
+
 	%>
+
+    
 	<script>
-	function show_table()
+	function show_details()
 	{		
+
 		var big_string="";
-		big_string=document.getElementById("user_id").value;
+		
+		var number=document.getElementById("int_column_number").value;
+		big_string=getCookie('uid');
+	//	alert(big_string);
 		big_string=big_string+"~"+document.getElementById("table_name").value;
-		big_string=big_string+"~"+document.getElementById("int_column_number").value;
-		for(var i=1;i<=document.getElementById("int_column_number").value;i=i+1)
+		
+		//big_string="001~tablename1";
+		//big_string=big_string+"~"+document.getElementById("int_column_number").value;
+		for(var i=0;i<number;i=i+1)
 		{		
 			big_string=big_string+"~"+document.getElementById("column_name"+i).value;
-			big_string=big_string+"~"+document.getElementById("column_length"+i).value;
 		}
-	//	document.write("<a  href=\"create_table?new_table_information="+big_string+"\"> Submit (you will not see this next version)<br><br></a>");
-		window.location.assign(encodeURI(encodeURI("create_table?new_table_information=" + string)));
-		
-		
+//		big_string=big_string.substring(1, big_string.length);//delete the first"~"
+
+//		document.write("<a href=\"create_little_thing_action?information="+big_string+"\"> Submit (you will not see this next version)<br><br></a>");
+
+		big_string="1~2~3";
+		window.location.assign("edit_details_action?new_infor="+big_string);
+    	window.history.go(-1);
 	};
 	</script>
-	<button class="btn m-r-5" onclick="show_table()"> Submit </button>	
+	
+	
+	
+	
+	
+	<button class="btn m-r-5"  onclick="show_details()"> Edit </button>	
+                                 
+                                </table>
+                            </div>
+                        </div>
 
+                        <!-- Pies -->
+
+
+                        <!--  Recent Postings -->
+
+                        <div class="clearfix"></div>
                     </div>
 
+                    <div class="col-md-4">
+                        <!-- USA Map -->
+
+                        <!-- Dynamic Chart -->
+
+                        <!-- Activity -->
+                    </div>
                     <div class="clearfix"></div>
                 </div>
             </div>

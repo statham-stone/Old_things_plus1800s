@@ -246,7 +246,16 @@
             for(int ii=0;ii<string_arr2.length;ii++)
             {
             	out.print("<td>");
+            	
+            	out.print("<a ");
+            	
+
+            	
+            	out.print("href=\"edit_action?user_id=1&table_name=asdf&little_id=001\"");//注意！！要改！！
+            	out.print(">");
             	out.print(string_arr[hhh]);
+            	out.print("</a>");
+            	
             	out.print("</td>");
                 hhh++;
             }
