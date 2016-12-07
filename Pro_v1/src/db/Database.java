@@ -4,8 +4,12 @@ import java.sql.Connection;        //数据库连接实例
 import java.sql.DriverManager;     //数据库驱动管理类，调用其静态方法getConnection并传入数据库的URL获得数据库连接实例
 import java.sql.Statement;         //操作数据库要用到的类，主要用于执行SQL语句
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.sql.ResultSet;         //数据库查询结果集
 import java.sql.SQLException;
+
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 @SuppressWarnings("unused")
 
@@ -54,37 +58,27 @@ public class Database {
 	//++++++++++注册 登陆 部分
 	
 	/* 12/1 增加新功能 内部完成统计数值的更新
-	 * 要求输入值中添加日期
 	 * 登陆 传入用户名和密码
 	 * 若成功则返回用户ID
 	 * 失败则返回-1
 	 */
-	public int checkUser(String username,String password, String date)
+	public int checkUser(String username,String password)
 	{
+		String date = getTime();
 		String temp = username + "' and password = '" + password;
 		System.out.println(temp);
 		int ID = findID(temp);
-		
-		String update_ck = " stati" + ID + " where Time = " + date;
-		try{
-			int exist = count(update_ck);
-			if (exist==0)
-			{
-				String update = "insert stati" + ID + " values(date,0)";
-			}
-			
-		}
-		catch (Exception e){
-			e.printStackTrace();
-		}
+
 		return ID;
 	}
-	/* 12/1 新改动，注册时需要4位日期
+	/* 12/1 待测试 
+	 * 新改动，注册时内部自动生成4位日期
 	 * 测试通过
 	 * 尝试注册 如果注册失败则返回-1，否则返回新用户的ID
 	 */
-	public int signUp(String username,String password,String date)
+	public int signUp(String username,String password)
 	{
+		String date = getTime();
 		int count = findID(username);
 		if(count != -1)
 		{
@@ -100,7 +94,7 @@ public class Database {
 		
 		String create_table1 = "create table event" + uid+ "(EID int primary key not null,ETime Date,EName varchar(50))";
 		String create_table2 = "create table assoc" + uid+ "(EID int not null, TID int not null,tableid int not null)";
-		String create_table3 = "create table stati" + uid+ "(Time varchar(6) not null, Count int not null)";
+		String create_table3 = "create table stati" + uid+ "(Time varchar(9) not null, Count int not null)";
 		String insert_count = "insert stati" + uid + " values(" + date + ",0)";
 		try{
 			stmt.execute(insert_user);
@@ -224,7 +218,7 @@ public class Database {
 	}
 	
 	/* 11/7 测试通过
-	 * 11/14修改待测试
+	 * 11/14修改待测试 通过
 	 * 输入用户id和表名 返回表的属性（包括ID）
 	 */
 	public String findTableColumn(String uid, String tablename)
@@ -262,14 +256,14 @@ public class Database {
 		return "";
 	}
 	
-	/* 12/1 新修改 要求输入数据增加日期
+	/* 12/1 新修改
 	 * 11/14 测试通过
 	 * 加入一条小事件
 	 * 传入用户ID 表名 插入信息（栏间使用~分割）
 	 * 插入成功返回1 否则返回-1
 	 * 
 	 */
-	public int insertSEvent(String uid,String tablename,String mes,String date)
+	public int insertSEvent(String uid,String tablename,String mes)
 	{
 		ResultSet res = null;
 
@@ -287,15 +281,7 @@ public class Database {
 			temp = "insert " + dbtablename + " values('" + mes +"'," + eid + ")" ;
 			stmt.execute(temp);
 			
-			String update = "select Count from stati" + uid + " where Time = " +date ;
-			res = stmt.executeQuery(update);
-			int n_cnt = 0;
-			while(res.next())
-			{
-				n_cnt = res.getInt(1);
-			}
-			update = "update Count = " + (n_cnt + 1) + " from " + dbtablename + "where Time = " + date ;
-			stmt.execute(update);
+			updateStati(uid);
 			return 1;
 		}
 		catch (SQLException e)
@@ -391,7 +377,6 @@ public class Database {
 	 * 11/15 待测试
 	 * 输入为用户ID
 	 * 输出为该用户所有表名（大事件表关联表除外）
-	 * 
 	 */
 	public String tableBrief(String uid)
 	{
@@ -555,6 +540,7 @@ public class Database {
 				String insert = "insert assoc" + uid + " values(" + eid + "," + mestemp[1] + "," + mestemp[0] + ")";
 				stmt.execute(insert);
 			}
+			updateStati(uid);
 			return eid;
 		}
 		catch(SQLException e)
@@ -569,7 +555,7 @@ public class Database {
 	 * 获得用户ID，返还柱状图相关讯息，讯息为用户日期~修改条数
 	 * 
 	 */
-	public String Chart(String uid)
+	public String Bar(String uid)
 	{
 		String mes = null;
 		String check = "select * from stati" + uid ;
@@ -592,7 +578,7 @@ public class Database {
 	}
 	
 	/* 12/1 待测试
-	 * 获得用户ID，返还饼状图相关讯息，讯息为用户表~拥有的信息数，不包括关联表，包括大事件表
+	 * 获得用户ID，返还饼状图相关讯息，讯息为用户表~拥有的信息数，不包括关联表、大事件表、统计表
 	 * 
 	 */
 	public String Pie(String uid)
@@ -626,7 +612,202 @@ public class Database {
     	}
     	return littleString;
     }
-	
+    
+    /* 12/07新增待测试
+     * sqk需求
+     * 删除小事件
+     * 传入正确的用户ID,表名及小事件ID
+     * 
+     * 对统计数据产生影响
+     */
+    public boolean deleteSEvent(String uid,String tablename,String TID)
+    {
+    	String dbtablename = getDBName(uid,tablename);
+    	String delete = "delete from " + dbtablename + " where TID=" + TID;
+    	try
+    	{
+    		stmt.execute(delete);
+        	updateStati(uid);
+    		return true;
+    	}
+    	catch(SQLException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+    }
+    
+    /* 12/07 新增待测试
+     * sqk需求
+     * 修改小事件
+     * 为了方便处理，此处对数据库操作的本质是删除，插入
+     * 传入正确的用户ID，表名，小事件ID，及小事件的新信息(以~连接)
+     * 传回true代表成功
+     * 
+     * 对统计数据产生影响
+     */
+    public boolean updateSEvent(String uid,String tablename,String TID,String mesin)
+    {
+    	String[] mes = mesin.split("~");
+    	
+    	String dbtablename = getDBName(uid,tablename);
+    	String delete = "delete from " + dbtablename + " where TID = " + TID ;
+    	String insert = "insert "+ dbtablename + " values(" ;
+    	for(int i=0;i<mesin.length();i++)
+    	{
+    		insert = insert + mes[i] + ","; 
+    	}
+    	insert = insert + TID + ")";
+    	
+    	try
+    	{
+    		stmt.execute(delete);
+    		stmt.execute(insert);
+    		updateStati(uid);
+        	return true;
+    	}
+    	catch(SQLException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+    }
+    
+    /* 12/07 新增待测试
+     * 涂神需求
+     * 删除一个大事件
+     * 传入用户ID，大事件ID
+     * 返回true代表成功
+     * 
+     * 对统计数据产生影响
+     */
+    public boolean deleteBEvent(String uid,String EID)
+    {
+    	String delete = "delete from stati" + uid + " where EID=" + EID;
+    	try
+    	{
+    		stmt.execute(delete);
+    		updateStati(uid);
+    		return true;
+    	}
+    	catch(SQLException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+    }
+    
+    /* 12/07 新增待测试
+     * 涂神需求 
+     * eventBrief进阶版
+     * 返回内容增加EID
+     * 输入为用户ID
+     * 输出为大事件名~大事件关联小事件个数~大事件ID^……
+     */
+    public String eventBriefN(String uid)
+    {    	
+    	ResultSet res = null;
+		String result = "" ;
+
+		String temp = "select EName,count(*),a.EID from event" + uid + " e join assoc" + uid +" a where a.EID = e.EID group by EName";
+		
+		try{
+			res = stmt.executeQuery(temp);
+			while(res.next())
+			{
+				result = result + "^" + res.getString(1) + "~" + res.getString(2) + "~" + res.getString(3);
+			}
+			result = result.substring(1); //去掉事件表和关联表
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return result;
+    }
+    
+    /* 12/07 新增待测试
+     * 涂神需求
+     * 输入用户ID，大事件ID
+     * 返回大事件名~时间~关联小事件个数^小事件1全局ID~小事件1ID~小事件1所属表名~小事件1name^小事件2全局ID~小事件2ID~小事件2所属表名~小事件2name……
+     * 其中涂神使用全局ID，显示小事件所属表名及小事件name，后续传小事件ID及所属表名给SQK
+     */
+    public String showBEvent(String uid,String EID)
+    {
+    	String temp = null;
+    	String getmes = "select EName,ETime,count(*) from event" + uid + " e join assoc" + uid +" a where a.EID = e.EID and a.EID = "+ EID;
+    	String select = "select TID,tableid,uname from assoc" + uid + " a join usertable u where a.tableid = u.ID and a.EID = " + EID;
+    	ResultSet res = null;
+    	ResultSet rest = null;
+    	try
+    	{
+    		res = stmt.executeQuery(getmes);
+    		while(res.next())
+    		{
+    			temp = temp + res.getString(1) + "~" + res.getString(2) + "~" + res.getString(3);
+    		}
+    		res = stmt.executeQuery(select);
+    		while(res.next())
+    		{
+    			String tid = res.getString(1);
+    			String tableid = res.getString(2);
+    			String uname = res.getString(3);
+    			temp = temp + "^" + tableid + "_" + tid + "~" + tid + "~" + uname + "~";
+    			
+    			String getse = "select Name from t" + tableid + " where TID = " + tid ;
+    			String event_name = null;
+    			rest = stmt.executeQuery(getse);
+    			while(rest.next())
+    			{
+    				event_name = rest.getString(1);
+    			}
+    			temp = temp + event_name;
+    		}
+    	}
+    	catch(SQLException e)
+    	{
+    		e.printStackTrace();
+    	}
+    	String mes = null;
+    	return mes;
+    }
+    
+    /* 12/07 新增待测试
+     * sqk需求
+     * 输入用户ID，表名，小事件ID
+     * 返回该小事件每一列，包含小事件ID
+     */
+	public String editRetOldInf(String uid,String tablename,String TID)
+	{
+		String dbtablename = getDBName(uid,tablename);
+		String temp = "select * from " + dbtablename + " where TID =" + TID;
+		
+		ResultSet res = null;
+		String mes = null;
+		
+		try
+		{
+			res = stmt.executeQuery(temp);
+			while(res.next())
+			{
+				for (int i=1;i<=co_count;i++)
+				{
+					mes = mes + "~" + res.getString(i);
+				}
+			}
+			if(mes.length()>1)
+			{
+				mes = mes.substring(1);
+			}
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return mes;
+		
+	}
+    
 	/* private函数 请勿直接使用或修改！
 	 * 检查提供的小事件唯一ID是否存在
 	 */
@@ -721,5 +902,41 @@ public class Database {
     	catch (SQLException e){e.printStackTrace();}
     	return n;
     }
+	
+	/* private函数 请勿直接使用或者修改！！！
+	 * 12/07  待测试
+	 * 获取时间 为八位 yyyyMMdd
+	 */
+	private boolean updateStati(String uid)
+	{
+		String date = getTime();
+		String update_ck = " stati" + uid+ " where Time = " + date;
+		try{
+			String update = null;
+			int exist = count(update_ck);
+			if (exist==0)
+			{
+				update = "insert stati" + uid + " values(date,1)";
+			}
+			else
+			{
+				update = "update stati" + uid + " set Count = Count+1 where Time =" + date ;
+			}
+			stmt.execute(update);
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		return true;
+	}
 
+	/* private函数 请勿直接使用或者修改！！！
+	 * 12/07 测试通过
+	 * 获取时间 为八位 yyyyMMdd
+	 */
+	private String getTime() 
+	{
+		String date = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
+		return date;
+	}
 }
