@@ -141,6 +141,14 @@
 			class="little_thing_create.edit_java_show"
 			method="insert">
 				<result name="SUCCESS">/index.jsp</result><!-- no use here -->
+				<result name="FAILED">/create_little_thing_failed.jsp</result><!-- no use here -->
+		</action>
+		
+		<action name="delete_action"
+			class="little_thing_create.edit_java_show"
+			method="delete">
+				<result name="SUCCESS">/index.jsp</result><!-- no use here -->
+				<result name="FAILED">/create_little_thing_failed.jsp</result><!-- no use here -->
 		</action>
 
 	</package>
