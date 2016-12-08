@@ -1,5 +1,7 @@
 package db;
 
+import java.io.File;
+
 public class DatabaseTest {
 	
 	public static void main(String[] args) {
@@ -176,7 +178,7 @@ public class DatabaseTest {
 		db1.updateSEvent("2","Eat","1","dinner~2018~xueyuan");
 		intr = db1.submitEvent("2~testagain~20161115~7_1~7_2~8_2");
 		System.out.println("test18 " + intr);
-		*/
+		
 		result = db1.eventBrief("2");
 		System.out.println("test26 " + result);
 		
@@ -187,6 +189,17 @@ public class DatabaseTest {
 		System.out.println("test27" + result);
 		
 		db1.deleteBEvent("2","1");
+		*/
+		
+		String csv_test = "1,2\n3,4";
+		System.out.println(csv_test);
+		
+		result = db1.download("2","Eat");
+		System.out.println("test28 " + result);
+		
+		File myfile = new File("E:/test.csv");
+		result = db1.upload("2","Eat",myfile);
+		System.out.println("test29 " + result);
 		
 		
 		System.out.println(db1.close());

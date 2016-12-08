@@ -1,5 +1,9 @@
 package db;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;        //数据库连接实例
 import java.sql.DriverManager;     //数据库驱动管理类，调用其静态方法getConnection并传入数据库的URL获得数据库连接实例
 import java.sql.Statement;         //操作数据库要用到的类，主要用于执行SQL语句
@@ -31,7 +35,7 @@ public class Database {
 	{
 		 try{
 	            Class.forName(DRIVER_MYSQL);     //加载JDBC驱动
-	            connection = DriverManager.getConnection(URL,"root","statham+1s");   //创建数据库连接对象
+	            connection = DriverManager.getConnection(URL,"root","1234");   //创建数据库连接对象
 	            stmt = connection.createStatement();       //创建Statement对象
 	            return "connect!";
 	     }
@@ -67,7 +71,7 @@ public class Database {
 	{
 		String date = getTime();
 		String temp = username + "' and password = '" + password;
-		System.out.println(temp);
+		//System.out.println(temp);
 		int ID = findID(temp);
 
 		return ID;
@@ -822,6 +826,122 @@ public class Database {
 		}
 		return mes;
 		
+	}
+	
+	/* 12/08 新增待测试
+	 * 用户评价
+	 * 输入为用户ID及评价字符串
+	 * 返回一个布尔值表示是否成功
+	 */
+	public boolean comment(String uid,String com)
+	{
+		boolean suc = false;
+		com = com.replace("~","','");
+		com = "'" + com + "'" ;
+		
+		String insert = "insert comment values(" + uid + "," + com + ")";
+		
+		try
+		{
+			stmt.execute(insert);
+			suc = true;
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return suc;
+	}
+	
+	/* 12/08 新测试通过
+	 * 生成csv文件内容
+	 * 传入值为用户ID及他个人的表名
+	 * 传出值为字符串 格式为 ： 用户表名^csv文件内容
+	 */
+	public String download(String uid,String uname)
+	{
+		ResultSet res = null;
+		String dbtablename = getDBName(uid,uname);
+		
+		String result = "";
+		String detail = "desc " + dbtablename;
+		String select = "select * from "+ dbtablename ;
+		
+		try
+		{
+			res = stmt.executeQuery(detail);
+			while(res.next())
+			{
+					result = result + "," + res.getString(1);
+			}
+			result = result.substring(1);
+			result = result.replace(",TID", "");
+			res = stmt.executeQuery(select);
+			while(res.next())
+			{
+				result = result + "\n" ;
+				for(int i=1;i<co_count;i++)
+				{
+					result = result + "," + res.getString(i);
+				}
+			}
+			result = result.replace("\n,", "\n");
+			result = uname + "^" + result;
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/* 12/08 新测试通过
+	 * 将上传的csv文件处理过后 添加进数据库已有表中
+	 * 成功时返回该表表名，请自行调用函数使用表名和用户ID查看表的内容
+	 * 
+	 * 注意：如果 表实际列数是3，多于3列的行将只保留前三列数据，少于3的则不保留数据
+	 * 
+	 * 失败返回"false"
+	 */
+	public String upload(String uid, String uname, File csv_file)
+	{
+		String dbtablename = getDBName(uid,uname);
+		
+		String str = "";
+		try 
+        {
+            BufferedReader in_br = new BufferedReader(new FileReader(csv_file));
+            
+            while ((str = in_br.readLine()) != null) 
+            {
+                  String[] columns = str.split(",");
+                  String insert = "";
+                  if(columns.length<co_count-1)
+                  {
+                	  continue;
+                  }
+                  else
+                  {
+                	  for(int i=0;i<co_count-1;i++)
+	                  {
+	                	  if("".equals(columns[i]))
+	                	  {
+	                		  columns[i] = " ";
+	                	  }
+	                	  insert = insert + "~" + columns[i];
+	                  }
+	                  insert = insert.substring(1);
+                  }                  
+                  insertSEvent(uid,uname,insert);
+            }
+            in_br.close();
+        } 
+        catch(IOException e) 
+        {
+            e.getStackTrace();
+            return "false";
+        }
+		return uname;
 	}
     
 	/* private函数 请勿直接使用或修改！
