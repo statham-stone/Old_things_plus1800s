@@ -16,11 +16,19 @@
         <link href="css/style.css" rel="stylesheet">
         <link href="css/generics.css" rel="stylesheet"> 
     </head>
-    <body id="skin-blur-violate">
+    <body id="skin-blur-violate" onload="go_index()" >
         <section id="error-page" class="tile">
             <h1 class="m-b-10">Create little thing done</h1>
             <a class="underline" href="index.jsp">Go to Home page</a> 
         </section>
         
     </body>
+    
+    <script>
+    function go_index()
+    {
+		window.location.href="index.jsp";
+    }
+    </script>
+    
 </html>
