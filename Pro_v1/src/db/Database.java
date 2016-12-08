@@ -31,7 +31,7 @@ public class Database {
 	{
 		 try{
 	            Class.forName(DRIVER_MYSQL);     //加载JDBC驱动
-	            connection = DriverManager.getConnection(URL,"root","1234");   //创建数据库连接对象
+	            connection = DriverManager.getConnection(URL,"root","statham+1s");   //创建数据库连接对象
 	            stmt = connection.createStatement();       //创建Statement对象
 	            return "connect!";
 	     }

@@ -27,8 +27,8 @@ public class EventList extends ActionSupport {
 
 		
 		result="name1~count1~id1^name2~count2~id2^name3~count3~id3";
-		
-		//result=db1.eventBrief(Integer.parseInt(uid));
+	//	result=db1.showBEvent(sql_result, EID)
+		result=db1.eventBriefN(uid);
 		// TODO: set  result value to return to front end
 		
 		return SUCCESS;

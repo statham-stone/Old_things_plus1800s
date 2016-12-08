@@ -22,8 +22,8 @@ public class show_little_things_java {
 		Database db1 = new Database();
 		String sql_result =db1.connect();
 		
-		infor=db1.findSEvent(Integer.parseInt(user_id), table_name);
-		infor2=db1.statham_column(Integer.parseInt(user_id), table_name);
+		infor=db1.findSEvent( (user_id), table_name);
+		infor2=db1.statham_column( (user_id), table_name);
 		
 	//	infor="1~2~3~4~5~6";
 		
@@ -32,7 +32,8 @@ public class show_little_things_java {
 		HttpSession sesssion=req.getSession();
 		sesssion.setAttribute("infor",infor);
 		sesssion.setAttribute("infor2",infor2);		
-		
+		sesssion.setAttribute("user_id",user_id);
+		sesssion.setAttribute("table_name",table_name);	
 		
 		
 		return "SUCCESS";

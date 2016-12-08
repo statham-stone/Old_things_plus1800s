@@ -26,11 +26,16 @@ public class edit_java_show {
 		String sql_result =db1.connect();
 		
 		
-//		old_infor=db1.aaaaaaaaaaaaaaaaaaaaaaaaaa(user_id,table_name,little_id)
-		old_infor="content1~content2~content3~002";
-		column_names="13~22~333";
+		System.out.print("999999999999999999999999999999999999999999999999999999");
+		System.out.print(user_id);
+		System.out.print(table_name);		
+		System.out.print(little_id);
 		
-		
+//		old_infor=db1.aaaaaaaaaaaaaaaaaaaaaaaaaa
+		old_infor=db1.editRetOldInf(user_id,table_name,little_id);
+		column_names=db1.statham_column(user_id, table_name);
+	
+		System.out.print(old_infor);		
 		ServletRequest request=ServletActionContext.getRequest();
 		HttpServletRequest req =(HttpServletRequest) request;
 		HttpSession sesssion=req.getSession();
@@ -51,10 +56,41 @@ public class edit_java_show {
 		Database db1 = new Database();
 		String sql_result =db1.connect();
 		
+		String thing_arr[]=new_infor.split("~");
 		
-		//db1.insert(new_infor)
-		System.out.print(new_infor);
-		return "SUCCESS";
+		db1.deleteSEvent(thing_arr[0], thing_arr[1], thing_arr[2]);
+		
+		String ahh=thing_arr[3];
+		
+		for(int i=4;i<thing_arr.length;i++)
+		{
+			ahh=ahh+"~"+thing_arr[i];
+		}
+		
+		System.out.print("00000000000000000000000");		
+		System.out.print(ahh);
+
+		if(db1.insertSEvent(thing_arr[0], thing_arr[1], ahh)==1)
+		{
+			return "SUCCESS";			
+		}
+		return "FAILED";
+
+	}
+	
+	public String delete() 
+	{
+		
+		Database db1 = new Database();
+		String sql_result =db1.connect();
+		String thing_arr[]=new_infor.split("~");
+
+		if(	db1.deleteSEvent(thing_arr[0], thing_arr[1], thing_arr[2])==true)
+		{
+			return "SUCCESS";			
+		}
+		return "FAILED";
+		
 	}
 	
 

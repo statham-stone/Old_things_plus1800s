@@ -33,7 +33,7 @@ public class create_little_thing_detail_java {
 
 	//	user_id="007";
 		
-		column_names=db1.findTableColumn(Integer.parseInt(user_id), table_name);
+		column_names=db1.findTableColumn( (user_id), table_name);
 		
 		
 		/*WRONG FUNCTINO, SECOND PROCESS */

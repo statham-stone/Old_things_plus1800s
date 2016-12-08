@@ -27,7 +27,7 @@ public class create_little_thing_java {
 			little_infor=little_infor+"~"+string_arr[i];
 		}
 		
-		int done_success=db1.insertSEvent(Integer.parseInt(user_id), table_name, little_infor);
+		int done_success=db1.insertSEvent(user_id, table_name, little_infor);
 		
 	
 		if(done_success==1)

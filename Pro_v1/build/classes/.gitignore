@@ -1,5 +1,6 @@
 /ajax/
-/table_create/
-/test/
 /db/
 /little_thing_create/
+/struts.xml
+/table_create/
+/test/

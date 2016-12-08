@@ -28,7 +28,7 @@ public class EventBrief extends ActionSupport {
 		
 		result="uid:"+uid+"~count1^eventname2~count2^eventname3~count3";
 		
-		result=db1.eventBrief(Integer.parseInt(uid));
+		//result=db1.eventBrief(Integer.parseInt(uid));
 		// TODO: set  result value to return to front end
 		
 		return SUCCESS;

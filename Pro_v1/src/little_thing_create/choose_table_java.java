@@ -18,8 +18,8 @@ public class choose_table_java {
 			String sql_result =db1.connect();
 			
 			this.table_list="3~table_success_1~table2333333~table3";
-	//	=db1.findUserTable(Integer.parseInt(user_id));
-			this.table_list=db1.tableBrief(Integer.parseInt(user_id));
+	//	=db1.findUserTable( (user_id));
+			this.table_list=db1.tableBrief( (user_id));
 			String[] count_arr=this.table_list.split("~");
 			int number=count_arr.length;
 			this.table_list=Integer.toString(number)+"~"+this.table_list;

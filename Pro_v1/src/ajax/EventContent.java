@@ -31,7 +31,7 @@ public class EventContent extends ActionSupport {
 		
 		result="EventName~Date~Count~^Gid1~id1~tname1~name1^Gid2~id2~tname2~name2";
 		
-		//result=db1.eventBrief(Integer.parseInt(uid));
+		result=db1.showBEvent(uid, eid);
 		// TODO: set  result value to return to front end
 		
 		return SUCCESS;

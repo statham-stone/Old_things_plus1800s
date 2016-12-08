@@ -26,7 +26,7 @@ public class TableBrief extends ActionSupport {
 		result="uid:"+uid+"~tablename2~tablename3";
 		// TODO: set  result value to return to front end
 		
-		result=db1.tableBrief(Integer.parseInt(uid));
+		result=db1.tableBrief(uid);
 		
 		return SUCCESS;
 	}
