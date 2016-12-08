@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <!--[if IE 9 ]><html class="ie9"><![endif]-->
 
@@ -11,7 +10,7 @@
     <meta name="description" content="Violate Responsive Admin Template">
     <meta name="keywords" content="Super Admin, Admin, Template, Bootstrap">
 
-    <title>Table details</title>
+    <title>Main page</title>
 
     <!-- CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -23,58 +22,143 @@
     <link href="css/icons.css" rel="stylesheet">
     <link href="css/generics.css" rel="stylesheet">
     <script type="text/javascript">
+	
+	function setCookies(c_name,value,expiredays)
+	{
+		var exdate = new Date()
+		exdate.setDate(exdate.getDate()+expiredays)
+		document.cookie=c_name+ "=" +escape(value)+
+			((expiredays==null) ? "" : "; expires="+exdate.toGMTString())
+	}
+	
+	function getCookie(c_name)
+	{
+	if (document.cookie.length>0)
+	  {
+	  c_start=document.cookie.indexOf(c_name + "=")
+	  if (c_start!=-1)
+	    { 
+	    c_start=c_start + c_name.length+1 
+	    c_end=document.cookie.indexOf(";",c_start)
+	    if (c_end==-1) c_end=document.cookie.length
+	    return unescape(document.cookie.substring(c_start,c_end))
+	    } 
+	  }
+	return ""
+	}
     
-    function setCookies(c_name,value,expiredays)
-    {
-        var exdate = new Date()
-        exdate.setDate(exdate.getDate()+expiredays)
-        document.cookie=c_name+ "=" +escape(value)+
-            ((expiredays==null) ? "" : "; expires="+exdate.toGMTString())
-    }
-    
-    function getCookie(c_name)
-    {
-    if (document.cookie.length>0)
-      {
-      c_start=document.cookie.indexOf(c_name + "=")
-      if (c_start!=-1)
-        { 
-        c_start=c_start + c_name.length+1 
-        c_end=document.cookie.indexOf(";",c_start)
-        if (c_end==-1) c_end=document.cookie.length
-        return unescape(document.cookie.substring(c_start,c_end))
-        } 
-      }
-    return ""
-    }
-    
-    function checkCookies()
-    {
-        uid=getCookie('uid')
-        if (uid==null || uid=="") 
-        {
-            alert("You are not logged in! please log in first.")
-            window.location.href="./login.html" 
-        } else {
-            document.getElementById("usernametag").innerHTML="uid:"+uid;
-        }
-    }
-    
+	function checkCookies()
+	{
+		var uid=getCookie('uid')
+		if (uid==null || uid=="") 
+		{
+			alert("You are not logged in! please log in first.")
+			window.location.href="./login.html"	
+		} else {
+			document.getElementById("usernametag").innerHTML="uid:"+uid;
+		}
+	}
+	
     function signOut()
     {
-        setCookies("uid","",10);            //erase login information
-        window.location.href="./login.html" //return to login page
+    	setCookies("uid","",10);			//erase login information
+    	window.location.href="./login.html"	//return to login page
     }
     
     function searchKeyDown()
     {
-        if (event.keyCode==13)
-        {
-            //alert("entered:"+$("#searchbox").val());
-            window.location.href="./searchresult?key="+$("#searchbox").val();
-        }
+    	if (event.keyCode==13)
+    	{
+    		//alert("entered:"+$("#searchbox").val());
+    		window.location.href="./searchresult?key="+$("#searchbox").val();
+    	}
+    }
+    
+    function showTable(a)
+    {
+    	var name=document.getElementById("tableSet["+a+"]");
+    //	window.location.href="./show_table_h?user_id="+getCookie('uid').toString()+"table_name="+name;
+    setCookie("table_name",www,20);
+    window.location.href="./show_table_jsp.jsp";
+    }
+    
+    function loadTableBrief()
+    {
+		var params = {
+		    	uid : getCookie("uid")
+			};
+			$.ajax({
+		    	type: "POST",
+		    	url: "loadTableBrief.action",
+		    	data: params,
+		    	dataType:"text", //ajax返回值设置为text（json格式也可用它返回，可打印出结果，也可设置成json）
+		    	success: function(json){  
+		    		var obj = $.parseJSON(json);  //使用这个方法解析json
+		            var state_value = obj.result;  //result是和action中定义的result变量的get方法对应的
+		            console.log(json);
+		    		//state_value is the returned value
+		    		//alert(state_value);
+		    		var tableSet = state_value.split("~");
+		    		var txt="<thead><tr><th>Table Name</th></tr></thead><tbody>";
+		    		for (var i=0;i<tableSet.length;i++)
+		    		{
+		    			
+
+		    //         txt = txt+"<tr><td>"+tableSet[i]+"</tr></td>";
+		    			
+		    			txt = txt+"<tr><td><a href=\"show_table?user_id="+getCookie('uid')+"&table_name="+tableSet[i]+"     \" >"+tableSet[i]+"</a></tr></td>";
+	//	    			txt = txt+"<tr><td id=\""+tableSet[i]+"\" onclick='javascript:showTable("+i+")'>"+tableSet[i]+"</tr></td>";
+ 			    		}
+		    		txt=txt+"</tbody>";
+		    		document.getElementById("tablebrief").innerHTML=txt;
+		    	},
+		    	error: function(json){
+		    		console.log(json);
+		     		return false;
+		    	}
+		    });
     }
 
+    function go_back()
+    {
+    	window.history.go(-2);
+    }
+    
+    function loadEventBrief()
+    {
+		var params = {
+		    	uid : getCookie("uid")
+			};
+			$.ajax({
+		    	type: "POST",
+		    	url: "loadEventBrief.action",
+		    	data: params,
+		    	dataType:"text", //ajax返回值设置为text（json格式也可用它返回，可打印出结果，也可设置成json）
+		    	success: function(json){  
+		    		var obj = $.parseJSON(json);  //使用这个方法解析json
+		            var state_value = obj.result;  //result是和action中定义的result变量的get方法对应的
+		            console.log(json);
+		    		//state_value is the returned value
+		    		//alert(state_value);
+		    		var txt=""
+		    		eventSet=state_value.split("^");
+		    		for (var i=0;i<eventSet.length;i++)
+		    		{
+		    			thisEvent=eventSet[i].split("~");
+		    			txt=txt+"<li class=\"list-group-item\">"+thisEvent[0];
+		    			txt=txt+"<span class=\"badge\">"+thisEvent[1];
+		    			txt=txt+"</span></li>";
+		    		}
+		    		document.getElementById("eventbrief").innerHTML=txt;
+		    	},
+		    	error: function(json){
+		    		console.log(json);
+		     		return false;
+		    	}
+		    });
+    }
+
+    
     function bingo()
     {
     	//statham
@@ -85,7 +169,7 @@
     
 </head>
 
-<body id="skin-blur-violate" onload="checkCookies()">
+<body id="skin-blur-violate" onload="checkCookies();loadTableBrief();loadEventBrief();go_back()">
 
 
     <header id="header" class="media">
@@ -156,7 +240,9 @@
                     </a>
                 </li>
                 <li>
-                    <a class="sa-side-widget" onclick='javascript:bingo()'>
+                     <a class="sa-side-widget" onclick='javascript:bingo()'>
+   <!--                     <a class="sa-side-widget" href="create_little_thing_choose_table.jsp">
+          -->             
                         <span class="menu-item">Create Little Thing</span>
                     </a>
                 </li>
@@ -203,53 +289,36 @@
                     <div class="col-md-8">
                         <!-- Main Chart -->
                         <div class="block-area" id="tableHover">
-                            <h3 class="block-title">Details</h3>
-                            
-                            
+                            <h3 class="block-title">TABLES</h3>
+                            <div class="table-responsive overflow">
+                                <table class="table table-bordered table-hover tile" id="tablebrief" >
+									<!-- Loaded brief will be inserted here -->
+                                </table>
+                            </div>
+                        </div>
 
-    
-  Input column details:
-	<%
-	String column_number_string=request.getAttribute("column_number").toString();
-	String user_id_string=request.getAttribute("user_id").toString();
-	String table_name_string=request.getAttribute("table_name").toString();
-	out.print(column_number_string);
-	
-	out.print(" <p>Column name:<input readonly=\"readonly\" class=\"input-sm validate[required] form-control\" type=\"text\" id=\"column_name"+ 1+ "\" " +"name=\""+" column_name"+1+"\"required=\"required\" value=\"name\" /></input> </p>");
-	out.print(" <p>Column length:<input readonly=\"readonly\" class=\"input-sm validate[required] form-control\"   type=\"text\" id=\"column_length"+1+ "\" "+"name=\""+"column_length"+1+"\" required=\"required\" value=\"50\"  /></input> </p>");
-	
-	
-	for( int i=2;i<=Integer.parseInt(column_number_string);i++)
-	{
-		out.print(" <p>Column name:<input class=\"input-sm validate[required] form-control\" type=\"text\" id=\"column_name"+ i+ "\" " +"name=\""+" column_name"+i+"\"required=\"required\" /></input> </p>");
-		out.print(" <p>Column length:<input  class=\"input-sm validate[required] form-control\"   type=\"text\" id=\"column_length"+i+ "\" "+"name=\""+"column_length"+i+"\" required=\"required\" /></input> </p>");
-	}
-	out.print("	<input hidden type=\"text\" id=\"int_column_number\"  value=\""+column_number_string+"\"></input>");// 
-	out.print("	<input hidden type=\"text\" id=\"table_name\"  value=\""+table_name_string+"\"></input>");// 
-	out.print("	<input hidden type=\"text\" id=\"user_id\"  value=\""+user_id_string+"\"></input>");// 
-	%>
-	<script>
-	function show_table()
-	{		
-		var big_string="";
-		big_string=document.getElementById("user_id").value;
-		big_string=big_string+"~"+document.getElementById("table_name").value;
-		big_string=big_string+"~"+document.getElementById("int_column_number").value;
-		for(var i=1;i<=document.getElementById("int_column_number").value;i=i+1)
-		{		
-			big_string=big_string+"~"+document.getElementById("column_name"+i).value;
-			big_string=big_string+"~"+document.getElementById("column_length"+i).value;
-		}
-	//	document.write("<a  href=\"create_table?new_table_information="+big_string+"\"> Submit (you will not see this next version)<br><br></a>");
-		window.location.assign("create_table?new_table_information=" +big_string);
-		
-		
-	};
-	</script>
-	<button class="btn m-r-5" onclick="show_table()"> Submit </button>	
+                        <!-- Pies -->
 
+
+                        <!--  Recent Postings -->
+
+                        <div class="clearfix"></div>
                     </div>
 
+                    <div class="col-md-4">
+                        <!-- USA Map -->
+
+                        <!-- Dynamic Chart -->
+
+                        <!-- Activity -->
+                        <h3 class="block-title">Events Brief</h3>
+                        <div class="tile">
+                        <ul class="list-group block" id="eventbrief" >
+                        	<!-- Loaded brief will be inserted here -->
+                        </ul>
+                        </div>
+                        <a href="event_list.jsp">Show All Events</a>
+                    </div>
                     <div class="clearfix"></div>
                 </div>
             </div>

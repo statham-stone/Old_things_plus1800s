@@ -213,7 +213,7 @@
     
     <%
 	String column_name_string=request.getAttribute("column_names").toString();
-//	String user_id=request.getAttribute("user_id").toString();
+	String little_id=request.getAttribute("little_id").toString();
 	String table_name=request.getAttribute("table_name").toString();
 	String old_infor=request.getAttribute("old_infor").toString();
 	String old_infor_arrString[]=old_infor.split("~");
@@ -225,7 +225,7 @@
 	
 	out.print("	<input hidden type=\"text\" id=\"int_column_number\"  value=\""+column_name.length+"\"></input>"); 
 	out.print("	<input hidden type=\"text\" id=\"table_name\"  value=\""+table_name+"\"></input>");
-//	out.print("	<input hidden type=\"text\" id=\"user_id\"  value=\""+user_id+"\"></input>");
+	out.print("	<input hidden type=\"text\" id=\"little_id\"  value=\""+little_id+"\"></input>");
 
 	%>
 
@@ -241,6 +241,8 @@
 	//	alert(big_string);
 		big_string=big_string+"~"+document.getElementById("table_name").value;
 		
+		big_string=big_string+"~"+document.getElementById("little_id").value;
+		
 		//big_string="001~tablename1";
 		//big_string=big_string+"~"+document.getElementById("int_column_number").value;
 		for(var i=0;i<number;i=i+1)
@@ -251,18 +253,33 @@
 
 //		document.write("<a href=\"create_little_thing_action?information="+big_string+"\"> Submit (you will not see this next version)<br><br></a>");
 
-		big_string="1~2~3";
+//		big_string="1~2~322222222222222";
 		window.location.assign("edit_details_action?new_infor="+big_string);
-    	window.history.go(-1);
+	};
+	</script>
+
+	<script>
+	function delete_it()
+	{		
+
+		var big_string="";
+		
+		var number=document.getElementById("int_column_number").value;
+		big_string=getCookie('uid');
+		alert("Really want delete ?");
+		big_string=big_string+"~"+document.getElementById("table_name").value;
+		
+		big_string=big_string+"~"+document.getElementById("little_id").value;
+
+		window.location.assign("delete_action?new_infor="+big_string);
 	};
 	</script>
 	
 	
-	
-	
-	
 	<button class="btn m-r-5"  onclick="show_details()"> Edit </button>	
-                                 
+    
+    <button class="btn m-r-5" onclick="delete_it()"> Delete </button>                             
+                             
                                 </table>
                             </div>
                         </div>

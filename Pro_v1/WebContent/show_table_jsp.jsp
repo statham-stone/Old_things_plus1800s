@@ -217,8 +217,8 @@
  <%
     String infor=request.getAttribute("infor").toString();
 	String infor2=request.getAttribute("infor2").toString();
-
- //   out.print(infor);
+	String user_id=request.getAttribute("user_id").toString();
+	String table_name=request.getAttribute("table_name").toString();
 	
 	String string_arr[]=infor.split("~");
     String string_arr2[]=infor2.split("~");
@@ -243,23 +243,26 @@
         for(int i=0;i<Integer.parseInt(string_arr[0]);i=i+1)
         {
             out.print("<tr>");  
-            for(int ii=0;ii<string_arr2.length;ii++)
+            for(int ii=0;ii<1;ii++)
             {
             	out.print("<td>");
             	
             	out.print("<a ");
-            	
-
-            	
-            	out.print("href=\"edit_action?user_id=1&table_name=asdf&little_id=001\"");//注意！！要改！！
+            	out.print("href=\"edit_action?user_id="+user_id+"&table_name="+table_name+"&little_id="+string_arr[hhh+string_arr2.length]+"\"");//aaaaaaaaaaaaaa
             	out.print(">");
             	out.print(string_arr[hhh]);
-            	out.print("</a>");
-            	
+            	out.print("</a>");            	
             	out.print("</td>");
                 hhh++;
             }
-            hhh++;//hehe,the id
+            for(int ii=1;ii<string_arr2.length;ii++)
+            {
+            	out.print("<td>");
+            	out.print(string_arr[hhh]);
+            	out.print("</td>");
+                hhh++;//the id
+            }
+            hhh++;//hehe,the id            
             out.print("</tr>");
         }
         out.print("</tbody>");
