@@ -189,7 +189,6 @@ public class DatabaseTest {
 		System.out.println("test27" + result);
 		
 		db1.deleteBEvent("2","1");
-		*/
 		
 		String csv_test = "1,2\n3,4";
 		System.out.println(csv_test);
@@ -200,6 +199,15 @@ public class DatabaseTest {
 		File myfile = new File("E:/test.csv");
 		result = db1.upload("2","Eat",myfile);
 		System.out.println("test29 " + result);
+		
+		db1.complete("2");
+		*/
+		
+		result = db1.Bar("2","5");
+		
+		System.out.println(result);
+		
+		
 		
 		
 		System.out.println(db1.close());

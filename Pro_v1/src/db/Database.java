@@ -573,8 +573,40 @@ public class Database {
 	 */
 	public String Bar(String uid)
 	{
+		complete(uid);
 		String mes = "";
-		String check = "select * from stati" + uid ;
+		String check = "select * from stati" + uid + " order by Time";
+		try{
+			ResultSet res = stmt.executeQuery(check);
+			while (res.next())
+			{
+				mes = mes + "~" + res.getString(1) + "~" + res.getString(2);
+			}
+			if(mes.length()>1)
+			{
+				mes = mes.substring(1);
+			}
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return mes;
+	}
+	
+	/* 12/11 新测试通过 
+	 * 厉害了我的姐  Bar图可以指定某一时间段你知道了吗
+	 * 
+	 * 获得用户ID及天数,天数是完全任意的，正整数就可以
+	 * 返还柱状图在对应天数时间段内相关讯息，讯息为用户日期~修改条数
+	 */
+	public String Bar(String uid,String days)
+	{
+		String mes = "";
+		
+		//嵌套order的本质是为了反序再反序得到正序
+		String check = "select * from (select * from stati" + uid + " order by Time desc limit " + days + " ) a order by Time";
+		
 		try{
 			ResultSet res = stmt.executeQuery(check);
 			while (res.next())
@@ -1095,5 +1127,153 @@ public class Database {
 		}
 		
 		return result;
+	}
+	
+	/* 12/11 测试通过
+	 * 依旧private函数 循环到自己都一脸茫然 请勿改动或直接调用
+	 * 补全所有统计0数据项
+	 */
+	private boolean complete(String uid)
+	{
+		int[] mday = {0,31,28,31,30,31,30,31,31,30,31,30,31};
+		String temp = "select min(Time) from stati" + uid ;
+		ResultSet res = null;
+		String min = "";
+		String max = getTime();
+		try
+		{
+			res = stmt.executeQuery(temp);
+			while(res.next())
+			{
+				min = res.getString(1);
+			}
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		
+		int maxy = Integer.parseInt(max.substring(0,4));
+		int miny = Integer.parseInt(min.substring(0,4));
+		int maxm = Integer.parseInt(max.substring(4, 6));
+		int minm = Integer.parseInt(min.substring(4, 6));
+		int maxd = Integer.parseInt(max.substring(6));
+		int mind = Integer.parseInt(min.substring(6));
+		
+		if(maxy==miny)//同年日期 补全
+		{
+			if(maxm==minm)//同月 只补全当月
+			{
+				for(int i = mind+1 ; i <= maxd ; i++)
+				{
+					String d = "";
+					if(i<10)
+					{
+						d = min.substring(0,6) + "0" + i;
+					}
+					else{
+						d = min.substring(0,6) + i;
+					}
+					dateInsert(uid,d);
+				}
+			}
+			else//不同月 补全两个月的所有信息
+			{
+				for(int i = minm ; i <= maxm ; i++)
+				{
+					int days = mday[i];
+					for(int j = 1 ; j <= days ; j++ )
+					{
+						String d = "";
+						if(i<10 && j<10) 
+						{
+							d = min.substring(0, 4) + "0" + i + "0" + j; 
+						}
+						else if(i<10 && j>9)
+						{
+							d = min.substring(0, 4) + "0" + i + "" + j; 
+						}
+						else if(i>9 && j<10)
+						{
+							d = min.substring(0, 4) + "" + i + "0" + j; 
+						}
+						else
+						{
+							d = min.substring(0, 4) + "" + i + "" + j; 
+						}
+						
+						dateInsert(uid,d);
+					}
+				}
+			}
+		}
+		else//不同年份 补全两年所有内容 没什么好办法 心好累
+		{
+			for(int i = miny ; i <= maxy ;i++)
+			{
+				for(int j = 1 ; j < 12 ; j++ ) 
+				{
+					for(int k = 1; k <= mday[j] ;k++)
+					{
+						String d = "";
+						if(j<10 && k<10) 
+						{
+							d = i + "0" + j + "0" + k; 
+						}
+						else if(j<10 && k>9)
+						{
+							d = i + "0" + j + "" + k; 
+						}
+						else if(i>9 && j<10)
+						{
+							d = i + "" + j + "0" + k; 
+						}
+						else
+						{
+							d = i + "" + j + "" + k; 
+						}
+						dateInsert(uid,d);
+					}
+				}
+			}
+		}
+		
+		//填充完毕开始删除
+		String delete = "delete from stati" + uid + " where Time not between " +  min + " and " + max;
+		try
+		{
+			stmt.execute(delete);
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
+	/* 12/11 新测试通过
+	 * 测试一个日期的统计数据是否存在，不存在则添加并设置为0
+	 * 存在就不管了……
+	 * 还是private函数 不能直接调用 也请不要修改
+	 */
+	private boolean dateInsert(String uid, String tdate)
+	{
+		try {
+			Statement stmt1 = connection.createStatement();
+
+			String update_ck = " stati" + uid+ " where Time = '" + tdate + "'";
+		
+			String update = null;
+			int exist = count(update_ck);
+			if (exist==0)
+			{
+				update = "insert stati" + uid + " values('" + tdate + "' ,0)";
+				stmt1.execute(update);
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		return true;
 	}
 }
