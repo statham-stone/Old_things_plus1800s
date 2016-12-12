@@ -98,6 +98,32 @@
     	document.getElementById("inputrequire").style.display="none";
     }
     
+    function submitSurvey()
+    {
+//     	alert("submit activated");
+//     	alert($("input[name='rad_1']:checked").val());
+//     	alert($("input[name='rad_2']:checked").val());
+//     	alert($("input[name='rad_3']:checked").val());
+//     	alert($("input[name='rad_4']:checked").val());
+//     	alert($("input[name='rad_5']:checked").val());
+//     	alert(document.getElementById('inputrequire').value);
+//     	alert(document.getElementById('inputcomment').value);
+		var survey="";
+		survey+= $("input[name='rad_1']:checked").val()+'~';
+		survey+= $("input[name='rad_2']:checked").val()+'~';
+		survey+= $("input[name='rad_3']:checked").val()+'~';
+		survey+= $("input[name='rad_4']:checked").val()+'~';
+		survey+= document.getElementById('inputrequire').value+'~';
+		survey+= $("input[name='rad_5']:checked").val()+'~';
+		survey+= document.getElementById('inputcomment').value;
+		//alert(survey);
+		
+		
+		
+		
+    }
+    
+    
     </script>
     
 </head>
@@ -225,19 +251,19 @@
 						<h3>1.您与三位开发者(a2clef,statham_stone,leafywang)的关系是?</h3>
 						<div class="radio">
                         <label>
-                            <input type="radio" name="rad_1">
+                            <input type="radio" name="rad_1" value="a">
                             <h4>a.我是他们的同学/朋友/家人</h4>
                         </label>
                     	</div>
                     	<div class="radio">
                         <label>
-                            <input type="radio" name="rad_1">
+                            <input type="radio" name="rad_1" value="b">
                             <h4>b.我是学院的相关教师、博士生、研究生</h4>
                         </label>
                     	</div>
                     	<div class="radio">
                         <label>
-                            <input type="radio" name="rad_1">
+                            <input type="radio" name="rad_1" value="c">
                            <h4>c.我是来自互联网的陌生用户</h4> 
                         </label>
                     	</div>
@@ -245,13 +271,13 @@
 						<br><h3>2. 您以前是否使用过类似功能的软件或者网站？</h3>
 						<div class="radio">
                         <label>
-                            <input type="radio" name="rad_2">
+                            <input type="radio" name="rad_2" value="a">
                             <h4>a.是</h4>
                         </label>
                     	</div>
                     	<div class="radio">
                         <label>
-                            <input type="radio" name="rad_2">
+                            <input type="radio" name="rad_2" value="b">
                             <h4>b.否</h4>
                         </label>
                     	</div>				
@@ -259,31 +285,31 @@
 						<br><h3>3. 您觉得我们的网站界面是否友好美观、操作是否便捷快速？满分为5</h3>
 						<div class="radio">
                         <label>
-                            <input type="radio" name="rad_3">
+                            <input type="radio" name="rad_3" value="a">
                             <h4>a.5</h4>
                         </label>
                     	</div>
                     	<div class="radio">
                         <label>
-                            <input type="radio" name="rad_3">
+                            <input type="radio" name="rad_3" value="b">
                             <h4>b.4</h4>
                         </label>
                     	</div>					
                     	<div class="radio">
                         <label>
-                            <input type="radio" name="rad_3">
+                            <input type="radio" name="rad_3" value="c">
                             <h4>c.3</h4>
                         </label>
                     	</div>		
                     	<div class="radio">
                         <label>
-                            <input type="radio" name="rad_3">
+                            <input type="radio" name="rad_3" value="d">
                             <h4>d.2</h4>
                         </label>
                     	</div>		
                     	<div class="radio">
                         <label>
-                            <input type="radio" name="rad_3">
+                            <input type="radio" name="rad_3" value="e">
                             <h4>e.1</h4>
                         </label>
                     	</div>				
@@ -291,25 +317,25 @@
 						<br><h3>4. 您觉得网站提供的功能是否满足了您在个人信息管理上的需求?</h3>
 						<div class="radio">
                         <label onclick="hideInputRequire()">
-                            <input type="radio" name="rad_4">
+                            <input type="radio" name="rad_4" value="a">
                             <h4>a.完全够用</h4>
                         </label>
                     	</div>
                     	<div class="radio">
                         <label onclick="hideInputRequire()">
-                            <input type="radio" name="rad_4">
+                            <input type="radio" name="rad_4" value="b">
                             <h4>b.基本满足</h4>
                         </label>
                     	</div>					
                     	<div class="radio">
                         <label onclick="hideInputRequire()">
-                            <input type="radio" name="rad_4">
+                            <input type="radio" name="rad_4" value="c">
                             <h4>c.不太够用</h4>
                         </label>
                     	</div>		
                     	<div class="radio">
                         <label onclick="showInputRequire()">
-                            <input type="radio" name="rad_4">
+                            <input type="radio" name="rad_4" value="d">
                             <h4>d.完全不够</h4>
                         </label>
                     	</div>			
@@ -317,31 +343,32 @@
 						<!-- robustness -->
 						<br><h3>5. 您是否在使用过程中遇到一些404等崩溃界面 ?</h3>
 						<div class="radio">
-                        <label onclick="hideInputRequire()">
-                            <input type="radio" name="rad_5">
+                        <label>
+                            <input type="radio" name="rad_5" value="a">
                             <h4>a.否，操作完全正常</h4>
                         </label>
                     	</div>
                     	<div class="radio">
-                        <label onclick="hideInputRequire()">
-                            <input type="radio" name="rad_5">
+                        <label>
+                            <input type="radio" name="rad_5" value="b">
                             <h4>b.是，极少数情况</h4>
                         </label>
                     	</div>					
                     	<div class="radio">
-                        <label onclick="hideInputRequire()">
-                            <input type="radio" name="rad_5">
+                        <label>
+                            <input type="radio" name="rad_5" value="c">
                             <h4>c.是，偶尔会遇到</h4>
                         </label>
                     	</div>		
                     	<div class="radio">
-                        <label onclick="showInputRequire()">
-                            <input type="radio" name="rad_5">
+                        <label>
+                            <input type="radio" name="rad_5" value="d">
                             <h4>d.是，经常会遇到</h4>
                         </label>
                     	</div>								
 						<!-- other comments:string -->
-						
+						<br><h3>6. 针对本网站您还有些什么样的改进意见？</h3>
+						<textarea class="form-control auto-size m-b-10" placeholder="输入您的意见..." id="inputcomment"></textarea>
 						
 						
 						
@@ -349,6 +376,7 @@
                     </div>
 
                     <div class="col-md-4">
+                    <button class="btn btn-lg m-r-5" onclick="submitSurvey()">Submit Survey</button>
                         <!-- USA Map -->
 
                         <!-- Dynamic Chart -->
