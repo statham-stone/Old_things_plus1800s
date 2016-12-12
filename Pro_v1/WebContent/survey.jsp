@@ -10,7 +10,7 @@
     <meta name="description" content="Violate Responsive Admin Template">
     <meta name="keywords" content="Super Admin, Admin, Template, Bootstrap">
 
-    <title>Main page</title>
+    <title>User Survey</title>
 
     <!-- CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -82,89 +82,27 @@
     window.location.href="./show_table_jsp.jsp";
     }
     
-    function loadTableBrief()
-    {
-		var params = {
-		    	uid : getCookie("uid")
-			};
-			$.ajax({
-		    	type: "POST",
-		    	url: "loadTableBrief.action",
-		    	data: params,
-		    	dataType:"text", //ajax返回值设置为text（json格式也可用它返回，可打印出结果，也可设置成json）
-		    	success: function(json){  
-		    		var obj = $.parseJSON(json);  //使用这个方法解析json
-		            var state_value = obj.result;  //result是和action中定义的result变量的get方法对应的
-		            console.log(json);
-		    		//state_value is the returned value
-		    		//alert(state_value);
-		    		var tableSet = state_value.split("~");
-		    		var txt="<thead><tr><th>Table Name</th></tr></thead><tbody>";
-		    		for (var i=0;i<tableSet.length;i++)
-		    		{
-		    			
-
-		    //         txt = txt+"<tr><td>"+tableSet[i]+"</tr></td>";
-		    			
-		    			txt = txt+"<tr><td><a href=\"show_table?user_id="+getCookie('uid')+"&table_name="+tableSet[i]+"     \" >"+tableSet[i]+"</a></tr></td>";
-	//	    			txt = txt+"<tr><td id=\""+tableSet[i]+"\" onclick='javascript:showTable("+i+")'>"+tableSet[i]+"</tr></td>";
- 			    		}
-		    		txt=txt+"</tbody>";
-		    		document.getElementById("tablebrief").innerHTML=txt;
-		    	},
-		    	error: function(json){
-		    		console.log(json);
-		     		return false;
-		    	}
-		    });
-    }
-
-    function loadEventBrief()
-    {
-		var params = {
-		    	uid : getCookie("uid")
-			};
-			$.ajax({
-		    	type: "POST",
-		    	url: "loadEventBrief.action",
-		    	data: params,
-		    	dataType:"text", //ajax返回值设置为text（json格式也可用它返回，可打印出结果，也可设置成json）
-		    	success: function(json){  
-		    		var obj = $.parseJSON(json);  //使用这个方法解析json
-		            var state_value = obj.result;  //result是和action中定义的result变量的get方法对应的
-		            console.log(json);
-		    		//state_value is the returned value
-		    		//alert(state_value);
-		    		var txt=""
-		    		eventSet=state_value.split("^");
-		    		for (var i=0;i<eventSet.length;i++)
-		    		{
-		    			thisEvent=eventSet[i].split("~");
-		    			txt=txt+"<li class=\"list-group-item\">"+thisEvent[0];
-		    			txt=txt+"<span class=\"badge\">"+thisEvent[1];
-		    			txt=txt+"</span></li>";
-		    		}
-		    		document.getElementById("eventbrief").innerHTML=txt;
-		    	},
-		    	error: function(json){
-		    		console.log(json);
-		     		return false;
-		    	}
-		    });
-    }
-
-    
     function bingo()
     {
     	//statham
     	window.location.assign("choose_table_java?user_id="+getCookie('uid'));
     }
     
+    function showInputRequire()
+    {
+    	document.getElementById("inputrequire").style.display="inline";
+    }
+    
+    function hideInputRequire()
+    {
+    	document.getElementById("inputrequire").style.display="none";
+    }
+    
     </script>
     
 </head>
 
-<body id="skin-blur-violate" onload="checkCookies();loadTableBrief();loadEventBrief()">
+<body id="skin-blur-violate" onload="checkCookies(); hideInputRequire();">
 
 
     <header id="header" class="media">
@@ -269,7 +207,7 @@
             <!-- Breadcrumb -->
 
 
-            <h4 class="page-title">DASHBOARD</h4>
+            <h4 class="page-title">SURVEY PAGE</h4>
 
             <!-- Shortcuts -->
 
@@ -282,21 +220,131 @@
             <div class="block-area">
                 <div class="row">
                     <div class="col-md-8">
-                        <!-- Main Chart -->
-                        <div class="block-area" id="tableHover">
-                            <h3 class="block-title">TABLES</h3>
-                            <div class="table-responsive overflow">
-                                <table class="table table-bordered table-hover tile" id="tablebrief" >
-									<!-- Loaded brief will be inserted here -->
-                                </table>
-                            </div>
-                        </div>
-
-                        <!-- Pies -->
-
-
-                        <!--  Recent Postings -->
-
+                        <!-- Main Chart ###################################-->
+						<!-- relations -->
+						<h3>1.您与三位开发者(a2clef,statham_stone,leafywang)的关系是?</h3>
+						<div class="radio">
+                        <label>
+                            <input type="radio" name="rad_1">
+                            <h4>a.我是他们的同学/朋友/家人</h4>
+                        </label>
+                    	</div>
+                    	<div class="radio">
+                        <label>
+                            <input type="radio" name="rad_1">
+                            <h4>b.我是学院的相关教师、博士生、研究生</h4>
+                        </label>
+                    	</div>
+                    	<div class="radio">
+                        <label>
+                            <input type="radio" name="rad_1">
+                           <h4>c.我是来自互联网的陌生用户</h4> 
+                        </label>
+                    	</div>
+						<!-- other application -->
+						<br><h3>2. 您以前是否使用过类似功能的软件或者网站？</h3>
+						<div class="radio">
+                        <label>
+                            <input type="radio" name="rad_2">
+                            <h4>a.是</h4>
+                        </label>
+                    	</div>
+                    	<div class="radio">
+                        <label>
+                            <input type="radio" name="rad_2">
+                            <h4>b.否</h4>
+                        </label>
+                    	</div>				
+						<!-- UX -->
+						<br><h3>3. 您觉得我们的网站界面是否友好美观、操作是否便捷快速？满分为5</h3>
+						<div class="radio">
+                        <label>
+                            <input type="radio" name="rad_3">
+                            <h4>a.5</h4>
+                        </label>
+                    	</div>
+                    	<div class="radio">
+                        <label>
+                            <input type="radio" name="rad_3">
+                            <h4>b.4</h4>
+                        </label>
+                    	</div>					
+                    	<div class="radio">
+                        <label>
+                            <input type="radio" name="rad_3">
+                            <h4>c.3</h4>
+                        </label>
+                    	</div>		
+                    	<div class="radio">
+                        <label>
+                            <input type="radio" name="rad_3">
+                            <h4>d.2</h4>
+                        </label>
+                    	</div>		
+                    	<div class="radio">
+                        <label>
+                            <input type="radio" name="rad_3">
+                            <h4>e.1</h4>
+                        </label>
+                    	</div>				
+						<!-- require -->
+						<br><h3>4. 您觉得网站提供的功能是否满足了您在个人信息管理上的需求?</h3>
+						<div class="radio">
+                        <label onclick="hideInputRequire()">
+                            <input type="radio" name="rad_4">
+                            <h4>a.完全够用</h4>
+                        </label>
+                    	</div>
+                    	<div class="radio">
+                        <label onclick="hideInputRequire()">
+                            <input type="radio" name="rad_4">
+                            <h4>b.基本满足</h4>
+                        </label>
+                    	</div>					
+                    	<div class="radio">
+                        <label onclick="hideInputRequire()">
+                            <input type="radio" name="rad_4">
+                            <h4>c.不太够用</h4>
+                        </label>
+                    	</div>		
+                    	<div class="radio">
+                        <label onclick="showInputRequire()">
+                            <input type="radio" name="rad_4">
+                            <h4>d.完全不够</h4>
+                        </label>
+                    	</div>			
+                    	<textarea class="form-control auto-size m-b-10" placeholder="输入您的需求..." id="inputrequire"></textarea>				
+						<!-- robustness -->
+						<br><h3>5. 您是否在使用过程中遇到一些404等崩溃界面 ?</h3>
+						<div class="radio">
+                        <label onclick="hideInputRequire()">
+                            <input type="radio" name="rad_5">
+                            <h4>a.否，操作完全正常</h4>
+                        </label>
+                    	</div>
+                    	<div class="radio">
+                        <label onclick="hideInputRequire()">
+                            <input type="radio" name="rad_5">
+                            <h4>b.是，极少数情况</h4>
+                        </label>
+                    	</div>					
+                    	<div class="radio">
+                        <label onclick="hideInputRequire()">
+                            <input type="radio" name="rad_5">
+                            <h4>c.是，偶尔会遇到</h4>
+                        </label>
+                    	</div>		
+                    	<div class="radio">
+                        <label onclick="showInputRequire()">
+                            <input type="radio" name="rad_5">
+                            <h4>d.是，经常会遇到</h4>
+                        </label>
+                    	</div>								
+						<!-- other comments:string -->
+						
+						
+						
+						
                         <div class="clearfix"></div>
                     </div>
 
@@ -306,16 +354,6 @@
                         <!-- Dynamic Chart -->
 
                         <!-- Activity -->
-                        <h3 class="block-title">Events Brief</h3>
-                        <div class="tile">
-                        <ul class="list-group block" id="eventbrief" >
-                        	<!-- Loaded brief will be inserted here -->
-                        </ul>
-                        </div>
-                        <a href="event_list.jsp">Show All Events</a>
-                        
-                        <br><br><br>
-                        <div class="tile"><h2><a href="survey.jsp">>USER SURVEY<</a></h2></div>
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -365,6 +403,9 @@
 
     <!--  Form Related -->
     <script src="js/icheck.js"></script>
+
+        <script src="js/icheck.js"></script> <!-- Custom Checkbox + Radio -->
+        <script src="js/autosize.min.js"></script> <!-- Textarea autosize -->
     <!-- Custom Checkbox + Radio -->
 
     <!-- UX -->
