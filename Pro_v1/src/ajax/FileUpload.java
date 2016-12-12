@@ -63,7 +63,7 @@ public class FileUpload extends ActionSupport {
         try {
             File f = this.getFile();
             //check file type here
-            if(!this.getFileFileName().endsWith(".xls")){
+            if(!this.getFileFileName().endsWith(".csv")){
                 result= tableName+"error file extension";
                 return SUCCESS;
             }

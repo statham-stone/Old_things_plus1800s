@@ -260,7 +260,7 @@
 		<button class="btn m-r-5" onclick='javascript:bingo_2()'  value="submit">Check</button>
 <!-- 	</form> -->
 	<br><br><br>
-	<h3>Or create table with .xls file</h3>
+	<h3>Or create table with .csv file</h3>
 　　<form action="fileUpload.action" method="post" enctype="multipart/form-data">
         Table Name: <input class="input-sm validate[required] form-control"type="text" id="tableName"><br>
         File: <input class="input-sm validate[required] form-control"type="file" id="file" name="file"><br>
