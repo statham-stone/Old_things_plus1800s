@@ -118,6 +118,27 @@
 		survey+= document.getElementById('inputcomment').value;
 		//alert(survey);
 		
+		var params = {
+				uid : getCookie("uid"),
+		    	survey : survey
+			};
+			$.ajax({
+		    	type: "POST",
+		    	url: "userSurvey.action",
+		    	data: params,
+		    	dataType:"text", //ajax返回值设置为text（json格式也可用它返回，可打印出结果，也可设置成json）
+		    	success: function(json){  
+		    		var obj = $.parseJSON(json);  //使用这个方法解析json
+		            var state_value = obj.result;  //result是和action中定义的result变量的get方法对应的
+		            console.log(json);
+		    		//state_value is the returned value
+		    		alert(state_value);
+		    	},
+		    	error: function(json){
+		    		console.log(json);
+		     		return false;
+		    	}
+		    });
 		
 		
 		

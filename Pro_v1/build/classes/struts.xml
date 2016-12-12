@@ -43,6 +43,9 @@
 		<action name="submitEvent" class="ajax.EventSubmit">
 			<result type="json"></result>
 		</action>
+		<action name="userSurvey" class="ajax.UserSurvey">
+			<result type="json"></result>
+		</action>
 		
         <action name="fileUpload" class="ajax.FileUpload">
             <result type="json" name="success"></result>
