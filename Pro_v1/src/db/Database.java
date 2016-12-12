@@ -35,7 +35,7 @@ public class Database {
 	{
 		 try{
 	            Class.forName(DRIVER_MYSQL);     //加载JDBC驱动
-	            connection = DriverManager.getConnection(URL,"root","530743812");   //创建数据库连接对象
+	            connection = DriverManager.getConnection(URL,"root","1234");   //创建数据库连接对象
 	            stmt = connection.createStatement();       //创建Statement对象
 	            return "connect!";
 	     }
@@ -860,7 +860,8 @@ public class Database {
 		
 	}
 	
-	/* 12/08 新增待测试
+	/* 12/12 涂神整合测试通过
+	 * 12/08 新增待测试
 	 * 用户评价
 	 * 输入为用户ID及评价字符串
 	 * 返回一个布尔值表示是否成功
@@ -927,11 +928,13 @@ public class Database {
 		return result;
 	}
 	
-	/* 12/08 新测试通过
+	/* 12/12 新版本测试通过
+	 * 更新：列数不够的数据将被补全后插入，不会直接丢失
+	 * 
+	 * 12/08 新测试通过
 	 * 将上传的csv文件处理过后 添加进数据库已有表中
 	 * 成功时返回该表表名，请自行调用函数使用表名和用户ID查看表的内容
-	 * 
-	 * 注意：如果 表实际列数是3，多于3列的行将只保留前三列数据，少于3的则不保留数据
+	 * 12/08版本 注意：如果 表实际列数是3，多于3列的行将只保留前三列数据，少于3的则不保留数据
 	 * 
 	 * 失败返回"false"
 	 */
@@ -950,20 +953,23 @@ public class Database {
                   String insert = "";
                   if(columns.length<co_count-1)
                   {
-                	  continue;
+                	  for(int x = columns.length ; x < co_count ; x++)
+                	  {
+                		  str = str + ", ";
+                	  }
+                	  columns = str.split(",");
                   }
-                  else
+
+               	  for(int i=0;i<co_count-1;i++)
                   {
-                	  for(int i=0;i<co_count-1;i++)
-	                  {
-	                	  if("".equals(columns[i]))
-	                	  {
-	                		  columns[i] = " ";
-	                	  }
-	                	  insert = insert + "~" + columns[i];
-	                  }
-	                  insert = insert.substring(1);
-                  }                  
+                	  if("".equals(columns[i]))
+                	  {
+                		  columns[i] = " ";
+                	  }
+                	  insert = insert + "~" + columns[i];
+                  }
+                  insert = insert.substring(1);
+                                  
                   insertSEvent(uid,uname,insert);
             }
             in_br.close();
@@ -974,6 +980,71 @@ public class Database {
             return "false";
         }
 		return uname;
+	}
+	
+	
+	/* 12/12 上传文件的进阶版 待测试
+	 * 进阶：根据文件第一行确定表的列数
+	 * 其余行数，列数不够的补全空格，超出的只取新表列数的列数，加入表中
+	 * 传入用户id，期望的新表名（可能是文件名？），文件
+	 * 返回新表名 或 false
+	 * 请自行根据用户id及表名使用函数查看该表内容
+	 */
+	public String uploadNewTable(String uid,String newTableName,File myfile)
+	{
+		String str = "";
+		try 
+        {
+			BufferedReader in_br = new BufferedReader(new FileReader(myfile));
+            
+            int l_count = 0;      //记录正在读的行数
+            int lines = 0;        //记录新表的列数
+            while ((str = in_br.readLine()) != null) 
+            {
+            	l_count++;
+            	String[] columns = str.split(",");
+            
+            	//表头信息
+            	if(l_count ==1) 
+                {
+                	lines = columns.length;
+                	str = uid + "~" + newTableName + "~" + lines + "~" + str.replace(",", "~50~")+ "~50";
+                	createUserTable(str);
+                	continue;
+                }
+                
+                //除去表头的其他行
+                String insert = "";
+                if(columns.length<lines)   //对于列数不全的数据 补全
+                {
+                	for(int x = columns.length + 1; x <= lines ; x++)
+                	{
+                		str = str + ", ";
+                	}
+                	columns = str.split(",");
+                	System.out.println(str);
+                }
+                
+                for(int i=0;i<lines;i++)   //列数过多的自动忽略多余的列数
+                {
+                	if("".equals(columns[i]))
+	               	{
+                		columns[i] = " ";
+	               	}
+	               	insert = insert + "~" + columns[i];
+	            }
+	            insert = insert.substring(1);
+                                  
+                insertSEvent(uid,newTableName,insert);
+            }
+            in_br.close();
+        } 
+        catch(IOException e) 
+        {
+            e.getStackTrace();
+            return "false";
+        }
+		return newTableName;
 	}
     
 	/* private函数 请勿直接使用或修改！
@@ -1128,6 +1199,7 @@ public class Database {
 		
 		return result;
 	}
+	
 	
 	/* 12/11 测试通过
 	 * 依旧private函数 循环到自己都一脸茫然 请勿改动或直接调用

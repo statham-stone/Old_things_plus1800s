@@ -196,10 +196,10 @@ public class DatabaseTest {
 		result = db1.download("2","Eat");
 		System.out.println("test28 " + result);
 		
-		File myfile = new File("E:/test.csv");
-		result = db1.upload("2","Eat",myfile);
-		System.out.println("test29 " + result);
 		
+		File myfile = new File("E:/test.csv");
+		result = db1.uploadNewTable("2","test",myfile);
+		System.out.println("test29 " + result);
 		db1.complete("2");
 		*/
 		
@@ -207,7 +207,9 @@ public class DatabaseTest {
 		
 		System.out.println(result);
 		
-		
+		File myfile = new File("E:/test.csv");
+		result = db1.upload("2","Eat",myfile);
+		System.out.println("test29 " + result);
 		
 		
 		System.out.println(db1.close());
