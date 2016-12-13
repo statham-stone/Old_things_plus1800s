@@ -21,11 +21,33 @@ public class sta_whole_java
 		Database db1 = new Database();
 		String sql_result =db1.connect();
 
-		result="[[1, 2], [2, 11], [3, 18], [4, 16], [5, 19], [6, 17], [7, 15], [8, 16], [9, 20], [10, 16], [11, 18]]";
+		result="[[1,12],[2, 11], [3, 18], [4, 16], [5, 19], [6, 17]]";
 		result2="[81,82,83,84,85,86,87,88,89,810,811]";
 		table_list=db1.tableBrief( (user_id));
 		
+		String test_string1=db1.Bar(user_id);
+		System.out.print(test_string1);
+		String[] test_arr1=test_string1.split("~");
 		
+		int day_number=test_arr1.length/2;
+		
+		result="[["+Integer.toString(1)+","+test_arr1[1]+"]";
+		result2="["+test_arr1[0];
+		for(int i=2;i<test_arr1.length;i=i+2)
+		{
+			result=result+",["+Integer.toString(i/2+1)+","+test_arr1[i+1]+"]";
+			result2=result2+","+test_arr1[i];
+		}
+		
+		result=result+"]";
+		result2=result2+"]";
+		
+		System.out.print("jjjjjjjjjjjjjjjjjjjjjjjjjj");
+		System.out.print(result2);
+		System.out.print("          ");
+		System.out.print(result);
+		
+		System.out.print(test_string1);		
 	
 		number_list=db1.Pie(user_id);
 		

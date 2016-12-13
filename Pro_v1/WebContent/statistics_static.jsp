@@ -10,7 +10,7 @@
     <meta name="description" content="Violate Responsive Admin Template">
     <meta name="keywords" content="Super Admin, Admin, Template, Bootstrap">
 
-    <title>     Statistics</title>
+    <title>统计数据</title>
 
     <!-- CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -67,7 +67,6 @@
                 <div class="text-center s-widget m-b-25 dropdown" id="profile-menu">
                     <br/>
                     <h4 class="m-0" id="usernametag"></h4>
-                    <a href="#" id="signoutlink" onclick="signOut()">Sign Out</a>
                 </div>
 
                 <!-- Calendar -->
@@ -94,7 +93,7 @@
             <ul class="list-unstyled side-menu">
                 <li>
                     <a class="sa-side-home" href="index.jsp">
-                        <span class="menu-item">Dashboard</span>
+                        <span class="menu-item"> </span>
                     </a>
                 </li>
                 <li>
@@ -116,7 +115,7 @@
 
                 <li class="active">
                     <a class="sa-side-chart" href="statistics.jsp">
-                        <span class="menu-item">Statistics</span>
+                        <span class="menu-item">折线图</span>
                     </a>
                 </li>
 
@@ -129,7 +128,7 @@
         
         
 
-            <h4 class="page-title">DASHBOARD</h4>
+            <h4 class="page-title">统计数据</h4>
 
 
             <div class="block-area">
@@ -154,7 +153,7 @@ out.print("	<input hidden type=\"text\" id=\"date_result\"  value=\""+result_str
 
 %>  
 						
-						STATISTICS</h2>
+						最近更新趋势</h2>
 	                        <div class="p-10">
 	                            <div id="line-chart" class="main-chart" style="height: 250px">
 	                            
@@ -183,7 +182,7 @@ out.print("	<input hidden type=\"text\" id=\"date_result\"  value=\""+result_str
         out.print("<p> </p>");
         out.print("<p>                                           </p>");
         out.print("<p> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ");
-        out.print(" <table border=\"1\"  class=\"table table-bordered table-hover tile\"   > <tr> <th>Table name</th> <th>Thing numbers</th> </tr>");
+        out.print(" <table border=\"1\"  class=\"table table-bordered table-hover tile\"   > <tr> <th> 表名 </th> <th>该表中数据</th> </tr>");
         
         int j=0;
         for(int i=1;i<table_numbers+1;i=i+1)
@@ -417,8 +416,8 @@ out.print("	<input hidden type=\"text\" id=\"date_result\"  value=\""+result_str
                     },
 
                     yaxis: {
-                        min: 0,
-                        max: 20,
+//                        min: 0,
+ //                       max: 20,
                         tickColor: 'rgba(255,255,255,0.15)',
                         tickDecimals: 0,
                         font :{
