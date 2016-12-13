@@ -100,14 +100,14 @@
     
     function submitSurvey()
     {
-//     	alert("submit activated");
-//     	alert($("input[name='rad_1']:checked").val());
-//     	alert($("input[name='rad_2']:checked").val());
-//     	alert($("input[name='rad_3']:checked").val());
-//     	alert($("input[name='rad_4']:checked").val());
-//     	alert($("input[name='rad_5']:checked").val());
-//     	alert(document.getElementById('inputrequire').value);
-//     	alert(document.getElementById('inputcomment').value);
+     	alert("submit activated");
+    	alert($("input[name='rad_1']:checked").val());
+    	alert($("input[name='rad_2']:checked").val());
+    	alert($("input[name='rad_3']:checked").val());
+    	alert($("input[name='rad_4']:checked").val());
+    	alert($("input[name='rad_5']:checked").val());
+    	alert(document.getElementById('inputrequire').value);
+    	alert(document.getElementById('inputcomment').value);
 		var survey="";
 		survey+= $("input[name='rad_1']:checked").val()+'~';
 		survey+= $("input[name='rad_2']:checked").val()+'~';

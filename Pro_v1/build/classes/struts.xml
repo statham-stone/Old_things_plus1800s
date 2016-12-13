@@ -31,6 +31,11 @@
 		<action name="loadEventList" class="ajax.EventList">
 			<result type="json"></result>
 		</action>
+		
+		<action name="userSurvey" class="ajax.UserSurvey">
+			<result type="json"></result>
+		</action>
+		
 		<action name="loadEventContent" class="ajax.EventContent">
 			<result type="json"></result>
 		</action>
@@ -41,9 +46,6 @@
 			<result type="json"></result>
 		</action>
 		<action name="submitEvent" class="ajax.EventSubmit">
-			<result type="json"></result>
-		</action>
-		<action name="userSurvey" class="ajax.UserSurvey">
 			<result type="json"></result>
 		</action>
 		
@@ -156,6 +158,18 @@
 				<result name="SUCCESS">/index.jsp</result><!-- no use here -->
 				<result name="FAILED">/create_little_thing_failed.jsp</result><!-- no use here -->
 		</action>
+
+		<action name="load_statistic_action"
+			class="statistics.sta_whole_java"
+			method="execute" >
+				<result name="SUCCESS">
+				/statistics_static.jsp
+				</result>
+		</action>
+		
+		
+		
+		
 
 	</package>
 </struts>
