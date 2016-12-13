@@ -10,7 +10,7 @@
     <meta name="description" content="Violate Responsive Admin Template">
     <meta name="keywords" content="Super Admin, Admin, Template, Bootstrap">
 
-    <title> Statistics</title>
+    <title>     Statistics</title>
 
     <!-- CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -22,17 +22,16 @@
     <link href="css/icons.css" rel="stylesheet">
     <link href="css/generics.css" rel="stylesheet">
     
-    
 </head>
 
 <body id="skin-blur-violate" onload="checkCookies()">
 <%
-String result_string=request.getAttribute("result").toString();
+//String result_string=request.getAttribute("result").toString();
 //out.print(result_string);
-out.print("	<input hidden type=\"text\" id=\"result_string_id\"  value=\""+result_string+"\"></input>");//
-String result_string2=request.getAttribute("result2").toString();
-//out.print(result_string);
-out.print("	<input hidden type=\"text\" id=\"date_result\"  value=\""+result_string2+"\"></input>");//
+//out.print("	<input hidden type=\"text\" id=\"result_string_id\"  value=\""+result_string+"\"></input>");//
+//String result_string2=request.getAttribute("result2").toString();
+///out.print(result_string);
+//out.print("	<input hidden type=\"text\" id=\"date_result\"  value=\""+result_string2+"\"></input>");//
 
 
 %>
@@ -141,7 +140,21 @@ out.print("	<input hidden type=\"text\" id=\"date_result\"  value=\""+result_str
 
 				
 						<!-- the chart sqk -->
-						<h2 class="tile-title">STATISTICS</h2>
+						<h2 class="tile-title">
+						
+						    
+      <%
+String result_string=request.getAttribute("result").toString();
+//out.print(result_string);
+out.print("	<input hidden type=\"text\" id=\"result_string_id\"  value=\""+result_string+"\"></input>");//
+String result_string2=request.getAttribute("result2").toString();
+//out.print(result_string);
+out.print("	<input hidden type=\"text\" id=\"date_result\"  value=\""+result_string2+"\"></input>");//
+
+
+%>  
+						
+						STATISTICS</h2>
 	                        <div class="p-10">
 	                            <div id="line-chart" class="main-chart" style="height: 250px">
 	                            
@@ -158,7 +171,7 @@ out.print("	<input hidden type=\"text\" id=\"date_result\"  value=\""+result_str
     String big_string=request.getAttribute("table_list").toString();
     String number_string=request.getAttribute("number_list").toString();
 //	out.print(big_string);    
-  	out.print("<p> </p>");
+//  	out.print("<p> </p>");
 	String string_arr[]=big_string.split("~");
 	String number_arr[]=number_string.split("~");	
     int table_numbers=string_arr.length-1;
