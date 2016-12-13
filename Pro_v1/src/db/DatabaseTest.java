@@ -201,7 +201,6 @@ public class DatabaseTest {
 		result = db1.uploadNewTable("2","test",myfile);
 		System.out.println("test29 " + result);
 		db1.complete("2");
-		*/
 		
 		result = db1.Bar("2","5");
 		
@@ -210,6 +209,18 @@ public class DatabaseTest {
 		File myfile = new File("E:/test.csv");
 		result = db1.upload("2","Eat",myfile);
 		System.out.println("test29 " + result);
+		
+		result = db1.tableBrief("2");
+		System.out.println("test20 " + result);
+				
+		result = db1.searchInTable("2","Eat","dinner");
+		System.out.println("test25 " + result);
+		
+		
+		*/
+		
+		result = db1.searchRequest("2","dinner");
+		System.out.println("test20 " + result);
 		
 		
 		System.out.println(db1.close());

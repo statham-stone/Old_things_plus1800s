@@ -13,6 +13,9 @@ import java.sql.ResultSet;         //数据库查询结果集
 import java.sql.SQLException;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 import java.text.SimpleDateFormat;
 
 @SuppressWarnings("unused")
@@ -35,7 +38,7 @@ public class Database {
 	{
 		 try{
 	            Class.forName(DRIVER_MYSQL);     //加载JDBC驱动
-	            connection = DriverManager.getConnection(URL,"root","530743812");   //创建数据库连接对象
+	            connection = DriverManager.getConnection(URL,"root","1234");   //创建数据库连接对象
 	            stmt = connection.createStatement();       //创建Statement对象
 	            return "connect!";
 	     }
@@ -479,7 +482,7 @@ public class Database {
 		return result ;
 	}
 	
-	/* 涂神需求四
+	/* 涂神需求四 old version
 	 * 11/15待填充
 	 * 输入为用户id和key
 	 * 输出为表名~唯一ID~小事件名字
@@ -491,29 +494,83 @@ public class Database {
 		String[] tables = tableBrief(uid).split("~");
 		int cnt_tables = tables.length;
 		
-		try
+		for(int i=0;i<cnt_tables;i++)
 		{
-			for(int i=0;i<cnt_tables;i++)
+			String thistable = searchInTable(uid,tables[i],key);
+			if(!("".equals(thistable)))
 			{
-				String dbtname = getDBName(uid,tables[i]);
-				String temp = "select * from "+ dbtname + " where Name like '%" + key + "%'";
-				System.out.println(temp);
-				res = stmt.executeQuery(temp);
+				result += "^" + thistable;
+			}
+		}
+		if(!("".equals(result)))
+		{
+			result = result.substring(1);
+		}
+		return result;
+	}
+	
+	
+	/* 12/13 进阶版
+	 * private函数 请勿改动或直接使用
+	 * 搜索一个表内 某个关键字的所有信息
+	 * 返回内容为表名~表独立ID~表第一列内容
+	 */
+	private String searchInTable(String uid, String tname,String key)
+	{
+		Set<String> things = new HashSet<String>();
+		ResultSet res = null;
+		String dbtablename = getDBName(uid,tname);
+		int lines = co_count;
+		
+		String tableid = dbtablename.replace("t", "");
+		
+		String line_names = "";
+		
+		String find_lines = "desc " + dbtablename;
+		
+		String result = "";
+		
+		try{
+			res = stmt.executeQuery(find_lines);
+			
+			while(res.next())
+			{
+				line_names += "~" + res.getString(1);
+			}
+			line_names = line_names.substring(1);
+			
+			String[] lnames = line_names.split("~");
+			
+			for(int i = 1 ; i < lines ; i++)
+			{
+				String small_se = "select * from " + dbtablename + " where " + lnames[i-1] + " like '%" + key + "%'";
+				res = stmt.executeQuery(small_se);
+				if(res.wasNull())
+				{
+					continue;
+				}
 				while(res.next())
 				{
-					result = result + "^" + tables[i] + "~" + tableID+ "_" + res.getString("TID") + "~" + res.getString(1);
+					String ttemp = "^" + tname + "~" + tableid + "_" + res.getString(lines) + "~" + res.getString(1);
+					things.add(ttemp);
 				}
 			}
-			if('^'==result.charAt(0))
+			if(things.isEmpty())
 			{
-				result = result.substring(1);
+				return "";
 			}
+			Iterator<String> it=things.iterator();
+			result = "";
+		    while(it.hasNext())
+	       {
+	           result = result + it.next();
+	       }
+		   result =result.substring(1);
 		}
 		catch(SQLException e)
 		{
 			e.printStackTrace();
 		}
-		
 		return result;
 	}
 	
