@@ -4,12 +4,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Connection;        //æ•°æ®åº“è¿æ¥å®ä¾‹
-import java.sql.DriverManager;     //æ•°æ®åº“é©±åŠ¨ç®¡ç†ç±»ï¼Œè°ƒç”¨å…¶é™æ€æ–¹æ³•getConnectionå¹¶ä¼ å…¥æ•°æ®åº“çš„URLè·å¾—æ•°æ®åº“è¿æ¥å®ä¾‹
-import java.sql.Statement;         //æ“ä½œæ•°æ®åº“è¦ç”¨åˆ°çš„ç±»ï¼Œä¸»è¦ç”¨äºæ‰§è¡ŒSQLè¯­å¥
+import java.sql.Connection;        //Êı¾İ¿âÁ¬½ÓÊµÀı
+import java.sql.DriverManager;     //Êı¾İ¿âÇı¶¯¹ÜÀíÀà£¬µ÷ÓÃÆä¾²Ì¬·½·¨getConnection²¢´«ÈëÊı¾İ¿âµÄURL»ñµÃÊı¾İ¿âÁ¬½ÓÊµÀı
+import java.sql.Statement;         //²Ù×÷Êı¾İ¿âÒªÓÃµ½µÄÀà£¬Ö÷ÒªÓÃÓÚÖ´ĞĞSQLÓï¾ä
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.sql.ResultSet;         //æ•°æ®åº“æŸ¥è¯¢ç»“æœé›†
+import java.sql.ResultSet;         //Êı¾İ¿â²éÑ¯½á¹û¼¯
 import java.sql.SQLException;
 
 import java.util.Date;
@@ -20,24 +20,30 @@ import java.text.SimpleDateFormat;
 
 @SuppressWarnings("unused")
 
-//12/01 æ•´ä½“æ”¹åŠ¨ï¼šUIDä¸å†æ˜¯intï¼Œæ”¹ä¸ºString
+//12/01 ÕûÌå¸Ä¶¯£ºUID²»ÔÙÊÇint£¬¸ÄÎªString
 public class Database {
 	
-	private static String DRIVER_MYSQL = "com.mysql.jdbc.Driver";    //MySQL JDBCé©±åŠ¨å­—ç¬¦ä¸²
+	private static String DRIVER_MYSQL = "com.mysql.jdbc.Driver";    //MySQL JDBCÇı¶¯×Ö·û´®
+    
+    //deleted for privacy
+
+
     private static Statement stmt;
     private Connection connection = null;
     
     private int tableID  = 0;
     private int co_count = 0;
     
-    /* 12/07æ–°æµ‹è¯•é€šè¿‡
-     * è¿æ¥æ•°æ®åº“ï¼Œæ¯æ¬¡ä½¿ç”¨å„ç§å‡½æ•°ä¹‹å‰ï¼Œéƒ½éœ€è¦è°ƒç”¨æœ¬å‡½æ•°
+    /* 12/07ĞÂ²âÊÔÍ¨¹ı
+     * Á¬½ÓÊı¾İ¿â£¬Ã¿´ÎÊ¹ÓÃ¸÷ÖÖº¯ÊıÖ®Ç°£¬¶¼ĞèÒªµ÷ÓÃ±¾º¯Êı
      */
 	public String connect()                         
 	{
 		 try{
-	            Class.forName(DRIVER_MYSQL);     //åŠ è½½JD
-	            stmt = connection.createStatement();       //åˆ›å»ºStatementå¯¹è±¡
+	            Class.forName(DRIVER_MYSQL);     //¼ÓÔØJDBCÇı¶¯
+
+//deleted for privacy
+	            stmt = connection.createStatement();       //´´½¨Statement¶ÔÏó
 	            return "connect!";
 	     }
 		 catch (Exception e){
@@ -46,8 +52,8 @@ public class Database {
 		 return "Success";
 	}
 	
-	/* 12/07æ–°æµ‹è¯•é€šè¿‡
-	 * æ–­å¼€æ•°æ®åº“è¿æ¥ åŒæ ·éœ€è¦è‡ªè¡Œè°ƒç”¨
+	/* 12/07ĞÂ²âÊÔÍ¨¹ı
+	 * ¶Ï¿ªÊı¾İ¿âÁ¬½Ó Í¬ÑùĞèÒª×ÔĞĞµ÷ÓÃ
 	 */
 	public String close()
 	{
@@ -60,13 +66,13 @@ public class Database {
 		return "Success close";
 	}
 	
-	//++++++++++æ³¨å†Œ ç™»é™† éƒ¨åˆ†
-	//12/7 æ–°æµ‹è¯•å®Œæ•´é€šè¿‡
+	//++++++++++×¢²á µÇÂ½ ²¿·Ö
+	//12/7 ĞÂ²âÊÔÍêÕûÍ¨¹ı
 	
-	/* 12/1 å¢åŠ æ–°åŠŸèƒ½ å†…éƒ¨å®Œæˆç»Ÿè®¡æ•°å€¼çš„æ›´æ–°
-	 * ç™»é™† ä¼ å…¥ç”¨æˆ·åå’Œå¯†ç 
-	 * è‹¥æˆåŠŸåˆ™è¿”å›ç”¨æˆ·ID
-	 * å¤±è´¥åˆ™è¿”å›-1
+	/* 12/1 Ôö¼ÓĞÂ¹¦ÄÜ ÄÚ²¿Íê³ÉÍ³¼ÆÊıÖµµÄ¸üĞÂ
+	 * µÇÂ½ ´«ÈëÓÃ»§ÃûºÍÃÜÂë
+	 * Èô³É¹¦Ôò·µ»ØÓÃ»§ID
+	 * Ê§°ÜÔò·µ»Ø-1
 	 */
 	public int checkUser(String username,String password)
 	{
@@ -77,10 +83,10 @@ public class Database {
 
 		return ID;
 	}
-	/* 12/1 å¾…æµ‹è¯• 
-	 * æ–°æ”¹åŠ¨ï¼Œæ³¨å†Œæ—¶å†…éƒ¨è‡ªåŠ¨ç”Ÿæˆ4ä½æ—¥æœŸ
-	 * æµ‹è¯•é€šè¿‡
-	 * å°è¯•æ³¨å†Œ å¦‚æœæ³¨å†Œå¤±è´¥åˆ™è¿”å›-1ï¼Œå¦åˆ™è¿”å›æ–°ç”¨æˆ·çš„ID
+	/* 12/1 ´ı²âÊÔ 
+	 * ĞÂ¸Ä¶¯£¬×¢²áÊ±ÄÚ²¿×Ô¶¯Éú³É4Î»ÈÕÆÚ
+	 * ²âÊÔÍ¨¹ı
+	 * ³¢ÊÔ×¢²á Èç¹û×¢²áÊ§°ÜÔò·µ»Ø-1£¬·ñÔò·µ»ØĞÂÓÃ»§µÄID
 	 */
 	public int signUp(String username,String password)
 	{
@@ -90,10 +96,10 @@ public class Database {
 		{
 			return -1;
 		}
-		int uid = count("user") + 1;    //æŸ¥è¯¢ç°æœ‰çš„userçš„æ€»ä¸ªæ•°ï¼Œè®¡ç®—å¾—åˆ°æ–°ç”¨æˆ·çš„ID
-		String insert_user = "insert user values(" + uid + ",'" + username + "','" + password + "')";   //æ’å…¥æ–°ç”¨æˆ·
+		int uid = count("user") + 1;    //²éÑ¯ÏÖÓĞµÄuserµÄ×Ü¸öÊı£¬¼ÆËãµÃµ½ĞÂÓÃ»§µÄID
+		String insert_user = "insert user values(" + uid + ",'" + username + "','" + password + "')";   //²åÈëĞÂÓÃ»§
 		
-		int tableid = count("usertable") + 1 ; //è®¡ç®—æ–°çš„å¤§äº‹ä»¶è¡¨çš„ID
+		int tableid = count("usertable") + 1 ; //¼ÆËãĞÂµÄ´óÊÂ¼ş±íµÄID
 		String insert_table1 = "insert usertable values(" + tableid + "," + uid + ",'event" + uid + "','MyEvent',3)";
 		String insert_table2 = "insert usertable values(" + (tableid+1) + "," + uid + ",'assoc" + uid + "','MyAssoc',3)"; 
 		String insert_table3 = "insert usertable values(" + (tableid+2) + "," + uid + ",'stati" + uid + "','MyStati',2)"; 
@@ -119,13 +125,13 @@ public class Database {
 		template(uID);
 		return uid;
 	}
-	//++++++++++æ³¨å†Œ ç™»é™† éƒ¨åˆ†
+	//++++++++++×¢²á µÇÂ½ ²¿·Ö
 	
-	/* 12/07 æ–°æµ‹è¯•é€šè¿‡
-	 * 11/7 æµ‹è¯•é€šè¿‡
-	 * æ£€æŸ¥å½“å‰ç”¨æˆ·è¯•å›¾æ–°å»ºçš„è¡¨çš„å‘½åæ˜¯å¦å’Œæ•°æ®åº“ä¸­ä»–ä¸ªäººçš„å…¶ä»–è¡¨é‡å 
-	 * æ²¡æœ‰é‡åæ—¶ï¼Œç»“æœä¸º0
-	 * 1å·ç”¨æˆ·å°è¯•æ–°å»ºä¸€ä¸ªä¸ºmoneyçš„è¡¨ï¼Œè¾“å…¥æ ¼å¼ä¸º  
+	/* 12/07 ĞÂ²âÊÔÍ¨¹ı
+	 * 11/7 ²âÊÔÍ¨¹ı
+	 * ¼ì²éµ±Ç°ÓÃ»§ÊÔÍ¼ĞÂ½¨µÄ±íµÄÃüÃûÊÇ·ñºÍÊı¾İ¿âÖĞËû¸öÈËµÄÆäËû±íÖØÃû 
+	 * Ã»ÓĞÖØÃûÊ±£¬½á¹ûÎª0
+	 * 1ºÅÓÃ»§³¢ÊÔĞÂ½¨Ò»¸öÎªmoneyµÄ±í£¬ÊäÈë¸ñÊ½Îª  
 	 * 		1~Money
 	 */
 	public int checkTableName(String a)
@@ -150,15 +156,15 @@ public class Database {
     		e.printStackTrace();
     	}		
 		
-		return n;     //nä¸º0ä»£è¡¨æˆåŠŸ
+		return n;     //nÎª0´ú±í³É¹¦
 	}
 	
 	
-	/* 12/07 æµ‹è¯•é€šè¿‡
-	 * 11/7 æµ‹è¯•é€šè¿‡
-	 * ä¸å­˜åœ¨åŒåè¡¨æ—¶ï¼Œä½¿ç”¨æœ¬å‡½æ•°ï¼Œåˆ›å»ºä¸€ä¸ªè¡¨
-	 * ä¼ å…¥ç”¨æˆ·IDï¼Œç”¨æˆ·ç»™è¿™ä¸ªè¡¨èµ·çš„åå­—ï¼Œåˆ—æ•°ï¼Œæ¯åˆ—çš„åå­—ï¼Œé•¿åº¦
-	 * å¦‚1å·ç”¨æˆ·Moneyè¡¨ï¼Œå­˜å‚¨2åˆ—ï¼Œç¬¬ä¸€åˆ—ä¸ºé•¿åº¦ä¸º12çš„timeï¼Œç¬¬äºŒä¸ªä¸ºé•¿åº¦ä¸º20çš„product
+	/* 12/07 ²âÊÔÍ¨¹ı
+	 * 11/7 ²âÊÔÍ¨¹ı
+	 * ²»´æÔÚÍ¬Ãû±íÊ±£¬Ê¹ÓÃ±¾º¯Êı£¬´´½¨Ò»¸ö±í
+	 * ´«ÈëÓÃ»§ID£¬ÓÃ»§¸øÕâ¸ö±íÆğµÄÃû×Ö£¬ÁĞÊı£¬Ã¿ÁĞµÄÃû×Ö£¬³¤¶È
+	 * Èç1ºÅÓÃ»§Money±í£¬´æ´¢2ÁĞ£¬µÚÒ»ÁĞÎª³¤¶ÈÎª12µÄtime£¬µÚ¶ş¸öÎª³¤¶ÈÎª20µÄproduct
 	 * 		1~Money~2~time~12~product~20
 	 */
 	public int createUserTable(String a)
@@ -169,39 +175,39 @@ public class Database {
 		String uname = mes[1];
 		int column_num = Integer.parseInt(mes[2]);
 		
-		//æ·»åŠ è‡³usertableè¡¨
+		//Ìí¼ÓÖÁusertable±í
 		int cnt = count("usertable") + 1; 
 		String temp_insert = "insert usertable values(" + cnt + "," + uid + ",'t" + cnt + "','" + uname + "'," + (column_num+1) + ")" ;
 		
 		
-		String temp_create = "create table t" + cnt + "(";            //åˆ›å»ºæ–°è¡¨çš„è¯­å¥ï¼Œæ–°è¡¨åä¸ºtID,å¦‚usertableä¸­çš„10å·è¡¨ï¼Œå‘½åä¸ºt10
+		String temp_create = "create table t" + cnt + "(";            //´´½¨ĞÂ±íµÄÓï¾ä£¬ĞÂ±íÃûÎªtID,ÈçusertableÖĞµÄ10ºÅ±í£¬ÃüÃûÎªt10
 		 
-		for(int i=0;i<column_num;i++)                                 //æ ¹æ®è¦æ±‚å®Œæˆcreateè¯­å¥
+		for(int i=0;i<column_num;i++)                                 //¸ù¾İÒªÇóÍê³ÉcreateÓï¾ä
 		{
 			temp_create = temp_create + mes[3+2*i] + " varchar(" + mes[4+2*i] + "),";
 		}
-		temp_create = temp_create + "TID int primary key) ";  //æ·»åŠ å¤–é”®å…³è”è¯¥ç”¨æˆ·ä¸ªäººeventè¡¨
+		temp_create = temp_create + "TID int primary key) ";  //Ìí¼ÓÍâ¼ü¹ØÁª¸ÃÓÃ»§¸öÈËevent±í
 		
 		System.out.println(temp_create);
 		try{
-			stmt.execute(temp_insert);   //æ–°å¢æ–°è¡¨è®°å½•è‡³usertable
-			stmt.execute(temp_create);   //åˆ›å»ºæ–°è¡¨
+			stmt.execute(temp_insert);   //ĞÂÔöĞÂ±í¼ÇÂ¼ÖÁusertable
+			stmt.execute(temp_create);   //´´½¨ĞÂ±í
 			return 0;
 		}
 		catch (SQLException e){e.printStackTrace();return 1;}
 	}
 	
 	
-	/* 12/07 æ–°æµ‹è¯•é€šè¿‡
-	 * 11/7 æµ‹è¯•é€šè¿‡
-	 * è¾“å…¥ç”¨æˆ·ID
-	 * è¿”å›å€¼æ˜¯è¯¥ç”¨æˆ·çš„tableä¸ªæ•°~æ¯ä¸ªtableçš„åå­—
+	/* 12/07 ĞÂ²âÊÔÍ¨¹ı
+	 * 11/7 ²âÊÔÍ¨¹ı
+	 * ÊäÈëÓÃ»§ID
+	 * ·µ»ØÖµÊÇ¸ÃÓÃ»§µÄtable¸öÊı~Ã¿¸ötableµÄÃû×Ö
 	 */
 	public String findUserTable(String uid)
 	{
 		/* sqk's requirement 2016/10/30
 		 * input userid
-		 * return table_count ~ tablename(user)1 ~ tablename(user)2 ~ â€¦â€¦â€¦â€¦â€¦â€¦â€¦â€¦â€¦â€¦â€¦â€¦ 
+		 * return table_count ~ tablename(user)1 ~ tablename(user)2 ~ ¡­¡­¡­¡­¡­¡­¡­¡­¡­¡­¡­¡­ 
 		 * use ~(temporary) 
 		 */
 		ResultSet res = null;
@@ -213,7 +219,7 @@ public class Database {
 			res = stmt.executeQuery(temp);
 			while(res.next())
 			{
-				if(count!=0 && count!=1 && count != 2)//ä¸è¿”å›å…³è”è¡¨å’Œå¤§äº‹ä»¶è¡¨ ,ä¸è¿”å›ç»Ÿè®¡è¡¨
+				if(count!=0 && count!=1 && count != 2)//²»·µ»Ø¹ØÁª±íºÍ´óÊÂ¼ş±í ,²»·µ»ØÍ³¼Æ±í
 				{
 					ret = ret + "~" +res.getString(4);
 					
@@ -227,16 +233,16 @@ public class Database {
 		return ret;
 	}
 	
-	/* 12/07 æ–°æµ‹è¯•é€šè¿‡
-	 * 11/7 æµ‹è¯•é€šè¿‡
-	 * 11/14ä¿®æ”¹å¾…æµ‹è¯• é€šè¿‡
-	 * è¾“å…¥ç”¨æˆ·idå’Œè¡¨å è¿”å›è¡¨çš„å±æ€§ï¼ˆåŒ…æ‹¬IDï¼‰
+	/* 12/07 ĞÂ²âÊÔÍ¨¹ı
+	 * 11/7 ²âÊÔÍ¨¹ı
+	 * 11/14ĞŞ¸Ä´ı²âÊÔ Í¨¹ı
+	 * ÊäÈëÓÃ»§idºÍ±íÃû ·µ»Ø±íµÄÊôĞÔ£¨°üÀ¨ID£©
 	 */
 	public String findTableColumn(String uid, String tablename)
 	{
 		/* sqk's requirement 2016/10/31
 		 * in userid && tablename(user)
-		 * return columncount ~ column1 ~ length1 ~ column2 ~ length2â€¦â€¦â€¦â€¦â€¦â€¦â€¦â€¦â€¦â€¦â€¦â€¦ 
+		 * return columncount ~ column1 ~ length1 ~ column2 ~ length2¡­¡­¡­¡­¡­¡­¡­¡­¡­¡­¡­¡­ 
 		 * use ~(temporary) 
 		 */
 		ResultSet res = null;
@@ -267,12 +273,12 @@ public class Database {
 		return "";
 	}
 	
-	/* 12/07 æ–°æµ‹è¯•é€šè¿‡
-	 * 12/1 æ–°ä¿®æ”¹
-	 * 11/14 æµ‹è¯•é€šè¿‡
-	 * åŠ å…¥ä¸€æ¡å°äº‹ä»¶
-	 * ä¼ å…¥ç”¨æˆ·ID è¡¨å æ’å…¥ä¿¡æ¯ï¼ˆæ é—´ä½¿ç”¨~åˆ†å‰²ï¼‰
-	 * æ’å…¥æˆåŠŸè¿”å›1 å¦åˆ™è¿”å›-1
+	/* 12/07 ĞÂ²âÊÔÍ¨¹ı
+	 * 12/1 ĞÂĞŞ¸Ä
+	 * 11/14 ²âÊÔÍ¨¹ı
+	 * ¼ÓÈëÒ»ÌõĞ¡ÊÂ¼ş
+	 * ´«ÈëÓÃ»§ID ±íÃû ²åÈëĞÅÏ¢£¨À¸¼äÊ¹ÓÃ~·Ö¸î£©
+	 * ²åÈë³É¹¦·µ»Ø1 ·ñÔò·µ»Ø-1
 	 * 
 	 */
 	public int insertSEvent(String uid,String tablename,String mes)
@@ -281,7 +287,7 @@ public class Database {
 
 		int eid = 0;
 		try {
-			String dbtablename = getDBName(uid,tablename);//åŠ å…¥æ–°è®°å½•çš„è¡¨çš„å®é™…åå­—
+			String dbtablename = getDBName(uid,tablename);//¼ÓÈëĞÂ¼ÇÂ¼µÄ±íµÄÊµ¼ÊÃû×Ö
 
 			String temp = "select max(TID) from " + dbtablename ;
 			res = stmt.executeQuery(temp);
@@ -303,10 +309,10 @@ public class Database {
 		}
 	}
 	
-	/* 12/07 æ–°æµ‹è¯•é€šè¿‡
-	 * 11/14 æµ‹è¯•é€šè¿‡
-	 * è·å–ä¸€ä¸ªç”¨æˆ·IDåŠä¸€ä¸ªè¡¨åï¼Œå°†è¿”å›è¯¥è¡¨çš„æ‰€æœ‰å†…å®¹,é»˜è®¤è¿”å›ID
-	 * è¿”å›æ ¼å¼ä¸º é¡¹æ•°~ç¬¬ä¸€é¡¹ç¬¬ä¸€åˆ—~ç¬¬ä¸€é¡¹ç¬¬äºŒåˆ—~â€¦â€¦~ç¬¬äºŒé¡¹ç¬¬ä¸€åˆ—~â€¦â€¦
+	/* 12/07 ĞÂ²âÊÔÍ¨¹ı
+	 * 11/14 ²âÊÔÍ¨¹ı
+	 * »ñÈ¡Ò»¸öÓÃ»§ID¼°Ò»¸ö±íÃû£¬½«·µ»Ø¸Ã±íµÄËùÓĞÄÚÈİ,Ä¬ÈÏ·µ»ØID
+	 * ·µ»Ø¸ñÊ½Îª ÏîÊı~µÚÒ»ÏîµÚÒ»ÁĞ~µÚÒ»ÏîµÚ¶şÁĞ~¡­¡­~µÚ¶şÏîµÚÒ»ÁĞ~¡­¡­
 	 */
 	public String findSEvent(String uid, String tablename)
 	{
@@ -346,12 +352,12 @@ public class Database {
 		}
 	}
 	
-	/* 12/07 æ–°æµ‹è¯•é€šè¿‡
-	 * 11/15æµ‹è¯•é€šè¿‡
-	 * è¾“å…¥æ•°æ®ä¸ºä¸€ä¸ªç”¨æˆ·IDå’Œä¸€ä¸ªusertablename
-	 * è¿”å›è¡¨å†…æœ€æ–°å¢åŠ çš„äº”æ¡æ•°æ®
-	 * ï¼ˆå³IDå€¼æœ€å¤§çš„äº”æ¡æ•°æ®ï¼‰
-	 * ç”±äºä»éœ€è€ƒè™‘è¯¥è¡¨å†…å®¹ä¸è¶³äº”æ¡çš„æƒ…å†µ è¿”å›å€¼åŒå‡½æ•°findSEventç›¸åŒ
+	/* 12/07 ĞÂ²âÊÔÍ¨¹ı
+	 * 11/15²âÊÔÍ¨¹ı
+	 * ÊäÈëÊı¾İÎªÒ»¸öÓÃ»§IDºÍÒ»¸öusertablename
+	 * ·µ»Ø±íÄÚ×îĞÂÔö¼ÓµÄÎåÌõÊı¾İ
+	 * £¨¼´IDÖµ×î´óµÄÎåÌõÊı¾İ£©
+	 * ÓÉÓÚÈÔĞè¿¼ÂÇ¸Ã±íÄÚÈİ²»×ãÎåÌõµÄÇé¿ö ·µ»ØÖµÍ¬º¯ÊıfindSEventÏàÍ¬
 	 */
 	public String findSEventN5(String uid, String tablename)
 	{
@@ -386,11 +392,11 @@ public class Database {
 		return mes;
 	}
 	
-	/* 12/07æµ‹è¯•é€šè¿‡
-	 * æ¶‚ç¥éœ€æ±‚1st
-	 * 11/15 å¾…æµ‹è¯•
-	 * è¾“å…¥ä¸ºç”¨æˆ·ID
-	 * è¾“å‡ºä¸ºè¯¥ç”¨æˆ·æ‰€æœ‰è¡¨åï¼ˆå¤§äº‹ä»¶è¡¨å…³è”è¡¨é™¤å¤–ï¼‰
+	/* 12/07²âÊÔÍ¨¹ı
+	 * Í¿ÉñĞèÇó1st
+	 * 11/15 ´ı²âÊÔ
+	 * ÊäÈëÎªÓÃ»§ID
+	 * Êä³öÎª¸ÃÓÃ»§ËùÓĞ±íÃû£¨´óÊÂ¼ş±í¹ØÁª±í³ıÍâ£©
 	 */
 	public String tableBrief(String uid)
 	{
@@ -403,7 +409,7 @@ public class Database {
 			{
 				result = result + "~" + res.getString(1);
 			}
-			result = result.replace("~MyEvent~MyAssoc~MyStati",""); //å»æ‰äº‹ä»¶è¡¨å’Œå…³è”è¡¨,ç»Ÿè®¡è¡¨
+			result = result.replace("~MyEvent~MyAssoc~MyStati",""); //È¥µôÊÂ¼ş±íºÍ¹ØÁª±í,Í³¼Æ±í
 			if('~'==result.charAt(0))
 			{
 				result =result.substring(1);
@@ -416,12 +422,12 @@ public class Database {
 		return result;
 	}
 	
-	/* 12/07 æµ‹è¯•é€šè¿‡
-	 * æ¶‚ç¥éœ€æ±‚ç¬¬äºŒä¸ª
-	 * 11/15 å¾…æµ‹è¯• è¶…å¤æ‚DBè¯­å¥
-	 * æµ‹è¯•ç»“æœè¡¨æ˜æˆ‘å¥½åƒä¸€æ¬¡å°±å†™å¯¹äº†æˆ‘å¯¹æ­¤è¡¨ç¤ºæ€€ç–‘
-	 * è¾“å…¥ä¸ºç”¨æˆ·ID
-	 * è¿”å›ä¸ºäº‹ä»¶åå­—~å…³è”å°äº‹ä»¶ä¸ªæ•°^â€¦â€¦
+	/* 12/07 ²âÊÔÍ¨¹ı
+	 * Í¿ÉñĞèÇóµÚ¶ş¸ö
+	 * 11/15 ´ı²âÊÔ ³¬¸´ÔÓDBÓï¾ä
+	 * ²âÊÔ½á¹û±íÃ÷ÎÒºÃÏñÒ»´Î¾ÍĞ´¶ÔÁËÎÒ¶Ô´Ë±íÊ¾»³ÒÉ
+	 * ÊäÈëÎªÓÃ»§ID
+	 * ·µ»ØÎªÊÂ¼şÃû×Ö~¹ØÁªĞ¡ÊÂ¼ş¸öÊı^¡­¡­
 	 */
 	public String eventBrief(String uid)
 	{
@@ -436,7 +442,7 @@ public class Database {
 			{
 				result = result + "^" + res.getString(1) + "~" + res.getString(2);
 			}
-			result = result.substring(1); //å»æ‰äº‹ä»¶è¡¨å’Œå…³è”è¡¨
+			result = result.substring(1); //È¥µôÊÂ¼ş±íºÍ¹ØÁª±í
 		}
 		catch(SQLException e)
 		{
@@ -445,12 +451,12 @@ public class Database {
 		return result;
 	}
 	
-	/* 12/07æµ‹è¯•é€šè¿‡
-	 * 11/15 æ¶‚ç¥éœ€æ±‚ç¬¬ä¸‰ä¸ª
-	 * æµ‹è¯•é€šè¿‡
-	 * è¾“å…¥ä¸ºç”¨æˆ·id~è¡¨å
-	 * è¾“å‡ºä¸ºå°äº‹ä»¶å~å°äº‹ä»¶å…¨å±€ID^â€¦â€¦
-	 * å°äº‹ä»¶å…¨å±€IDç”±æœ¬è¡¨IDæ‹¼æ¥å°äº‹ä»¶å†…TIDæ‹¼æˆ
+	/* 12/07²âÊÔÍ¨¹ı
+	 * 11/15 Í¿ÉñĞèÇóµÚÈı¸ö
+	 * ²âÊÔÍ¨¹ı
+	 * ÊäÈëÎªÓÃ»§id~±íÃû
+	 * Êä³öÎªĞ¡ÊÂ¼şÃû~Ğ¡ÊÂ¼şÈ«¾ÖID^¡­¡­
+	 * Ğ¡ÊÂ¼şÈ«¾ÖIDÓÉ±¾±íIDÆ´½ÓĞ¡ÊÂ¼şÄÚTIDÆ´³É
 	 */
 	public String tableContent(String uidPLUStname)
 	{
@@ -481,10 +487,10 @@ public class Database {
 		return result ;
 	}
 	
-	/* æ¶‚ç¥éœ€æ±‚å›› old version
-	 * 11/15å¾…å¡«å……
-	 * è¾“å…¥ä¸ºç”¨æˆ·idå’Œkey
-	 * è¾“å‡ºä¸ºè¡¨å~å”¯ä¸€ID~å°äº‹ä»¶åå­—
+	/* Í¿ÉñĞèÇóËÄ old version
+	 * 11/15´ıÌî³ä
+	 * ÊäÈëÎªÓÃ»§idºÍkey
+	 * Êä³öÎª±íÃû~Î¨Ò»ID~Ğ¡ÊÂ¼şÃû×Ö
 	 */
 	public String searchRequest(String uid, String key)
 	{
@@ -511,11 +517,11 @@ public class Database {
 	
 	
 	
-	/* 12/07 æµ‹è¯•é€šè¿‡
-	 * 11/15 æ¶‚ç¥éœ€æ±‚äº”
-	 * æµ‹è¯•é€šè¿‡
-	 * è¾“å…¥ä¸ºç”¨æˆ·ID~å¤§äº‹ä»¶EName~ETime~å°äº‹ä»¶å…¨å±€ID~å°äº‹ä»¶å…¨å±€ID
-	 * è¾“å‡ºä¸ºå¤§äº‹ä»¶ID
+	/* 12/07 ²âÊÔÍ¨¹ı
+	 * 11/15 Í¿ÉñĞèÇóÎå
+	 * ²âÊÔÍ¨¹ı
+	 * ÊäÈëÎªÓÃ»§ID~´óÊÂ¼şEName~ETime~Ğ¡ÊÂ¼şÈ«¾ÖID~Ğ¡ÊÂ¼şÈ«¾ÖID
+	 * Êä³öÎª´óÊÂ¼şID
 	 */
 	public int submitEvent(String mes)
 	{
@@ -560,9 +566,9 @@ public class Database {
 		
 	}
 	
-	/* 12/07 æ–°æµ‹è¯•é€šè¿‡
-	 * 12/1 å¾…æµ‹è¯•
-	 * è·å¾—ç”¨æˆ·IDï¼Œè¿”è¿˜æŸ±çŠ¶å›¾ç›¸å…³è®¯æ¯ï¼Œè®¯æ¯ä¸ºç”¨æˆ·æ—¥æœŸ~ä¿®æ”¹æ¡æ•°
+	/* 12/07 ĞÂ²âÊÔÍ¨¹ı
+	 * 12/1 ´ı²âÊÔ
+	 * »ñµÃÓÃ»§ID£¬·µ»¹Öù×´Í¼Ïà¹ØÑ¶Ï¢£¬Ñ¶Ï¢ÎªÓÃ»§ÈÕÆÚ~ĞŞ¸ÄÌõÊı
 	 * 
 	 */
 	public String Bar(String uid)
@@ -588,17 +594,17 @@ public class Database {
 		return mes;
 	}
 	
-	/* 12/11 æ–°æµ‹è¯•é€šè¿‡ 
-	 * å‰å®³äº†æˆ‘çš„å§  Barå›¾å¯ä»¥æŒ‡å®šæŸä¸€æ—¶é—´æ®µä½ çŸ¥é“äº†å—
+	/* 12/11 ĞÂ²âÊÔÍ¨¹ı 
+	 * À÷º¦ÁËÎÒµÄ½ã  BarÍ¼¿ÉÒÔÖ¸¶¨Ä³Ò»Ê±¼ä¶ÎÄãÖªµÀÁËÂğ
 	 * 
-	 * è·å¾—ç”¨æˆ·IDåŠå¤©æ•°,å¤©æ•°æ˜¯å®Œå…¨ä»»æ„çš„ï¼Œæ­£æ•´æ•°å°±å¯ä»¥
-	 * è¿”è¿˜æŸ±çŠ¶å›¾åœ¨å¯¹åº”å¤©æ•°æ—¶é—´æ®µå†…ç›¸å…³è®¯æ¯ï¼Œè®¯æ¯ä¸ºç”¨æˆ·æ—¥æœŸ~ä¿®æ”¹æ¡æ•°
+	 * »ñµÃÓÃ»§ID¼°ÌìÊı,ÌìÊıÊÇÍêÈ«ÈÎÒâµÄ£¬ÕıÕûÊı¾Í¿ÉÒÔ
+	 * ·µ»¹Öù×´Í¼ÔÚ¶ÔÓ¦ÌìÊıÊ±¼ä¶ÎÄÚÏà¹ØÑ¶Ï¢£¬Ñ¶Ï¢ÎªÓÃ»§ÈÕÆÚ~ĞŞ¸ÄÌõÊı
 	 */
 	public String Bar(String uid,String days)
 	{
 		String mes = "";
 		
-		//åµŒå¥—orderçš„æœ¬è´¨æ˜¯ä¸ºäº†ååºå†ååºå¾—åˆ°æ­£åº
+		//Ç¶Ì×orderµÄ±¾ÖÊÊÇÎªÁË·´ĞòÔÙ·´ĞòµÃµ½ÕıĞò
 		String check = "select * from (select * from stati" + uid + " order by Time desc limit " + days + " ) a order by Time";
 		
 		try{
@@ -619,9 +625,9 @@ public class Database {
 		return mes;
 	}
 	
-	/* 12/07 æ–°æµ‹è¯•é€šè¿‡
-	 * 12/1 å¾…æµ‹è¯•
-	 * è·å¾—ç”¨æˆ·IDï¼Œè¿”è¿˜é¥¼çŠ¶å›¾ç›¸å…³è®¯æ¯ï¼Œè®¯æ¯ä¸ºç”¨æˆ·è¡¨~æ‹¥æœ‰çš„ä¿¡æ¯æ•°ï¼Œä¸åŒ…æ‹¬å…³è”è¡¨ã€å¤§äº‹ä»¶è¡¨ã€ç»Ÿè®¡è¡¨
+	/* 12/07 ĞÂ²âÊÔÍ¨¹ı
+	 * 12/1 ´ı²âÊÔ
+	 * »ñµÃÓÃ»§ID£¬·µ»¹±ı×´Í¼Ïà¹ØÑ¶Ï¢£¬Ñ¶Ï¢ÎªÓÃ»§±í~ÓµÓĞµÄĞÅÏ¢Êı£¬²»°üÀ¨¹ØÁª±í¡¢´óÊÂ¼ş±í¡¢Í³¼Æ±í
 	 * 
 	 */
 	public String Pie(String uid)
@@ -656,11 +662,11 @@ public class Database {
     	return littleString;
     }
     
-    /* 12/07 æ–°æµ‹è¯•é€šè¿‡
-     * sqkéœ€æ±‚
-     * åˆ é™¤å°äº‹ä»¶
-     * ä¼ å…¥æ­£ç¡®çš„ç”¨æˆ·ID,è¡¨ååŠå°äº‹ä»¶ID
-     * å¯¹ç»Ÿè®¡æ•°æ®äº§ç”Ÿå½±å“
+    /* 12/07 ĞÂ²âÊÔÍ¨¹ı
+     * sqkĞèÇó
+     * É¾³ıĞ¡ÊÂ¼ş
+     * ´«ÈëÕıÈ·µÄÓÃ»§ID,±íÃû¼°Ğ¡ÊÂ¼şID
+     * ¶ÔÍ³¼ÆÊı¾İ²úÉúÓ°Ïì
      */
     public boolean deleteSEvent(String uid,String tablename,String TID)
     {
@@ -681,14 +687,14 @@ public class Database {
 		}
     }
     
-    /* 12/07 æ–°æµ‹è¯•é€šè¿‡
-     * sqkéœ€æ±‚
-     * ä¿®æ”¹å°äº‹ä»¶
-     * ä¸ºäº†æ–¹ä¾¿å¤„ç†ï¼Œæ­¤å¤„å¯¹æ•°æ®åº“æ“ä½œçš„æœ¬è´¨æ˜¯åˆ é™¤ï¼Œæ’å…¥
-     * ä¼ å…¥æ­£ç¡®çš„ç”¨æˆ·IDï¼Œè¡¨åï¼Œå°äº‹ä»¶IDï¼ŒåŠå°äº‹ä»¶çš„æ–°ä¿¡æ¯(ä»¥~è¿æ¥)
-     * ä¼ å›trueä»£è¡¨æˆåŠŸ
+    /* 12/07 ĞÂ²âÊÔÍ¨¹ı
+     * sqkĞèÇó
+     * ĞŞ¸ÄĞ¡ÊÂ¼ş
+     * ÎªÁË·½±ã´¦Àí£¬´Ë´¦¶ÔÊı¾İ¿â²Ù×÷µÄ±¾ÖÊÊÇÉ¾³ı£¬²åÈë
+     * ´«ÈëÕıÈ·µÄÓÃ»§ID£¬±íÃû£¬Ğ¡ÊÂ¼şID£¬¼°Ğ¡ÊÂ¼şµÄĞÂĞÅÏ¢(ÒÔ~Á¬½Ó)
+     * ´«»Øtrue´ú±í³É¹¦
      * 
-     * å¯¹ç»Ÿè®¡æ•°æ®äº§ç”Ÿå½±å“
+     * ¶ÔÍ³¼ÆÊı¾İ²úÉúÓ°Ïì
      */
     public boolean updateSEvent(String uid,String tablename,String TID,String mesin)
     {
@@ -717,13 +723,13 @@ public class Database {
 		}
     }
     
-    /* 12/07 æ–°å¢å¾…æµ‹è¯•
-     * æ¶‚ç¥éœ€æ±‚
-     * åˆ é™¤ä¸€ä¸ªå¤§äº‹ä»¶
-     * ä¼ å…¥ç”¨æˆ·IDï¼Œå¤§äº‹ä»¶ID
-     * è¿”å›trueä»£è¡¨æˆåŠŸ
+    /* 12/07 ĞÂÔö´ı²âÊÔ
+     * Í¿ÉñĞèÇó
+     * É¾³ıÒ»¸ö´óÊÂ¼ş
+     * ´«ÈëÓÃ»§ID£¬´óÊÂ¼şID
+     * ·µ»Øtrue´ú±í³É¹¦
      * 
-     * å¯¹ç»Ÿè®¡æ•°æ®äº§ç”Ÿå½±å“
+     * ¶ÔÍ³¼ÆÊı¾İ²úÉúÓ°Ïì
      */
     public boolean deleteBEvent(String uid,String EID)
     {
@@ -743,12 +749,12 @@ public class Database {
 		}
     }
     
-    /* 12/07 æ–°å¢å¾…æµ‹è¯•
-     * æ¶‚ç¥éœ€æ±‚ 
-     * eventBriefè¿›é˜¶ç‰ˆ
-     * è¿”å›å†…å®¹å¢åŠ EID
-     * è¾“å…¥ä¸ºç”¨æˆ·ID
-     * è¾“å‡ºä¸ºå¤§äº‹ä»¶å~å¤§äº‹ä»¶å…³è”å°äº‹ä»¶ä¸ªæ•°~å¤§äº‹ä»¶ID^â€¦â€¦
+    /* 12/07 ĞÂÔö´ı²âÊÔ
+     * Í¿ÉñĞèÇó 
+     * eventBrief½ø½×°æ
+     * ·µ»ØÄÚÈİÔö¼ÓEID
+     * ÊäÈëÎªÓÃ»§ID
+     * Êä³öÎª´óÊÂ¼şÃû~´óÊÂ¼ş¹ØÁªĞ¡ÊÂ¼ş¸öÊı~´óÊÂ¼şID^¡­¡­
      */
     public String eventBriefN(String uid)
     {    	
@@ -763,7 +769,7 @@ public class Database {
 			{
 				result = result + "^" + res.getString(1) + "~" + res.getString(2) + "~" + res.getString(3);
 			}
-			result = result.substring(1); //ç¬¬ä¸€ä¸ª^
+			result = result.substring(1); //µÚÒ»¸ö^
 		}
 		catch(SQLException e)
 		{
@@ -772,11 +778,11 @@ public class Database {
 		return result;
     }
     
-    /* 12/07 æ–°å¢å¾…æµ‹è¯•
-     * æ¶‚ç¥éœ€æ±‚
-     * è¾“å…¥ç”¨æˆ·IDï¼Œå¤§äº‹ä»¶ID
-     * è¿”å›å¤§äº‹ä»¶å~æ—¶é—´~å…³è”å°äº‹ä»¶ä¸ªæ•°^å°äº‹ä»¶1å…¨å±€ID~å°äº‹ä»¶1ID~å°äº‹ä»¶1æ‰€å±è¡¨å~å°äº‹ä»¶1name^å°äº‹ä»¶2å…¨å±€ID~å°äº‹ä»¶2ID~å°äº‹ä»¶2æ‰€å±è¡¨å~å°äº‹ä»¶2nameâ€¦â€¦
-     * å…¶ä¸­æ¶‚ç¥ä½¿ç”¨å…¨å±€IDï¼Œæ˜¾ç¤ºå°äº‹ä»¶æ‰€å±è¡¨ååŠå°äº‹ä»¶nameï¼Œåç»­ä¼ å°äº‹ä»¶IDåŠæ‰€å±è¡¨åç»™SQK
+    /* 12/07 ĞÂÔö´ı²âÊÔ
+     * Í¿ÉñĞèÇó
+     * ÊäÈëÓÃ»§ID£¬´óÊÂ¼şID
+     * ·µ»Ø´óÊÂ¼şÃû~Ê±¼ä~¹ØÁªĞ¡ÊÂ¼ş¸öÊı^Ğ¡ÊÂ¼ş1È«¾ÖID~Ğ¡ÊÂ¼ş1ID~Ğ¡ÊÂ¼ş1ËùÊô±íÃû~Ğ¡ÊÂ¼ş1name^Ğ¡ÊÂ¼ş2È«¾ÖID~Ğ¡ÊÂ¼ş2ID~Ğ¡ÊÂ¼ş2ËùÊô±íÃû~Ğ¡ÊÂ¼ş2name¡­¡­
+     * ÆäÖĞÍ¿ÉñÊ¹ÓÃÈ«¾ÖID£¬ÏÔÊ¾Ğ¡ÊÂ¼şËùÊô±íÃû¼°Ğ¡ÊÂ¼şname£¬ºóĞø´«Ğ¡ÊÂ¼şID¼°ËùÊô±íÃû¸øSQK
      */
     public String showBEvent(String uid,String EID)
     {
@@ -817,10 +823,10 @@ public class Database {
     	return result;
     }
     
-    /* 12/07 æ–°æµ‹è¯•é€šè¿‡
-     * sqkéœ€æ±‚
-     * è¾“å…¥ç”¨æˆ·IDï¼Œè¡¨åï¼Œå°äº‹ä»¶ID
-     * è¿”å›è¯¥å°äº‹ä»¶æ¯ä¸€åˆ—ï¼ŒåŒ…å«å°äº‹ä»¶ID
+    /* 12/07 ĞÂ²âÊÔÍ¨¹ı
+     * sqkĞèÇó
+     * ÊäÈëÓÃ»§ID£¬±íÃû£¬Ğ¡ÊÂ¼şID
+     * ·µ»Ø¸ÃĞ¡ÊÂ¼şÃ¿Ò»ÁĞ£¬°üº¬Ğ¡ÊÂ¼şID
      */
 	public String editRetOldInf(String uid,String tablename,String TID)
 	{
@@ -854,11 +860,11 @@ public class Database {
 		
 	}
 	
-	/* 12/12 æ¶‚ç¥æ•´åˆæµ‹è¯•é€šè¿‡
-	 * 12/08 æ–°å¢å¾…æµ‹è¯•
-	 * ç”¨æˆ·è¯„ä»·
-	 * è¾“å…¥ä¸ºç”¨æˆ·IDåŠè¯„ä»·å­—ç¬¦ä¸²
-	 * è¿”å›ä¸€ä¸ªå¸ƒå°”å€¼è¡¨ç¤ºæ˜¯å¦æˆåŠŸ
+	/* 12/12 Í¿ÉñÕûºÏ²âÊÔÍ¨¹ı
+	 * 12/08 ĞÂÔö´ı²âÊÔ
+	 * ÓÃ»§ÆÀ¼Û
+	 * ÊäÈëÎªÓÃ»§ID¼°ÆÀ¼Û×Ö·û´®
+	 * ·µ»ØÒ»¸ö²¼¶ûÖµ±íÊ¾ÊÇ·ñ³É¹¦
 	 */
 	public boolean comment(String uid,String com)
 	{
@@ -880,10 +886,10 @@ public class Database {
 		return suc;
 	}
 	
-	/* 12/08 æ–°æµ‹è¯•é€šè¿‡
-	 * ç”Ÿæˆcsvæ–‡ä»¶å†…å®¹
-	 * ä¼ å…¥å€¼ä¸ºç”¨æˆ·IDåŠä»–ä¸ªäººçš„è¡¨å
-	 * ä¼ å‡ºå€¼ä¸ºå­—ç¬¦ä¸² æ ¼å¼ä¸º ï¼š ç”¨æˆ·è¡¨å^csvæ–‡ä»¶å†…å®¹
+	/* 12/08 ĞÂ²âÊÔÍ¨¹ı
+	 * Éú³ÉcsvÎÄ¼şÄÚÈİ
+	 * ´«ÈëÖµÎªÓÃ»§ID¼°Ëû¸öÈËµÄ±íÃû
+	 * ´«³öÖµÎª×Ö·û´® ¸ñÊ½Îª £º ÓÃ»§±íÃû^csvÎÄ¼şÄÚÈİ
 	 */
 	public String download(String uid,String uname)
 	{
@@ -922,15 +928,15 @@ public class Database {
 		return result;
 	}
 	
-	/* 12/12 æ–°ç‰ˆæœ¬æµ‹è¯•é€šè¿‡
-	 * æ›´æ–°ï¼šåˆ—æ•°ä¸å¤Ÿçš„æ•°æ®å°†è¢«è¡¥å…¨åæ’å…¥ï¼Œä¸ä¼šç›´æ¥ä¸¢å¤±
+	/* 12/12 ĞÂ°æ±¾²âÊÔÍ¨¹ı
+	 * ¸üĞÂ£ºÁĞÊı²»¹»µÄÊı¾İ½«±»²¹È«ºó²åÈë£¬²»»áÖ±½Ó¶ªÊ§
 	 * 
-	 * 12/08 æ–°æµ‹è¯•é€šè¿‡
-	 * å°†ä¸Šä¼ çš„csvæ–‡ä»¶å¤„ç†è¿‡å æ·»åŠ è¿›æ•°æ®åº“å·²æœ‰è¡¨ä¸­
-	 * æˆåŠŸæ—¶è¿”å›è¯¥è¡¨è¡¨åï¼Œè¯·è‡ªè¡Œè°ƒç”¨å‡½æ•°ä½¿ç”¨è¡¨åå’Œç”¨æˆ·IDæŸ¥çœ‹è¡¨çš„å†…å®¹
-	 * 12/08ç‰ˆæœ¬ æ³¨æ„ï¼šå¦‚æœ è¡¨å®é™…åˆ—æ•°æ˜¯3ï¼Œå¤šäº3åˆ—çš„è¡Œå°†åªä¿ç•™å‰ä¸‰åˆ—æ•°æ®ï¼Œå°‘äº3çš„åˆ™ä¸ä¿ç•™æ•°æ®
+	 * 12/08 ĞÂ²âÊÔÍ¨¹ı
+	 * ½«ÉÏ´«µÄcsvÎÄ¼ş´¦Àí¹ıºó Ìí¼Ó½øÊı¾İ¿âÒÑÓĞ±íÖĞ
+	 * ³É¹¦Ê±·µ»Ø¸Ã±í±íÃû£¬Çë×ÔĞĞµ÷ÓÃº¯ÊıÊ¹ÓÃ±íÃûºÍÓÃ»§ID²é¿´±íµÄÄÚÈİ
+	 * 12/08°æ±¾ ×¢Òâ£ºÈç¹û ±íÊµ¼ÊÁĞÊıÊÇ3£¬¶àÓÚ3ÁĞµÄĞĞ½«Ö»±£ÁôÇ°ÈıÁĞÊı¾İ£¬ÉÙÓÚ3µÄÔò²»±£ÁôÊı¾İ
 	 * 
-	 * å¤±è´¥è¿”å›"false"
+	 * Ê§°Ü·µ»Ø"false"
 	 */
 	public String upload(String uid, String uname, File csv_file)
 	{
@@ -977,12 +983,12 @@ public class Database {
 	}
 	
 	
-	/* 12/12 ä¸Šä¼ æ–‡ä»¶çš„è¿›é˜¶ç‰ˆ å¾…æµ‹è¯•
-	 * è¿›é˜¶ï¼šæ ¹æ®æ–‡ä»¶ç¬¬ä¸€è¡Œç¡®å®šè¡¨çš„åˆ—æ•°
-	 * å…¶ä½™è¡Œæ•°ï¼Œåˆ—æ•°ä¸å¤Ÿçš„è¡¥å…¨ç©ºæ ¼ï¼Œè¶…å‡ºçš„åªå–æ–°è¡¨åˆ—æ•°çš„åˆ—æ•°ï¼ŒåŠ å…¥è¡¨ä¸­
-	 * ä¼ å…¥ç”¨æˆ·idï¼ŒæœŸæœ›çš„æ–°è¡¨åï¼ˆå¯èƒ½æ˜¯æ–‡ä»¶åï¼Ÿï¼‰ï¼Œæ–‡ä»¶
-	 * è¿”å›æ–°è¡¨å æˆ– false
-	 * è¯·è‡ªè¡Œæ ¹æ®ç”¨æˆ·idåŠè¡¨åä½¿ç”¨å‡½æ•°æŸ¥çœ‹è¯¥è¡¨å†…å®¹
+	/* 12/12 ÉÏ´«ÎÄ¼şµÄ½ø½×°æ ´ı²âÊÔ
+	 * ½ø½×£º¸ù¾İÎÄ¼şµÚÒ»ĞĞÈ·¶¨±íµÄÁĞÊı
+	 * ÆäÓàĞĞÊı£¬ÁĞÊı²»¹»µÄ²¹È«¿Õ¸ñ£¬³¬³öµÄÖ»È¡ĞÂ±íÁĞÊıµÄÁĞÊı£¬¼ÓÈë±íÖĞ
+	 * ´«ÈëÓÃ»§id£¬ÆÚÍûµÄĞÂ±íÃû£¨¿ÉÄÜÊÇÎÄ¼şÃû£¿£©£¬ÎÄ¼ş
+	 * ·µ»ØĞÂ±íÃû »ò false
+	 * Çë×ÔĞĞ¸ù¾İÓÃ»§id¼°±íÃûÊ¹ÓÃº¯Êı²é¿´¸Ã±íÄÚÈİ
 	 */
 	public String uploadNewTable(String uid,String newTableName,File myfile)
 	{
@@ -991,14 +997,14 @@ public class Database {
         {
 			BufferedReader in_br = new BufferedReader(new FileReader(myfile));
             
-            int l_count = 0;      //è®°å½•æ­£åœ¨è¯»çš„è¡Œæ•°
-            int lines = 0;        //è®°å½•æ–°è¡¨çš„åˆ—æ•°
+            int l_count = 0;      //¼ÇÂ¼ÕıÔÚ¶ÁµÄĞĞÊı
+            int lines = 0;        //¼ÇÂ¼ĞÂ±íµÄÁĞÊı
             while ((str = in_br.readLine()) != null) 
             {
             	l_count++;
             	String[] columns = str.split(",");
             
-            	//è¡¨å¤´ä¿¡æ¯
+            	//±íÍ·ĞÅÏ¢
             	if(l_count ==1) 
                 {
                 	lines = columns.length;
@@ -1007,9 +1013,9 @@ public class Database {
                 	continue;
                 }
                 
-                //é™¤å»è¡¨å¤´çš„å…¶ä»–è¡Œ
+                //³ıÈ¥±íÍ·µÄÆäËûĞĞ
                 String insert = "";
-                if(columns.length<lines)   //å¯¹äºåˆ—æ•°ä¸å…¨çš„æ•°æ® è¡¥å…¨
+                if(columns.length<lines)   //¶ÔÓÚÁĞÊı²»È«µÄÊı¾İ ²¹È«
                 {
                 	for(int x = columns.length + 1; x <= lines ; x++)
                 	{
@@ -1019,7 +1025,7 @@ public class Database {
                 	System.out.println(str);
                 }
                 
-                for(int i=0;i<lines;i++)   //åˆ—æ•°è¿‡å¤šçš„è‡ªåŠ¨å¿½ç•¥å¤šä½™çš„åˆ—æ•°
+                for(int i=0;i<lines;i++)   //ÁĞÊı¹ı¶àµÄ×Ô¶¯ºöÂÔ¶àÓàµÄÁĞÊı
                 {
                 	if("".equals(columns[i]))
 	               	{
@@ -1041,8 +1047,8 @@ public class Database {
 		return newTableName;
 	}
     
-	/* privateå‡½æ•° è¯·å‹¿ç›´æ¥ä½¿ç”¨æˆ–ä¿®æ”¹ï¼
-	 * æ£€æŸ¥æä¾›çš„å°äº‹ä»¶å”¯ä¸€IDæ˜¯å¦å­˜åœ¨
+	/* privateº¯Êı ÇëÎğÖ±½ÓÊ¹ÓÃ»òĞŞ¸Ä£¡
+	 * ¼ì²éÌá¹©µÄĞ¡ÊÂ¼şÎ¨Ò»IDÊÇ·ñ´æÔÚ
 	 */
 	private boolean checkTableID(String teid ,String uid)
 	{		
@@ -1063,11 +1069,11 @@ public class Database {
 		return true;
 	}
 	
-	/* privateå‡½æ•° è¯·å‹¿ç›´æ¥ä½¿ç”¨æˆ–ä¿®æ”¹ï¼
-	 * ä¸‹é¢å‡½æ•°ç”¨äºè½¬æ¢ å±äºuserçš„tablename å’Œ å®é™…å­˜äºDBä¸­çš„tablename
-	 * åŒæ—¶æŸ¥è¯¢åˆ°è¯¥è¡¨çš„åˆ—æ•°
-	 * private çš„ æˆå‘˜å˜é‡å€¼ co_count å°†è¢«ä¿®æ”¹
-	 * tablenameåˆ™ä½œä¸ºè¿”å›å€¼ 
+	/* privateº¯Êı ÇëÎğÖ±½ÓÊ¹ÓÃ»òĞŞ¸Ä£¡
+	 * ÏÂÃæº¯ÊıÓÃÓÚ×ª»» ÊôÓÚuserµÄtablename ºÍ Êµ¼Ê´æÓÚDBÖĞµÄtablename
+	 * Í¬Ê±²éÑ¯µ½¸Ã±íµÄÁĞÊı
+	 * private µÄ ³ÉÔ±±äÁ¿Öµ co_count ½«±»ĞŞ¸Ä
+	 * tablenameÔò×÷Îª·µ»ØÖµ 
 	 */
 	private String getDBName(String uid, String user_name)
 	{
@@ -1089,14 +1095,14 @@ public class Database {
 		return db_name;
 	}
 
-	/* 11/7 æµ‹è¯•é€šè¿‡
-	 * privateå‡½æ•° è¯·å‹¿ç›´æ¥ä½¿ç”¨æˆ–ä¿®æ”¹ï¼ï¼ï¼
-	 * ä¸‹é¢å‡½æ•°ä½œç”¨æ˜¯åœ¨userè¡¨ä¸­æ‰¾åˆ°ç¬¦åˆæ¡ä»¶çš„ç”¨æˆ·ä¸ªæ•°
-	 * å½“è¾“å…¥ç”¨æˆ·åå’Œå¯†ç æ—¶ï¼Œè¾“å…¥å‚æ•°åº”è¯¥è¢«æ‹¼æ¥ä¸º username + "' and passeword='" + password 
-	 * 		å¦‚éªŒè¯rootï¼Œ1234æ˜¯å¦å­˜åœ¨ root' and password = '1234 æ³¨æ„ä¸¤è¾¹å„ç¼ºå°‘ä¸€ä¸ªå¼•å·
-	 * å½“è¾“å…¥ç”¨æˆ·åæ£€æµ‹æ˜¯å¦æœ‰åŒåç”¨æˆ·å­˜åœ¨ï¼Œåªéœ€è¦ä¼ å…¥ç”¨æˆ·å 
-	 * 		å¦‚éªŒè¯rootæ˜¯å¦å­˜åœ¨ï¼Œä¼ å…¥root
-	 * ç”¨æˆ·åå¯†ç ä¸åŒ¹é…æˆ–è€…ä¸å­˜åœ¨åŒåç”¨æˆ·æ—¶ å‡è¿”å›-1ï¼Œå…¶ä»–æ—¶å€™éƒ½ä¸ºæ­£æ•´æ•°
+	/* 11/7 ²âÊÔÍ¨¹ı
+	 * privateº¯Êı ÇëÎğÖ±½ÓÊ¹ÓÃ»òĞŞ¸Ä£¡£¡£¡
+	 * ÏÂÃæº¯Êı×÷ÓÃÊÇÔÚuser±íÖĞÕÒµ½·ûºÏÌõ¼şµÄÓÃ»§¸öÊı
+	 * µ±ÊäÈëÓÃ»§ÃûºÍÃÜÂëÊ±£¬ÊäÈë²ÎÊıÓ¦¸Ã±»Æ´½ÓÎª username + "' and passeword='" + password 
+	 * 		ÈçÑéÖ¤root£¬1234ÊÇ·ñ´æÔÚ root' and password = '1234 ×¢ÒâÁ½±ß¸÷È±ÉÙÒ»¸öÒıºÅ
+	 * µ±ÊäÈëÓÃ»§Ãû¼ì²âÊÇ·ñÓĞÍ¬ÃûÓÃ»§´æÔÚ£¬Ö»ĞèÒª´«ÈëÓÃ»§Ãû 
+	 * 		ÈçÑéÖ¤rootÊÇ·ñ´æÔÚ£¬´«Èëroot
+	 * ÓÃ»§ÃûÃÜÂë²»Æ¥Åä»òÕß²»´æÔÚÍ¬ÃûÓÃ»§Ê± ¾ù·µ»Ø-1£¬ÆäËûÊ±ºò¶¼ÎªÕıÕûÊı
 	 */
 	private int findID(String username)
 	{
@@ -1115,10 +1121,10 @@ public class Database {
 		return ID;
 	}
 	
-	/* privateå‡½æ•° è¯·å‹¿ç›´æ¥ä½¿ç”¨æˆ–è€…ä¿®æ”¹ï¼ï¼ï¼
-	 * ç”¨æ¥æŸ¥è¯¢ä¸ªæ•° å·²æœ‰éƒ¨åˆ†è¯­å¥
-	 * ä¼ å…¥å‚æ•°ç›´æ¥ä¸ºè¡¨å åˆ™å¯ç”¨äºæŸ¥è¯¢å½“å‰å·²æœ‰å…ƒç»„ä¸ªæ•°
-	 * ä¼ å…¥å‚æ•°å¦‚æœåŒ…å«whenï¼Œåˆ™å¯ä»¥å®Œæˆç­›é€‰
+	/* privateº¯Êı ÇëÎğÖ±½ÓÊ¹ÓÃ»òÕßĞŞ¸Ä£¡£¡£¡
+	 * ÓÃÀ´²éÑ¯¸öÊı ÒÑÓĞ²¿·ÖÓï¾ä
+	 * ´«Èë²ÎÊıÖ±½ÓÎª±íÃû Ôò¿ÉÓÃÓÚ²éÑ¯µ±Ç°ÒÑÓĞÔª×é¸öÊı
+	 * ´«Èë²ÎÊıÈç¹û°üº¬when£¬Ôò¿ÉÒÔÍê³ÉÉ¸Ñ¡
 	 */
 	private int count(String tname) {
 		ResultSet cnt = null;
@@ -1136,9 +1142,9 @@ public class Database {
     	return n;
     }
 	
-	/* privateå‡½æ•° è¯·å‹¿ç›´æ¥ä½¿ç”¨æˆ–è€…ä¿®æ”¹ï¼ï¼ï¼
-	 * 12/07  å¾…æµ‹è¯•
-	 * è·å–æ—¶é—´ ä¸ºå…«ä½ yyyyMMdd
+	/* privateº¯Êı ÇëÎğÖ±½ÓÊ¹ÓÃ»òÕßĞŞ¸Ä£¡£¡£¡
+	 * 12/07  ´ı²âÊÔ
+	 * »ñÈ¡Ê±¼ä Îª°ËÎ» yyyyMMdd
 	 */
 	private boolean updateStati(String uid)
 	{
@@ -1163,9 +1169,9 @@ public class Database {
 		return true;
 	}
 
-	/* privateå‡½æ•° è¯·å‹¿ç›´æ¥ä½¿ç”¨æˆ–è€…ä¿®æ”¹ï¼ï¼ï¼
-	 * 12/07 æµ‹è¯•é€šè¿‡
-	 * è·å–æ—¶é—´ ä¸ºå…«ä½ yyyyMMdd
+	/* privateº¯Êı ÇëÎğÖ±½ÓÊ¹ÓÃ»òÕßĞŞ¸Ä£¡£¡£¡
+	 * 12/07 ²âÊÔÍ¨¹ı
+	 * »ñÈ¡Ê±¼ä Îª°ËÎ» yyyyMMdd
 	 */
 	private String getTime() 
 	{
@@ -1195,9 +1201,9 @@ public class Database {
 	}
 	
 	
-	/* 12/11 æµ‹è¯•é€šè¿‡
-	 * ä¾æ—§privateå‡½æ•° å¾ªç¯åˆ°è‡ªå·±éƒ½ä¸€è„¸èŒ«ç„¶ è¯·å‹¿æ”¹åŠ¨æˆ–ç›´æ¥è°ƒç”¨
-	 * è¡¥å…¨æ‰€æœ‰ç»Ÿè®¡0æ•°æ®é¡¹
+	/* 12/11 ²âÊÔÍ¨¹ı
+	 * ÒÀ¾Éprivateº¯Êı Ñ­»·µ½×Ô¼º¶¼Ò»Á³Ã£È» ÇëÎğ¸Ä¶¯»òÖ±½Óµ÷ÓÃ
+	 * ²¹È«ËùÓĞÍ³¼Æ0Êı¾İÏî
 	 */
 	private boolean complete(String uid)
 	{
@@ -1226,9 +1232,9 @@ public class Database {
 		int maxd = Integer.parseInt(max.substring(6));
 		int mind = Integer.parseInt(min.substring(6));
 		
-		if(maxy==miny)//åŒå¹´æ—¥æœŸ è¡¥å…¨
+		if(maxy==miny)//Í¬ÄêÈÕÆÚ ²¹È«
 		{
-			if(maxm==minm)//åŒæœˆ åªè¡¥å…¨å½“æœˆ
+			if(maxm==minm)//Í¬ÔÂ Ö»²¹È«µ±ÔÂ
 			{
 				for(int i = mind+1 ; i <= maxd ; i++)
 				{
@@ -1243,7 +1249,7 @@ public class Database {
 					dateInsert(uid,d);
 				}
 			}
-			else//ä¸åŒæœˆ è¡¥å…¨ä¸¤ä¸ªæœˆçš„æ‰€æœ‰ä¿¡æ¯
+			else//²»Í¬ÔÂ ²¹È«Á½¸öÔÂµÄËùÓĞĞÅÏ¢
 			{
 				for(int i = minm ; i <= maxm ; i++)
 				{
@@ -1273,7 +1279,7 @@ public class Database {
 				}
 			}
 		}
-		else//ä¸åŒå¹´ä»½ è¡¥å…¨ä¸¤å¹´æ‰€æœ‰å†…å®¹ æ²¡ä»€ä¹ˆå¥½åŠæ³• å¿ƒå¥½ç´¯
+		else//²»Í¬Äê·İ ²¹È«Á½ÄêËùÓĞÄÚÈİ Ã»Ê²Ã´ºÃ°ì·¨ ĞÄºÃÀÛ
 		{
 			for(int i = miny ; i <= maxy ;i++)
 			{
@@ -1304,7 +1310,7 @@ public class Database {
 			}
 		}
 		
-		//å¡«å……å®Œæ¯•å¼€å§‹åˆ é™¤
+		//Ìî³äÍê±Ï¿ªÊ¼É¾³ı
 		String delete = "delete from stati" + uid + " where Time not between " +  min + " and " + max;
 		try
 		{
@@ -1317,10 +1323,10 @@ public class Database {
 		return true;
 	}
 	
-	/* 12/11 æ–°æµ‹è¯•é€šè¿‡
-	 * æµ‹è¯•ä¸€ä¸ªæ—¥æœŸçš„ç»Ÿè®¡æ•°æ®æ˜¯å¦å­˜åœ¨ï¼Œä¸å­˜åœ¨åˆ™æ·»åŠ å¹¶è®¾ç½®ä¸º0
-	 * å­˜åœ¨å°±ä¸ç®¡äº†â€¦â€¦
-	 * è¿˜æ˜¯privateå‡½æ•° ä¸èƒ½ç›´æ¥è°ƒç”¨ ä¹Ÿè¯·ä¸è¦ä¿®æ”¹
+	/* 12/11 ĞÂ²âÊÔÍ¨¹ı
+	 * ²âÊÔÒ»¸öÈÕÆÚµÄÍ³¼ÆÊı¾İÊÇ·ñ´æÔÚ£¬²»´æÔÚÔòÌí¼Ó²¢ÉèÖÃÎª0
+	 * ´æÔÚ¾Í²»¹ÜÁË¡­¡­
+	 * »¹ÊÇprivateº¯Êı ²»ÄÜÖ±½Óµ÷ÓÃ Ò²Çë²»ÒªĞŞ¸Ä
 	 */
 	private boolean dateInsert(String uid, String tdate)
 	{
@@ -1343,10 +1349,10 @@ public class Database {
 		return true;
 	}
 	
-	/* 12/13 è¿›é˜¶ç‰ˆ
-	 * privateå‡½æ•° è¯·å‹¿æ”¹åŠ¨æˆ–ç›´æ¥ä½¿ç”¨
-	 * æœç´¢ä¸€ä¸ªè¡¨å†… æŸä¸ªå…³é”®å­—çš„æ‰€æœ‰ä¿¡æ¯
-	 * è¿”å›å†…å®¹ä¸ºè¡¨å~è¡¨ç‹¬ç«‹ID~è¡¨ç¬¬ä¸€åˆ—å†…å®¹
+	/* 12/13 ½ø½×°æ
+	 * privateº¯Êı ÇëÎğ¸Ä¶¯»òÖ±½ÓÊ¹ÓÃ
+	 * ËÑË÷Ò»¸ö±íÄÚ Ä³¸ö¹Ø¼ü×ÖµÄËùÓĞĞÅÏ¢
+	 * ·µ»ØÄÚÈİÎª±íÃû~±í¶ÀÁ¢ID~±íµÚÒ»ÁĞÄÚÈİ
 	 */
 	private String searchInTable(String uid, String tname,String key)
 	{
