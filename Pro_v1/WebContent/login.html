@@ -127,6 +127,15 @@
 					var validate=$("#regUsername").val()+$("#regPassword").val();
 					if (!checks(validate)) return;
 					
+					if ($("#regUsername").val()=="") {
+						alert("Empty Username!");
+						return;
+					}
+					if ($("#regPassword").val()=="") {
+						alert("Empty Password!");
+						return;
+					}
+					
 					$.ajax({
 				    	type: "POST",
 				    	url: "ajaxUserRegister.action",
