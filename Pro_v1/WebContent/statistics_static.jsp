@@ -25,7 +25,18 @@
     
 </head>
 
-<body id="skin-blur-violate" onload="checkCookies(),go_static()">
+<body id="skin-blur-violate" onload="checkCookies()">
+<%
+String result_string=request.getAttribute("result").toString();
+//out.print(result_string);
+out.print("	<input hidden type=\"text\" id=\"result_string_id\"  value=\""+result_string+"\"></input>");//
+String result_string2=request.getAttribute("result2").toString();
+//out.print(result_string);
+out.print("	<input hidden type=\"text\" id=\"date_result\"  value=\""+result_string2+"\"></input>");//
+
+
+%>
+
     <header id="header" class="media">
         <a href="" id="menu-toggle"></a>
         <a class="logo pull-left" href="index.jsp">TIME PLUSER 1.0</a>
@@ -116,24 +127,11 @@
 
         <!-- Content -->
         <section id="content" class="container">
-
-            <!-- Messages Drawer -->
-
-
-            <!-- Notification Drawer -->
-
-            <!-- Breadcrumb -->
-
+        
+        
 
             <h4 class="page-title">DASHBOARD</h4>
 
-            <!-- Shortcuts -->
-
-
-            <!-- Quick Stats -->
-
-
-            <!-- Main Widgets -->
 
             <div class="block-area">
                 <div class="row">
@@ -143,61 +141,102 @@
 
 				
 						<!-- the chart sqk -->
-						<h2 class="tile-title">Line Chart</h2>
+						<h2 class="tile-title">STATISTICS</h2>
 	                        <div class="p-10">
-	                            <div id="line-chart" class="main-chart" style="height: 250px"></div>
+	                            <div id="line-chart" class="main-chart" style="height: 250px">
+	                            
+	                            
+	                            
+	                            </div>
+	           
+	           
+	           
+	                        
+	                        												
+        <%
+    String cg=request.getAttribute("table_list").toString();
+    String big_string=request.getAttribute("table_list").toString();
+    String number_string=request.getAttribute("number_list").toString();
+//	out.print(big_string);    
+  	out.print("<p> </p>");
+	String string_arr[]=big_string.split("~");
+	String number_arr[]=number_string.split("~");	
+    int table_numbers=string_arr.length-1;
+    if(table_numbers!=0)
+    {
+    	//out.print("Table numbers:");
+        //out.print(string_arr[0]+"<br>");
+//        out.print(number_string);
+        out.print("<p> </p>");
+        out.print("<p>                                           </p>");
+        out.print("<p> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ");
+        out.print(" <table border=\"1\"  class=\"table table-bordered table-hover tile\"   > <tr> <th>Table name</th> <th>Thing numbers</th> </tr>");
+        
+        int j=0;
+        for(int i=1;i<table_numbers+1;i=i+1)
+        {
+            out.print("<tr><td>");  
+            out.print("<a href=\"show_table?table_name="+number_arr[j]+"&"+"user_id="+request.getAttribute("user_id").toString()+"\">");
+            out.print(number_arr[j++]);             
+            out.print("</td><td>");
+            out.print("</a>");
+            out.print("<a href=\"create_little_thing_detail_java?table_name="+number_arr[j-1]+"&"+"user_id="+request.getAttribute("user_id").toString()+"\">");
+            out.print(number_arr[j++]);
+            out.print("</a>");
+            out.print("</td></tr>");
+        }
+        out.print("</table>");   
+        out.print("</p>");
+    }
+    else
+    {
+        out.print("No table");  
+    }
+    %> 
+                        
+	           
+	           
 	                        </div>
+	                        
+	                        
+	           
+                        
+	                        
+	                        
+	                        
+	                        
 						</div>
 						
 						
-						<br><br><br><br>
+
 						
-						
-						
-						
-						
-						
-						
-						<h2 class="tile-title">Bar Chart</h2>
-						<div class="p-10">
-                    
-					    <div id="bar-chart" class="main-chart" style="height: 250px; padding: 0px; position: relative;">
-			
-                        </div>
-                        
-                        
-                        
-                        
-                        
-                              
-                        </div>
-
-                        <!-- Pies -->
-
-
-                        <!--  Recent Postings -->
-
-                        <div class="clearfix"></div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <!-- USA Map -->
-
-                        <!-- Dynamic Chart -->
-
-                        <!-- Activity -->
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-
-            <!-- Chat -->
-
+            		</div>
+   				
+   				
+   				
+   				
+   				
+   				
+   				
+   				 </div>
+        	</div>
         </section>
-
-
     </section>
 
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <!-- Javascript Libraries -->
     <!-- jQuery -->
     <script src="js/jquery.min.js"></script>
@@ -264,107 +303,6 @@
     
     
     
-           
-            <script>
-             var cccLine = function (d1) {
-               
-
-                $.plot('#line-chart', [{
-                    data: d1,
-                    label: "Data",
-
-                }, ],
-
-                    {
-                        series: {
-                            lines: {
-                                show: true,
-                                lineWidth: 1,
-                                fill: 0.25,
-                            },
-
-                            color: 'rgba(255,255,255,0.7)',
-                            shadowSize: 0,
-                            points: {
-                                show: true,
-                            }
-                        },
-
-                        yaxis: {
-                            min: 10,
-                            max: 22,
-                            tickColor: 'rgba(255,255,255,0.15)',
-                            tickDecimals: 0,
-                            font: {
-                                lineHeight: 13,
-                                style: "normal",
-                                color: "rgba(255,255,255,0.8)",
-                            },
-                            shadowSize: 0,
-                        },
-                        xaxis: {
-                            tickColor: 'rgba(255,255,255,0)',
-                            tickDecimals: 0,
-                            font: {
-                                lineHeight: 13,
-                                style: "normal",
-                                color: "rgba(255,255,255,0.8)",
-                            }
-                        },
-                        grid: {
-                            borderWidth: 1,
-                            borderColor: 'rgba(255,255,255,0.25)',
-                            labelMargin: 10,
-                            hoverable: true,
-                            clickable: true,
-                            mouseActiveRadius: 6,
-                        },
-                        legend: {
-                            show: false
-                        }
-                    });
-
-                $("#line-chart").bind("plothover", function (event, pos, item) {
-                    if (item) {
-                        var x = item.datapoint[0].toFixed(2),
-                            y = item.datapoint[1].toFixed(2);
-                        $("#linechart-tooltip").html(item.series.label + " of " + x + " = " + y).css({ top: item.pageY + 5, left: item.pageX + 5 }).fadeIn(200);
-                    }
-                    else {
-                        $("#linechart-tooltip").hide();
-                    }
-                });
-
-                $("<div id='linechart-tooltip' class='chart-tooltip'></div>").appendTo("body");
-
-             }
-             function setCookies(c_name, value, expiredays) {
-                 var exdate = new Date()
-                 exdate.setDate(exdate.getDate() + expiredays)
-                 document.cookie = c_name + "=" + escape(value) +
-                     ((expiredays == null) ? "" : "; expires=" + exdate.toGMTString())
-             }
-             function getCookie(c_name) {
-                 if (document.cookie.length > 0) {
-                     c_start = document.cookie.indexOf(c_name + "=")
-                     if (c_start != -1) {
-                         c_start = c_start + c_name.length + 1
-                         c_end = document.cookie.indexOf(";", c_start)
-                         if (c_end == -1) c_end = document.cookie.length
-                         return unescape(document.cookie.substring(c_start, c_end))
-                     }
-                 }
-                 return ""
-             }
-            $(function () {
-                $.post("load_statistic_action.action", {uid:getCookie("uid")}, function (data) {
-                    //data = [[1, 15], [2, 13], [3, 18], [4, 16], [5, 19], [6, 17], [7, 15], [8, 16], [9, 20], [10, 16], [11, 18]];
-                    console.log(data);
-                    cccLine(JSON.parse(data));
-                })
-            })
-        </script>
-    
     	<script type="text/javascript">
     
     function setCookies(c_name,value,expiredays)
@@ -424,11 +362,98 @@
         window.location.assign("choose_table_java?user_id="+getCookie('uid'));
     }
     
-    function go_static()
-    {
-    	 window.location.assign("load_statistic_action.action?user_id="+getCookie('uid'));
-    }
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    $(function () {
+        if ($('#line-chart')[0]) {
+            var d1 = document.getElementById("result_string_id").value;
+            var date_to_show=document.getElementById("date_result").value;
+        //    document.write(date_to_show);
+            d1=JSON.parse(d1);
+//            date_to_show=JSON.parse(date_to_show);
+            date_arr=date_to_show.split(",")
+            $.plot('#line-chart', [ {
+                data: d1,
+                label: "Data",
+
+            },],
+
+                {
+                    series: {
+                        lines: {
+                            show: true,
+                            lineWidth: 1,
+                            fill: 0.25,
+                        },
+
+                        color: 'rgba(255,255,255,0.7)',
+                        shadowSize: 0,
+                        points: {
+                            show: true,
+                        }
+                    },
+
+                    yaxis: {
+                        min: 0,
+                        max: 20,
+                        tickColor: 'rgba(255,255,255,0.15)',
+                        tickDecimals: 0,
+                        font :{
+                            lineHeight: 13,
+                            style: "normal",
+                            color: "rgba(255,255,255,0.8)",
+                        },
+                        shadowSize: 0,
+                    },
+                    xaxis: {
+                        tickColor: 'rgba(255,255,255,0)',
+                        tickDecimals: 0,
+                        font :{
+                            lineHeight: 13,
+                            style: "normal",
+                            color: "rgba(255,255,255,0.8)",
+                        }
+                    },
+                    grid: {
+                        borderWidth: 1,
+                        borderColor: 'rgba(255,255,255,0.25)',
+                        labelMargin:10,
+                        hoverable: true,
+                        clickable: true,
+                        mouseActiveRadius:6,
+                    },
+                    legend: {
+                        show: false,
+                    }
+                });
+
+            $("#line-chart").bind("plothover", function (event, pos, item) {
+                if (item) {
+                    var x = item.datapoint[0].toFixed(2),
+                        y = item.datapoint[1].toFixed(2);
+                //	document.write(date_to_show);
+                    $("#linechart-tooltip").html(item.series.label + " of " + x + " = " + y).css({top: item.pageY+5, left: item.pageX+5}).fadeIn(200);
+                }
+                else {
+                    $("#linechart-tooltip").hide();
+                }
+            });
+
+            $("<div id='linechart-tooltip' class='chart-tooltip'></div>").appendTo("body");
+                    }
+
+    });
+
     
     
     </script>
