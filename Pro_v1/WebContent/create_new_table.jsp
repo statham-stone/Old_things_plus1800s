@@ -104,7 +104,9 @@
         (
             {
                 url:"fileUpload.action",//用于文件上传的服务器端请求地址
-                data:{tableName:$("#tableName").val()},
+                data:{	tableName:$("#tableName").val(),
+                		uid:getCookie("uid")
+                	},
                 secureuri:false,//一般设置为false
                 fileElementId:'file',//文件上传空间的id属性  <input type="file" id="file" name="file" />
                 dataType: 'json',//返回值类型 一般设置为json

@@ -50,6 +50,9 @@
         <action name="fileUpload" class="ajax.FileUpload">
             <result type="json" name="success"></result>
         </action>			
+        <action name="fileUploadAppend" class="ajax.FileUploadAppend">
+        	<result type="json" name="success"></result>
+        </action>
 		
 		<action name="searchresult">
 			<result>/search.jsp</result>

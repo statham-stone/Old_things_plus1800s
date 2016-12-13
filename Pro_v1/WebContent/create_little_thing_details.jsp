@@ -21,6 +21,8 @@
     <link href="css/style.css" rel="stylesheet">
     <link href="css/icons.css" rel="stylesheet">
     <link href="css/generics.css" rel="stylesheet">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/ajaxFileUpload.js" type="text/javascript"></script>
     <script type="text/javascript">
     
     function setCookies(c_name,value,expiredays)
@@ -79,7 +81,50 @@
     	//statham
     	window.location.assign("choose_table_java?user_id="+getCookie('uid'));
     }
-    
+    function getQueryString(name) { 
+    	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+    	var r = window.location.search.substr(1).match(reg); 
+    	if (r != null) return unescape(r[2]); return null; 
+    } 
+    function ajaxFileUploadAppend()
+    {
+        
+        $("#loading")
+        .ajaxStart(function(){
+            $(this).show();
+        })
+        
+        .ajaxComplete(function(){
+            $(this).hide();
+        });//文件上传完成将图片隐藏起来
+        $.ajaxFileUpload
+        (
+            {
+                url:"fileUploadAppend.action",//用于文件上传的服务器端请求地址
+                data:{	tableName:getQueryString("table_name"),
+                		uid:getCookie("uid")
+                	},
+                secureuri:false,//一般设置为false
+                fileElementId:'file',//文件上传空间的id属性  <input type="file" id="file" name="file" />
+                dataType: 'json',//返回值类型 一般设置为json
+		    	success: function(json){  
+		    		var obj = $.parseJSON(json);  //使用这个方法解析json
+		            var state_value = obj.result;  //result是和action中定义的result变量的get方法对应的
+		            console.log(json);
+		    		alert("SUCCESS");
+		    	},
+		    	error: function(json){
+		    		console.log(json);
+		    		//alert("FAIL");
+		    		window.location.href="./index.jsp" 
+		     		return false;
+		    	}
+            }
+        )
+        
+        return false;
+
+    }        
     </script>
     
 </head>
@@ -256,7 +301,13 @@
 	
 	
 	<button class="btn m-r-5"  onclick="show_details()"> click_here </button>	
-                                 
+   	<br><br><br>
+	<h3>Or append table with .csv file</h3>
+　　<form action="fileUploadAppend.action" method="post" enctype="multipart/form-data">
+        File: <input class="input-sm validate[required] form-control"type="file" id="file" name="file"><br>
+        <input  class="btn m-r-5" type="button" value="submit File" onclick="ajaxFileUploadAppend();">
+        <h4 id="loading" style="visibility:hidden;" >File Uploading...</h4>
+    </form>                              
                                 </table>
                             </div>
                         </div>
@@ -289,7 +340,7 @@
 
     <!-- Javascript Libraries -->
     <!-- jQuery -->
-    <script src="js/jquery.min.js"></script>
+    
     <!-- jQuery Library -->
     <script src="js/jquery-ui.min.js"></script>
     <!-- jQuery UI -->
