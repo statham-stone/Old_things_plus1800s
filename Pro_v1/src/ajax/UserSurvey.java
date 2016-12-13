@@ -23,6 +23,8 @@ public class UserSurvey extends ActionSupport {
 		Database db1 = new Database();
 		String sql_result =db1.connect();
 		
+		System.out.print(survey);
+		System.out.print(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,");		
 		db1.comment(uid, survey);
 		
 		result="Information Received, 感谢您的参与！";

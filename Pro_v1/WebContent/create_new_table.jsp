@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
-<!--[if IE 9 ]><html class="ie9"><![endif]-->
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -99,18 +99,18 @@
         
         .ajaxComplete(function(){
             $(this).hide();
-        });//文件上传完成将图片隐藏起来
+        });
         $.ajaxFileUpload
         (
             {
-                url:"fileUpload.action",//用于文件上传的服务器端请求地址
+                url:"fileUpload.action",
                 data:{tableName:$("#tableName").val()},
-                secureuri:false,//一般设置为false
-                fileElementId:'file',//文件上传空间的id属性  <input type="file" id="file" name="file" />
-                dataType: 'json',//返回值类型 一般设置为json
+                secureuri:false,
+                fileElementId:'file',
+                dataType: 'json',
 		    	success: function(json){  
-		    		var obj = $.parseJSON(json);  //使用这个方法解析json
-		            var state_value = obj.result;  //result是和action中定义的result变量的get方法对应的
+		    		var obj = $.parseJSON(json);  
+		            var state_value = obj.result;
 		            console.log(json);
 		    		alert("SUCCESS");
 		    	},

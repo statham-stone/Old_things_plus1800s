@@ -46,6 +46,7 @@ public class edit_java_show {
 		System.out.print("+++++++++x++++++++++++++++++++++++++++++++++++++++++\n");
 		System.out.print("Old information");
 		System.out.print(old_infor);
+		System.out.print(new_infor);
 		return "SUCCESS";
 		
 	}
