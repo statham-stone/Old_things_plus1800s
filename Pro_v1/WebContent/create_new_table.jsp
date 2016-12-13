@@ -263,8 +263,8 @@
 <!-- 	</form> -->
 	<br><br><br>
 	<h3>Or create table with .csv file</h3>
-　　<form action="fileUpload.action" method="post" enctype="multipart/form-data">
-        Table Name: <input class="input-sm validate[required] form-control"type="text" id="tableName"><br>
+	<form action="fileUpload.action" method="post" enctype="multipart/form-data">
+		Table Name: <input class="input-sm validate[required] form-control"type="text" id="tableName"><br>
         File: <input class="input-sm validate[required] form-control"type="file" id="file" name="file"><br>
         <input  class="btn m-r-5" type="button" value="submit File" onclick="ajaxFileUpload();">
         <h4 id="loading" style="visibility:hidden;" >File Uploading...</h4>
