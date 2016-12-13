@@ -222,6 +222,9 @@ public class DatabaseTest {
 		result = db1.searchRequest("2","dinner");
 		System.out.println("test20 " + result);
 		
+		intr = db1.signUp("test8", "1234");
+		System.out.println("test final " + intr);
+		
 		
 		System.out.println(db1.close());
 		

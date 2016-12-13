@@ -117,7 +117,8 @@ public class Database {
 		catch (SQLException e){
 			e.printStackTrace();
 		}
-		
+		String uID = uid + "";
+		template(uID);
 		return uid;
 	}
 	//++++++++++注册 登陆 部分
@@ -510,69 +511,7 @@ public class Database {
 	}
 	
 	
-	/* 12/13 进阶版
-	 * private函数 请勿改动或直接使用
-	 * 搜索一个表内 某个关键字的所有信息
-	 * 返回内容为表名~表独立ID~表第一列内容
-	 */
-	private String searchInTable(String uid, String tname,String key)
-	{
-		Set<String> things = new HashSet<String>();
-		ResultSet res = null;
-		String dbtablename = getDBName(uid,tname);
-		int lines = co_count;
-		
-		String tableid = dbtablename.replace("t", "");
-		
-		String line_names = "";
-		
-		String find_lines = "desc " + dbtablename;
-		
-		String result = "";
-		
-		try{
-			res = stmt.executeQuery(find_lines);
-			
-			while(res.next())
-			{
-				line_names += "~" + res.getString(1);
-			}
-			line_names = line_names.substring(1);
-			
-			String[] lnames = line_names.split("~");
-			
-			for(int i = 1 ; i < lines ; i++)
-			{
-				String small_se = "select * from " + dbtablename + " where " + lnames[i-1] + " like '%" + key + "%'";
-				res = stmt.executeQuery(small_se);
-				if(res.wasNull())
-				{
-					continue;
-				}
-				while(res.next())
-				{
-					String ttemp = "^" + tname + "~" + tableid + "_" + res.getString(lines) + "~" + res.getString(1);
-					things.add(ttemp);
-				}
-			}
-			if(things.isEmpty())
-			{
-				return "";
-			}
-			Iterator<String> it=things.iterator();
-			result = "";
-		    while(it.hasNext())
-	       {
-	           result = result + it.next();
-	       }
-		   result =result.substring(1);
-		}
-		catch(SQLException e)
-		{
-			e.printStackTrace();
-		}
-		return result;
-	}
+	
 	
 	/* 12/07 测试通过
 	 * 11/15 涂神需求五
@@ -1404,5 +1343,105 @@ public class Database {
 			e.printStackTrace();
 		}
 		return true;
+	}
+	
+	/* 12/13 进阶版
+	 * private函数 请勿改动或直接使用
+	 * 搜索一个表内 某个关键字的所有信息
+	 * 返回内容为表名~表独立ID~表第一列内容
+	 */
+	private String searchInTable(String uid, String tname,String key)
+	{
+		Set<String> things = new HashSet<String>();
+		ResultSet res = null;
+		String dbtablename = getDBName(uid,tname);
+		int lines = co_count;
+		
+		String tableid = dbtablename.replace("t", "");
+		
+		String line_names = "";
+		
+		String find_lines = "desc " + dbtablename;
+		
+		String result = "";
+		
+		try{
+			res = stmt.executeQuery(find_lines);
+			
+			while(res.next())
+			{
+				line_names += "~" + res.getString(1);
+			}
+			line_names = line_names.substring(1);
+			
+			String[] lnames = line_names.split("~");
+			
+			for(int i = 1 ; i < lines ; i++)
+			{
+				String small_se = "select * from " + dbtablename + " where " + lnames[i-1] + " like '%" + key + "%'";
+				res = stmt.executeQuery(small_se);
+				if(res.wasNull())
+				{
+					continue;
+				}
+				while(res.next())
+				{
+					String ttemp = "^" + tname + "~" + tableid + "_" + res.getString(lines) + "~" + res.getString(1);
+					things.add(ttemp);
+				}
+			}
+			if(things.isEmpty())
+			{
+				return "";
+			}
+			Iterator<String> it=things.iterator();
+			result = "";
+		    while(it.hasNext())
+	       {
+	           result = result + it.next();
+	       }
+		   result =result.substring(1);
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	private void template(String uid)
+	{
+		String outlays = uid + "~Outlays~4~Name~50~Date~50~Amount~50~Comment~50";
+		String income = uid + "~Income~4~Name~50~Date~50~Amount~50~Comment~50";
+		String meals = uid + "~Meals~4~Date~50~Amount~50~Place~50~Food~50";
+		String books = uid + "~Books~5~Name~50~Author~50~Date~50~TimeLimit~50~Place~50";
+		String friends = uid + "~Friends~3~Name~50~Mobile~50~Birthday~50";
+		
+		createUserTable(outlays);
+		createUserTable(income);
+		createUserTable(meals);
+		createUserTable(books);
+		createUserTable(friends);
+		
+		String insert1 = "Dinner~2016-12-01~89~had dinner with Sam";
+		String insert2 = "2016-12-01~KFC~89~Chips";
+		String insert3 = "Sam~13xxxxxxxxx~19960101";
+		
+		insertSEvent(uid,"Outlays",insert1);
+		insertSEvent(uid,"Meals",insert2);
+		insertSEvent(uid,"Friends",insert3);
+		
+		String[] ids1 = searchRequest(uid,"KFC").split("~");
+		String[] ids2 = searchRequest(uid,"Chips").split("~");
+		String[] ids3 = searchRequest(uid,"1996").split("~");
+		
+		String id1 = ids1[1];
+		String id2 = ids2[1];
+		String id3 = ids3[1];
+		
+		String bigEvent = uid + "~KFC~20161201~"+id1+"~"+id2+"~"+id3;
+		System.out.println(bigEvent);
+		
+		submitEvent(bigEvent);
 	}
 }
