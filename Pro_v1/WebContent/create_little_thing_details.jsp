@@ -303,8 +303,7 @@
 	
 	<button class="btn m-r-5"  onclick="show_details()"> click_here </button>	
    	<br><br><br>
-	<h3>Or append table with .csv file</h3>
-　　<form action="fileUploadAppend.action" method="post" enctype="multipart/form-data">
+	<h3>Or append table with .csv file</h3><form action="fileUploadAppend.action" method="post" enctype="multipart/form-data">
         File: <input class="input-sm validate[required] form-control"type="file" id="file" name="file"><br>
         <input  class="btn m-r-5" type="button" value="submit File" onclick="ajaxFileUploadAppend();">
         <h4 id="loading" style="visibility:hidden;" >File Uploading...</h4>
