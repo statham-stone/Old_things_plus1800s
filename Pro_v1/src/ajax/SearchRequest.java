@@ -27,6 +27,7 @@ public class SearchRequest extends ActionSupport {
 		String sql_result =db1.connect();
 		
 		result=db1.searchRequest(uid, keyword);
+		System.out.println(result);
 		// TODO: set  result value to return to front end
 		
 		return SUCCESS;

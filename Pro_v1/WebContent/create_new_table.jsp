@@ -104,10 +104,12 @@
         (
             {
                 url:"fileUpload.action",
-                data:{tableName:$("#tableName").val()},
-                secureuri:false,
-                fileElementId:'file',
-                dataType: 'json',
+                data:{	tableName:$("#tableName").val(),
+                		uid:getCookie("uid")
+                	},
+                secureuri:false,//
+                fileElementId:'file',//
+                dataType: 'json',//
 		    	success: function(json){  
 		    		var obj = $.parseJSON(json);  
 		            var state_value = obj.result;

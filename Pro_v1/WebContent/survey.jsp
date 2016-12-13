@@ -98,9 +98,23 @@
     	document.getElementById("inputrequire").style.display="none";
     }
     
+	function checks(t){
+		   szMsg="<javascript>";
+		   alertStr="";
+		    if(t.indexOf(szMsg)>-1){
+		     alertStr="illegal content detected, please retry.";
+		    }
+		
+		   if(alertStr != ""){
+		    alert(alertStr);
+		    return false;
+		   }
+		   return true;
+		  }    
+	
     function submitSurvey()
     {
-//     	alert("submit activated");
+//      	alert("submit activated");
 //     	alert($("input[name='rad_1']:checked").val());
 //     	alert($("input[name='rad_2']:checked").val());
 //     	alert($("input[name='rad_3']:checked").val());
@@ -118,6 +132,8 @@
 		survey+= document.getElementById('inputcomment').value;
 		//alert(survey);
 		
+		var validate=document.getElementById('inputrequire').value+document.getElementById('inputcomment').value;
+		if (!checks(validate)) return;
 		var params = {
 				uid : getCookie("uid"),
 		    	survey : survey

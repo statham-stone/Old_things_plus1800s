@@ -13,7 +13,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import db.Database;
 
 @SuppressWarnings("serial")
-public class FileUpload extends ActionSupport {
+public class FileUploadAppend extends ActionSupport {
 
 	private String tableName;
     private File file;
@@ -79,8 +79,8 @@ public class FileUpload extends ActionSupport {
             }
     		Database db1 = new Database();
     		String sql_result =db1.connect();
-    		db1.uploadNewTable(uid, tableName, f);
-            /*FileInputStream inputStream = new FileInputStream(f);
+    		db1.upload(uid, tableName, f);
+            FileInputStream inputStream = new FileInputStream(f);
             	//tips: code below should be changes for process other file type
             InputStreamReader iSR = new InputStreamReader(inputStream);
             BufferedReader bufReader = new BufferedReader(iSR);
@@ -93,8 +93,8 @@ public class FileUpload extends ActionSupport {
             bufReader.close();
             iSR.close();
             inputStream.close();
-            */
-            //File Test ENDED
+            
+            //File Test ENDED 
         } catch (Exception e) {
             e.printStackTrace();
             result = tableName+ "file upload failed";
