@@ -64,12 +64,33 @@
 				{window.location.href="./index.jsp"	}
 			}
 			
+			function checks(t){
+				   szMsg="-\'\"^~";
+				   alertStr="";
+				   for(i=1;i<szMsg.length+1;i++){
+				    if(t.indexOf(szMsg.substring(i-1,i))>-1){
+				     alertStr="illegal character detected, please retry.";
+				     break;
+				    }
+				   }
+				   if(alertStr != ""){
+				    alert(alertStr);
+				    return false;
+				   }
+				   return true;
+				  }
+			
+			
 			$(function() {
 				$("#signBtn").click(function() {
 					var params = {
 				    	username : $("#signUsername").val(),
 				    	password : $("#signPassword").val()
 					};
+					
+					var validate=$("#signUsername").val()+$("#signPassword").val();
+					if (!checks(validate)) return;
+					
 					$.ajax({
 				    	type: "POST",
 				    	url: "ajaxUserLogin.action",
@@ -103,6 +124,9 @@
 				    	username : $("#regUsername").val(),
 				    	password : $("#regPassword").val()
 					};
+					var validate=$("#regUsername").val()+$("#regPassword").val();
+					if (!checks(validate)) return;
+					
 					$.ajax({
 				    	type: "POST",
 				    	url: "ajaxUserRegister.action",

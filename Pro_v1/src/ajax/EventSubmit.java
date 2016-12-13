@@ -39,6 +39,11 @@ public class EventSubmit extends ActionSupport {
 		System.out.println(uid);
 		System.out.println(date);
 		System.out.println(comment);
+		if (comment.contains("<javascript>"))
+		{
+			result="illegal content detected";
+			return SUCCESS;
+		}
 		for (int i=0;i<thingsarray.length;i++)
 			System.out.println(thingsarray[i]);
 		
