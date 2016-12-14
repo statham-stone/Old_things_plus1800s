@@ -170,7 +170,13 @@
 				</result>
 		</action>
 		
-		
+		<action name="load_statistic_action_2"
+			class="statistics.sta_whole_java"
+			method="execute2" >
+				<result name="SUCCESS">
+				/statistics_static.jsp
+				</result>
+		</action>		
 		
 		
 

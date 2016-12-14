@@ -24,7 +24,15 @@
     <link href="css/icons.css" rel="stylesheet">
     <link href="css/generics.css" rel="stylesheet">
     <script type="text/javascript">
-	
+
+    
+
+    function go_static()
+    {
+    	 window.location.assign("load_statistic_action.action?user_id="+getCookie('uid'));
+    }
+
+    
 	function setCookies(c_name,value,expiredays)
 	{
 		var exdate = new Date()
@@ -251,7 +259,7 @@
 
 
                 <li>
-                    <a class="sa-side-chart" href="statistics.jsp">
+                    <a class="sa-side-chart" onclick="go_static()">
                         <span class="menu-item">Statistics</span>
                     </a>
                 </li>

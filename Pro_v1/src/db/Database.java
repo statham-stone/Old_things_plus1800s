@@ -26,7 +26,7 @@ public class Database {
 	private static String DRIVER_MYSQL = "com.mysql.jdbc.Driver";    //MySQL JDBC驱动字符串
     
     //deleted for privacy
-
+    private static String URL = "jdbc:mysql://localhost:3306/USER";
 
     private static Statement stmt;
     private Connection connection = null;
@@ -41,7 +41,7 @@ public class Database {
 	{
 		 try{
 	            Class.forName(DRIVER_MYSQL);     //加载JDBC驱动
-
+	            connection = DriverManager.getConnection(URL,"root","statham+1s");   //创建数据库连接对象
 //deleted for privacy
 	            stmt = connection.createStatement();       //创建Statement对象
 	            return "connect!";

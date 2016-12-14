@@ -1,8 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <!--[if IE 9 ]><html class="ie9"><![endif]-->
 
-<head>
+<head>	
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <meta name="format-detection" content="telephone=no">
     <meta charset="UTF-8">
@@ -49,7 +50,7 @@
                 </div>
 
                 <div class="media-body">
-                    <input type="text" class="main-search" id="searchbox" onkeydown="searchKeyDown()">
+                    <input type="text" class="main-search" id="searchbox"  onkeydown="searchKeyDown()">
                 </div>
             </div>
         </div>
@@ -67,6 +68,7 @@
                 <div class="text-center s-widget m-b-25 dropdown" id="profile-menu">
                     <br/>
                     <h4 class="m-0" id="usernametag"></h4>
+                    <a href="#" id="signoutlink" onclick="signOut()">Sign Out</a>
                 </div>
 
                 <!-- Calendar -->
@@ -90,10 +92,10 @@
             </div>
 
             <!-- Side Menu -->
-            <ul class="list-unstyled side-menu">
+            <ul class="list-unstyled side-menu">         
                 <li>
                     <a class="sa-side-home" href="index.jsp">
-                        <span class="menu-item"> </span>
+                        <span class="menu-item">Dashboard</span>
                     </a>
                 </li>
                 <li>
@@ -106,6 +108,7 @@
                         <span class="menu-item">Create Little Thing</span>
                     </a>
                 </li>
+                
                 <li>
                     <a class="sa-side-table" href="create_new_table.jsp">
                         <span class="menu-item">Create Table</span>
@@ -115,7 +118,7 @@
 
                 <li class="active">
                     <a class="sa-side-chart" href="statistics.jsp">
-                        <span class="menu-item">Line Chart</span>
+                        <span class="menu-item">STATISTICS</span>
                     </a>
                 </li>
 
@@ -147,9 +150,8 @@ String result_string=request.getAttribute("result").toString();
 //out.print(result_string);
 out.print("	<input hidden type=\"text\" id=\"result_string_id\"  value=\""+result_string+"\"></input>");//
 String result_string2=request.getAttribute("result2").toString();
-//out.print(result_string);
-out.print("	<input hidden type=\"text\" id=\"date_result\"  value=\""+result_string2+"\"></input>");//
-
+result_string2=result_string2.substring(1,result_string2.length()-1);
+out.print("	<input hidden type=\"text\" id=\"result_string2\"  value=\""+result_string2+"\"></input>");//	
 
 %>  
 						
@@ -160,8 +162,16 @@ out.print("	<input hidden type=\"text\" id=\"date_result\"  value=\""+result_str
 	                            
 	                            
 	                            </div>
-	           
-	           
+	                            <p></p> <p></p> <p></p> <p></p>
+<h4>	      	More data :</h4>
+
+
+	<div class="col-md-4">
+                            <input type="text" class="form-control input-sm m-b-10" id="days" placeholder="Input day numbers">
+    </div>
+	
+	
+	<button onclick=go_sta() class="btn">Go</button>	         
 	           
 	                        
 	                        												
@@ -185,7 +195,7 @@ out.print("	<input hidden type=\"text\" id=\"date_result\"  value=\""+result_str
         out.print(" <table border=\"1\"  class=\"table table-bordered table-hover tile\"   > <tr> <th>Table name </th> <th>Thing numbers</th> </tr>");
         
         int j=0;
-        for(int i=1;i<table_numbers+1;i=i+1)
+        for(int i=0;i<table_numbers+1;i=i+1)
         {
             out.print("<tr><td>");  
             out.print("<a href=\"show_table?table_name="+number_arr[j]+"&"+"user_id="+request.getAttribute("user_id").toString()+"\">");
@@ -317,6 +327,8 @@ out.print("	<input hidden type=\"text\" id=\"date_result\"  value=\""+result_str
     
     	<script type="text/javascript">
     
+    	
+    	
     function setCookies(c_name,value,expiredays)
     {
         var exdate = new Date()
@@ -374,6 +386,19 @@ out.print("	<input hidden type=\"text\" id=\"date_result\"  value=\""+result_str
         window.location.assign("choose_table_java?user_id="+getCookie('uid'));
     }
     
+    function go_sta()
+    {
+    	if( document.getElementById("days").value.match("^[0-9]*$") & document.getElementById("days").value!="0" )
+    		{
+	        	window.location.assign("load_statistic_action_2?user_id="+getCookie('uid')+"&days="+document.getElementById("days").value);
+    		}
+    	else
+    		{
+				 alert("Wrong day number! You should input a positive interger number such as 8 or 32.")   ;		
+    		}  	
+    }
+    
+    
     
     
     
@@ -389,11 +414,11 @@ out.print("	<input hidden type=\"text\" id=\"date_result\"  value=\""+result_str
     $(function () {
         if ($('#line-chart')[0]) {
             var d1 = document.getElementById("result_string_id").value;
-            var date_to_show=document.getElementById("date_result").value;
+      //      var date_to_show=document.getElementById("date_result").value;
         //    document.write(date_to_show);
             d1=JSON.parse(d1);
 //            date_to_show=JSON.parse(date_to_show);
-            date_arr=date_to_show.split(",")
+        //    date_arr=date_to_show.split(",")
             $.plot('#line-chart', [ {
                 data: d1,
                 label: "Data",
@@ -407,7 +432,7 @@ out.print("	<input hidden type=\"text\" id=\"date_result\"  value=\""+result_str
                             lineWidth: 1,
                             fill: 0.25,
                         },
-
+						
                         color: 'rgba(255,255,255,0.7)',
                         shadowSize: 0,
                         points: {
@@ -434,7 +459,7 @@ out.print("	<input hidden type=\"text\" id=\"date_result\"  value=\""+result_str
                             lineHeight: 13,
                             style: "normal",
                             color: "rgba(255,255,255,0.8)",
-                        }
+                        },	
                     },
                     grid: {
                         borderWidth: 1,
@@ -451,10 +476,24 @@ out.print("	<input hidden type=\"text\" id=\"date_result\"  value=\""+result_str
 
             $("#line-chart").bind("plothover", function (event, pos, item) {
                 if (item) {
+
                     var x = item.datapoint[0].toFixed(2),
                         y = item.datapoint[1].toFixed(2);
-                //	document.write(date_to_show);
-                    $("#linechart-tooltip").html(item.series.label + " of " + x + " = " + y).css({top: item.pageY+5, left: item.pageX+5}).fadeIn(200);
+                    var x_go=String(x).substring(0,String(x).length-3)-1
+                    var y_go=String(y).substring(0,String(y).length-3)
+                	var date_to_show=document.getElementById("result_string2").value;
+                    var tess=date_to_show.split(",")
+                    z=tess[x_go]
+                    if(y_go==0)
+                    {
+                    	  $("#linechart-tooltip").html(z + " : nothing").css({top: item.pageY+5, left: item.pageX+5}).fadeIn(200);
+                    }
+                    else if(y_go==1)
+                    	{
+                    	  $("#linechart-tooltip").html(z + " : " + y_go+" thing").css({top: item.pageY+5, left: item.pageX+5}).fadeIn(200);
+                    	}
+                    else
+                    $("#linechart-tooltip").html(z + " : " + y_go+" things").css({top: item.pageY+5, left: item.pageX+5}).fadeIn(200);
                 }
                 else {
                     $("#linechart-tooltip").hide();
